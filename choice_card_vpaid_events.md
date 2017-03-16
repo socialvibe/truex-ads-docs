@@ -3,7 +3,7 @@
 The following lists and describes all AdInteraction events fired from the TrueX choice card ad flow.
 
 | AdInteraction Event  | Description |
-| ------------- | ------------- | ------------- |
+| ------------- | ------------- |
 | TrueXChoiceCardLoaded  | Dispatched when the TrueX choice card is shown to the user.  This only fires if an ad is available.  |
 | TrueXSkipCardLoaded  | Dispatched when the TrueX skip card (aka 'Thank You' card) is shown to the user.  |
 | TrueXNoAdLoaded  | Dispatched when the TrueX choice card would have been shown, but no ad was available so the choice card is skipped.  |
