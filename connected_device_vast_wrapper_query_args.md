@@ -18,11 +18,13 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | f | n/a | URL to a show thumbnail image to be displaced in footer. |
 
 ---
-#### Example
+#### Example VASTAdTagURI
 
 ```xml
 <VASTAdTagURI><![CDATA[
     http://rtr.innovid.com/r1.5851e9789b9101.35517103;cb=v1?ivc_showskipcard=false&m=text/xml&s=http%3A%2F%2Fserve.truex.com&p=campaign_id%3D8590%26creative_id%3D10740&sk=http%3A%2F%2Fmedia.truex.com%2Fm%2Fpartners%2Fbrightline%2Ffxnow_roku_skip_card.png&sec=30&bg=http%3A%2F%2Fmedia.truex.com%2Fm%2Fpartners%2Fbrightline%2Ffxnow%2Fnative_bg.png&ib=http%3A%2F%2Fmedia.truex.com%2Fm%2Fpartners%2Fbrightline%2Ffxnow%2Fnative_left_btn.png&wb=http%3A%2F%2Fmedia.truex.com%2Fm%2Fpartners%2Fbrightline%2Ffxnow%2Fnative_right_btn.png&n=Rosewood&f=http%3A%2F%2Fmedia.truex.com%2Fimage_assets%2F2017-03-16%2Fa2779f90-b965-42c5-966d-8b9dfdc8b2a4.png
 ]]></VASTAdTagURI>
 ```
-
+---
+#### Example Tag
+[http://stash.truex.com/tests/roku/connected_device.xml](http://stash.truex.com/tests/roku/connected_device.xml)
