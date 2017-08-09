@@ -10,10 +10,13 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | s | TrueXServiceURL | The TrueX ad server URL.  Used for making tracking analytics calls. |
 | p | TrueXServiceParams | A query args string to be appended to the ServiceURL when making TrueX analytics calls. |
 | sk | SkipCardImageURL | URL of skip card image. |
+| skv | n/a | URL of skip card video. |
 | sec | NativeHeaderCountdownSeconds | The number of seconds that the native interactive ad header starts at.  Typically, 30 seconds. |
 | bg | CCNativeBgURL | URL for choice card background image. |
+| bgv | n/a | URL for choice card background video. |
 | ib | CCNativeSpriteLeftButtonURL | URL to sprite image for 'interactive ad' button. |
 | wb | CCNativeSpriteRightButtonURL | URL to sprite image for 'watch video ads' button. |
+| aa | n/a | Enable 30-second auto-advance when no choice is made. Default: `true` |
 | n | n/a | Show name to be displayed in footer. |
 | f | n/a | URL to a show thumbnail image to be displaced in footer. |
 | pos | n/a | Value will be `preroll` or `midroll`--indicates sponsored stream or sponsored ad break. |
