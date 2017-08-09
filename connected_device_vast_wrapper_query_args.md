@@ -16,7 +16,6 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | bgv | n/a | URL for choice card background video. |
 | ib | CCNativeSpriteLeftButtonURL | URL to sprite image for 'interactive ad' button. |
 | wb | CCNativeSpriteRightButtonURL | URL to sprite image for 'watch video ads' button. |
-| aa | n/a | Enable 30-second auto-advance when no choice is made. Default: `true` |
 | n | n/a | Show name to be displayed in footer. |
 | f | n/a | URL to a show thumbnail image to be displaced in footer. |
 | pos | n/a | Value will be `preroll` or `midroll`--indicates sponsored stream or sponsored ad break. |
