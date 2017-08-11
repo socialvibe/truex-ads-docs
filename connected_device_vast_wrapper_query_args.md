@@ -12,7 +12,6 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | sk | SkipCardImageURL | URL of skip card image. |
 | sec | NativeHeaderCountdownSeconds | The number of seconds that the native interactive ad header starts at.  Typically, 30 seconds. |
 | bg | CCNativeBgURL | URL for choice card background image. |
-| bgv | n/a | URL for choice card background video. |
 | ib | CCNativeSpriteLeftButtonURL | URL to sprite image for 'interactive ad' button. |
 | wb | CCNativeSpriteRightButtonURL | URL to sprite image for 'watch video ads' button. |
 | n | n/a | Show name to be displayed in footer. |
@@ -44,15 +43,6 @@ The following lists and describes each query parameter that is passed to `VASTAd
 #### Example Sponsored Ad-Break Tag
 [http://stash.truex.com/tests/roku/sponsored_ad_break.xml](http://stash.truex.com/tests/roku/sponsored_ad_break.xml)
 
-
 ---
-#### Example 'Continue' Card VASTAdTagURI
 
-```xml
-<VASTAdTagURI><![CDATA[
-http://rtr.innovid.com/r1.594a4bfe959b03.45226825;cb=1502389104?ivc_bgv=http%3A%2F%2Fmedia.truex.com%2Fvideo_assets%2F2017-07-11%2Fe85ecda8-58a3-4f2b-bb94-8ded3e2ab91a_large.mp4&ivc_f=&ivc_ib=http%3A%2F%2Fmedia.truex.com%2Fimage_assets%2F2017-08-09%2F9027f274-5808-49ef-97a8-c0bc098ac662.png&ivc_n=&ivc_p=bid_info%3Dcikxt0o9ptky3tm9r9whwjjydpyu7aptzd90td4iga32p8qp76xgzwfyxvvk6t9f5j76tvtsnn4isxu4w4pqqdmdxnphzqfjoebq1cm68t7jrbx0y3338v1z252dwbcrnjhudguo7c93xj6nmapoed01ptn1bmivymqcc7jbky468l6dm920ukjjoe31a7h7r87vpgzesdi4i49bw03jd0svht6srl35lcye7pv6fqo8db4lt1l5mav8i259b9gohnbo271ecr563ziedqeldw9495v4bffioduhmf5jc63ra6l9i6t0yhlgrx3elbccd8g8ejb8gpsf1kiz7sj6gqtrsmjqn8k7oj98c6u1zoykmqkg7mfgujkq2tpue4y571ma37r9ycj9hbew9h19wo8e1l30u2g6kddrj6ef9p9dhum20ijb6aux6%26campaign_id%3D10050%26creative_id%3D11866%26currency_amount%3D1%26impression_signature%3D78204b72c94a5b69cca48d511e314a6fb21f1396f16514cbcad75bedfb0b011d%26impression_timestamp%3D1502389104.202253%26internal_referring_source%3D1AKY_dDRRUKSbbIKvqdV0Q%26ip%3D76.79.158.34%26network_user_id%3DxnUIMmLpQYGqg1RwPLuB-A%26placement_hash%3Daba51de8f42fca9e5624e611f6e8a0ea3685d25d%26session_id%3Dgn3StSoqQs67QDb96GX1sQ%26stream_id%3D123&ivc_pos=preroll&ivc_resume=false&ivc_s=http%3A%2F%2Fserve.truex.com&ivc_sec=30&ivc_showskipcard=false&ivc_skv=http%3A%2F%2Fmedia.truex.com%2Fvideo_assets%2F2017-08-04%2F303e7139-c3c5-4772-9082-1198196b942f_large.mp4&ivc_wb=
-]]></VASTAdTagURI>
-```
-
-#### Example 'Continue' Card Tag
-[http://stash.truex.com/tests/roku/continue_card.xml](http://stash.truex.com/tests/roku/continue_card.xml)
+For 'Continue' Card product, please see [https://github.com/socialvibe/truex-ads-docs/blob/master/connected_device_continue_card_spec.md](https://github.com/socialvibe/truex-ads-docs/blob/master/connected_device_continue_card_spec.md)
