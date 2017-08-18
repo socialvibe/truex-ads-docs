@@ -48,6 +48,9 @@ http://rtr.innovid.com/r1.596553a726aa23.60310056;cb=1502493217?ivc_bgv=http%3A%
 #### Example 'Continue' Card Tag (Delta w/ ivc_ param)
 [http://stash.truex.com/tests/roku/continue_card.xml](http://stash.truex.com/tests/roku/continue_card.xml)
 
+```
+http://get.truex.com/aba51de8f42fca9e5624e611f6e8a0ea3685d25d/vast/connected_device?network_user_id=ROKU_ADS_TRACKING_ID&env[]=brightscript&stream_position=preroll&native_prefix=ivc_
+```
 ---
 
 #### Example 'Continue' Card VASTAdTagURI (Legacy)
@@ -60,3 +63,6 @@ http://rtr.innovid.com/r1.594a4bfe959b03.45226825;cb=1502493250?bgv=http%3A%2F%2
 
 #### Example 'Continue' Card Tag (Legacy)
 [http://stash.truex.com/tests/roku/continue_card_legacy.xml](http://stash.truex.com/tests/roku/continue_card_legacy.xml)
+```
+http://get.truex.com/aba51de8f42fca9e5624e611f6e8a0ea3685d25d/vast/connected_device?network_user_id=ROKU_ADS_TRACKING_ID&env[]=brightscript&stream_position=preroll&stream_id=123&dimension_5=legacy_testing
+```
