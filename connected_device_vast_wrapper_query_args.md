@@ -22,7 +22,7 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | n | n/a | Show name to be displayed in footer. |
 | f | n/a | URL to a show thumbnail image to be displaced in footer. |
 | pos | n/a | Value will be `preroll` or `midroll`--indicates sponsored stream or sponsored ad break. |
-| aa | n/a | [NEW] Number of seconds for auto advance timer.  Typically, 30 seconds. |
+| aa | n/a | [NEW] Number of seconds for auto advance timer.  Typically, 30 seconds. -1 for no auto advance.|
 | vo | n/a | [NEW] URL for choice card voice over audio file. |
 | rdp | n/a | [NEW] URL for StreamPass redeem pixel. |
 
