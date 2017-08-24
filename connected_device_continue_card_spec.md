@@ -32,7 +32,10 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | p | A query args string to be appended to the ServiceURL when making TrueX analytics calls. |
 | bgv | URL for choice card background video. |
 | ib | URL to sprite image for 'interactive ad' button.  The sprite format is the same as choice card with a normal and highlight state.  Display only the highlight state for this product. |
+| ix | x-coordinate of interact button. |
+| iy | y-coordinate of interact button. |
 | sec | The number of seconds that the native interactive ad header starts at.  Typically, 30 seconds. |
+| aa | -1 for no auto advance.|
 | n | Show name to be displayed in footer. |
 | f | URL to a show thumbnail image to be displaced in footer. |
 
