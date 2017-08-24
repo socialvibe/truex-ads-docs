@@ -12,11 +12,19 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | sk | SkipCardImageURL | URL of skip card image. |
 | sec | NativeHeaderCountdownSeconds | The number of seconds that the native interactive ad header starts at.  Typically, 30 seconds. |
 | bg | CCNativeBgURL | URL for choice card background image. |
+| bgv | n/a | [NEW] URL for choice card background video. |
 | ib | CCNativeSpriteLeftButtonURL | URL to sprite image for 'interactive ad' button. |
+| ix | n/a | [NEW] x-coordinate of interact button. |
+| iy | n/a | [NEW] y-coordinate of interact button. |
 | wb | CCNativeSpriteRightButtonURL | URL to sprite image for 'watch video ads' button. |
+| wx | n/a | [NEW] x-coordinate of watch button. |
+| wy | n/a | [NEW] y-coordinate of watch button. |
 | n | n/a | Show name to be displayed in footer. |
 | f | n/a | URL to a show thumbnail image to be displaced in footer. |
 | pos | n/a | Value will be `preroll` or `midroll`--indicates sponsored stream or sponsored ad break. |
+| aa | n/a | [NEW] Number of seconds for auto advance timer.  Typically, 30 seconds. |
+| vo | n/a | [NEW] URL for choice card voice over audio file. |
+| rdp | n/a | [NEW] URL for StreamPass redeem pixel. |
 
 ---
 #### Example Sponsored Stream VASTAdTagURI
