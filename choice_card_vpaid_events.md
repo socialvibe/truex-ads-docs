@@ -10,6 +10,6 @@ The following lists and describes all AdInteraction events fired from the TrueX 
 | TrueXUserOptIn  | Dispatched when the user chooses to interact with a TrueX engagement ad.  |
 | TrueXUserOptOut  | Dispatched when the user chooses to watch normal commercial breaks instead of interacting with a TrueX engagement ad.  |
 | TrueXUserTimeOut  | Dispatched if the user does not make an ad choice in 15 seconds.  The choice card auto-advances to normal commercial breaks.  |
-| TrueXClosedAfterCredit  | Dispatched when the user closes the TrueX engagement ad after they have been credited.  Crediting occurs when the user spends the required amount of time (typically 30 or 60 seconds) and interacts at least once with the ad.  |
+| TrueXClosedAfterCredit  | Dispatched when the user closes the TrueX engagement ad after they have been credited.  Crediting occurs when the user spends the required amount of time (typically 30 seconds) and interacts at least once with the ad.  |
 | TrueXClosedBeforeCredit  | Dispatched when the user closes the TrueX engagement ad before being credited.  |
-| TrueXCredit  | Dispatched when the user has satisfied the TrueX engagement ad requirement--time spent (typically 30 or 60 seconds) and one interaction with the engagement ad.  This event signifies that the user has successfully earned their user benefit.  For example, removal of ads from the rest of the ad break or entire stream.  |
+| TrueXCredit  | Dispatched when the user has satisfied the TrueX engagement ad requirement--time spent (typically 30 seconds) and one interaction with the engagement ad.  This event signifies that the user has successfully earned their user benefit.  For example, removal of ads from the rest of the ad break or entire stream.  |
