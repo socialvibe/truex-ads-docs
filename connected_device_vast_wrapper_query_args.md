@@ -25,6 +25,7 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | aa | n/a | [NEW] Number of seconds for auto advance timer.  Typically, 30 seconds. -1 for no auto advance.|
 | vo | n/a | [NEW] URL for choice card voice over audio file. |
 | rdp | n/a | [NEW] URL for StreamPass redeem pixel. |
+| product | n/a | Value will be `sponsored_stream`, `sponsored_ad_break`, `continue`, or `stream_pass`--indicates the product type.  Please default to `sponsored_stream` if not specified. |
 
 ---
 #### Example Sponsored Stream VASTAdTagURI
