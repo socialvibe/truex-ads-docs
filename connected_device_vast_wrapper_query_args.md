@@ -19,6 +19,7 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | wb | CCNativeSpriteRightButtonURL | URL to sprite image for 'watch video ads' button. |
 | wx | n/a | [NEW] x-coordinate of watch button. |
 | wy | n/a | [NEW] y-coordinate of watch button. |
+| bd | n/a | [NEW] a value that specifies the number of milliseconds to delay when all buttons should be shown.  If not specified, there should be no delay. |
 | n | n/a | Show name to be displayed in footer. |
 | f | n/a | URL to a show thumbnail image to be displaced in footer. |
 | pos | n/a | Value will be `preroll` or `midroll`--indicates sponsored stream or sponsored ad break. |
