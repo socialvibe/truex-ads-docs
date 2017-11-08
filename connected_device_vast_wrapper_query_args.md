@@ -10,22 +10,23 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | s | TrueXServiceURL | The TrueX ad server URL.  Used for making tracking analytics calls. |
 | p | TrueXServiceParams | A query args string to be appended to the ServiceURL when making TrueX analytics calls. |
 | sk | SkipCardImageURL | URL of skip card image. |
+| skv | n/a | [NEW] URL of skip card video asset. |
 | sec | NativeHeaderCountdownSeconds | The number of seconds that the native interactive ad header starts at.  Typically, 30 seconds. |
 | bg | CCNativeBgURL | URL for choice card background image. |
-| bgv | n/a | [NEW] URL for choice card background video. |
+| bgv | n/a | URL for choice card background video. |
 | ib | CCNativeSpriteLeftButtonURL | URL to sprite image for 'interactive ad' button. |
-| ix | n/a | [NEW] x-coordinate of interact button. |
-| iy | n/a | [NEW] y-coordinate of interact button. |
+| ix | n/a | x-coordinate of interact button. |
+| iy | n/a | y-coordinate of interact button. |
 | wb | CCNativeSpriteRightButtonURL | URL to sprite image for 'watch video ads' button. |
-| wx | n/a | [NEW] x-coordinate of watch button. |
-| wy | n/a | [NEW] y-coordinate of watch button. |
-| bd | n/a | [NEW] a value that specifies the number of milliseconds to delay when all buttons should be shown.  If not specified, there should be no delay. |
+| wx | n/a | x-coordinate of watch button. |
+| wy | n/a | y-coordinate of watch button. |
+| bd | n/a | a value that specifies the number of seconds to delay when all buttons should be shown.  If not specified, there should be no delay. |
 | n | n/a | Show name to be displayed in footer. |
 | f | n/a | URL to a show thumbnail image to be displaced in footer. |
 | pos | n/a | Value will be `preroll` or `midroll`--indicates sponsored stream or sponsored ad break. |
-| aa | n/a | [NEW] Number of seconds for auto advance timer.  Typically, 30 seconds. -1 for no auto advance.|
-| vo | n/a | [NEW] URL for choice card voice over audio file. |
-| rdp | n/a | [NEW] URL for StreamPass redeem pixel. |
+| aa | n/a | Number of seconds for auto advance timer.  Typically, 30 seconds. -1 for no auto advance.|
+| vo | n/a | URL for choice card voice over audio file. |
+| rdp | n/a | URL for StreamPass redeem pixel. |
 | product | n/a | Value will be `sponsored_stream`, `sponsored_ad_break`, `continue`, or `stream_pass`--indicates the product type.  If not specified, please default to `sponsored_stream` when pos=`preroll` and default to `sponsored_ad_break` when pos=`midroll`. |
 
 ---
