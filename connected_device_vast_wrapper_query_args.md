@@ -9,7 +9,7 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | resume | n/a | When `true` resume stream without showing a choice card and all ad breaks replaced with the skip card. |
 | s | TrueXServiceURL | The TrueX ad server URL.  Used for making tracking analytics calls. |
 | p | TrueXServiceParams | A query args string to be appended to the ServiceURL when making TrueX analytics calls. |
-| sk | SkipCardImageURL | URL of skip card image. |
+| sk | SkipCardImageURL | URL of skip card image or mp4. |
 | sec | NativeHeaderCountdownSeconds | The number of seconds that the native interactive ad header starts at.  Typically, 30 seconds. |
 | bg | CCNativeBgURL | URL for choice card background image. |
 | bgv | n/a | URL for choice card background video. |
