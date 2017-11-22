@@ -90,3 +90,56 @@ This page lists and describes all the possible parameters for configuring a choi
     }
 }
 ```
+---
+##### Example
+```javascript
+{
+    "name": "generic_80_20_survey_card",
+    "background_color": "#000000",
+    "background_image": {
+        "image_url": "//media.truex.com/image_assets/2017-07-31/a14c192a-0959-45d8-b9e4-e695b75f6ed3.jpg"
+    },
+    "watch_button": {
+        "width": 1236,
+        "height": 159,
+        "x": 599,
+        "y": 752,
+        "image_url": "//media.truex.com/image_assets/2017-06-22/f8b11269-04ca-44f8-9bf9-1fbb5ae1f02c.png",
+        "hover_image_url": "//media.truex.com/image_assets/2017-06-22/f073eed0-889d-4b40-9849-bbaa1c9e5960.png"
+    },
+    "interact_button": {
+        "width": 1236,
+        "height": 537,
+        "x": 600,
+        "y": 177,
+        "image_url": "//media.truex.com/image_assets/2017-06-27/7e0018e2-9ca5-4b8e-89b5-27fde77bee9f.png",
+        "hover_image_url": "//media.truex.com/image_assets/2017-06-27/90395f4d-d246-4854-8721-7e478f93ba78.png"
+    },
+    "voiceover": "https://media.truex.com/audio_assets/2017-08-25/b3db4828-a109-469d-b6cf-c73633c6af06.mp3",
+    "timer_text": {
+        "text": "Normal break with multiple commercials in :[countdown]",
+        "width": 730,
+        "height": 50,
+        "x": 670,
+        "y": 810,
+        "color": "#DDDDDD",
+        "family": "Arial, sans-serif",
+        "size": 33
+    },
+    "timer_seconds": 15,
+    "preroll_override": {
+        "watch_button": {
+            "image_url": "//media.truex.com/image_assets/2017-06-22/a8a4a57b-3791-48ff-a3ee-2b815d2dce25.png",
+            "hover_image_url": "//media.truex.com/image_assets/2017-06-22/910b6360-e510-4b12-ada9-36554cf4eb08.png"
+        },
+        "interact_button": {
+            "image_url": "//media.truex.com/image_assets/2017-06-27/4cddd086-9475-4edc-9ac6-c1a509143755.png",
+            "hover_image_url": "//media.truex.com/image_assets/2017-06-27/2a6e3f18-4bc4-4d74-9ea2-1dcac8f367ae.png"
+        },
+        "voiceover": "https://media.truex.com/audio_assets/2017-08-25/8b817c73-d352-4d5b-9bde-770fbcf9cc00.mp3",
+        "timer_text": {
+            "text": ""
+        }
+    }
+}
+```
