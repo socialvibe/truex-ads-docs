@@ -27,6 +27,7 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | vo | n/a | URL for choice card voice over audio file. |
 | rdp | n/a | URL for StreamPass redeem pixel. |
 | product | n/a | Value will be `sponsored_stream`, `sponsored_ad_break`, `continue`, or `stream_pass`--indicates the product type.  If not specified, please default to `sponsored_stream` when pos=`preroll` and default to `sponsored_ad_break` when pos=`midroll`. |
+| survey_config_url | n/a | URL to JSON config object of survey parameters.  [Example](http://stash.truex.com/tests/innovid/survey_config.json)  |
 
 ---
 #### Example Sponsored Stream VASTAdTagURI
