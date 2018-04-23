@@ -16,3 +16,4 @@ Example: **`&debug=true`**
 | true_attention_seconds  | `SECONDS`  | Sets the amount of True Attention seconds.  |
 | fire_tracking  | `true`  | Enables firing of 3rd-party tracking pixels.  |
 | disable_surveys  | `true`  | Disables Qualtrics and Vizu surveys from running.  |
+| has_autoplay_intro_video  | `true`  | Indicates creative has an autoplay intro video.  Used by container to know when to detect autoplay is disabled by the browser and show a 'click to play' step before engagement begins.  |
