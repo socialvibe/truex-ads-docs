@@ -1,6 +1,6 @@
 ## Choice Card Configuration Parameters
 
-This page lists and describes all the possible parameters for configuring a choice card for mobile and desktop.  For connected device choice cards see [Connected Device Choice Card VAST Wrapper Query Parameters](https://github.com/socialvibe/truex-ads-docs/blob/master/connected_device_vast_wrapper_query_args.md)
+This page lists and describes all the possible parameters for configuring a choice card for mobile, tvOS, and desktop.  For connected device choice cards see [Connected Device Choice Card VAST Wrapper Query Parameters](https://github.com/socialvibe/truex-ads-docs/blob/master/connected_device_vast_wrapper_query_args.md)
 
 | Parameter | Type | Description |
 | ------------- | ------------- | ------------- |
@@ -10,6 +10,7 @@ This page lists and describes all the possible parameters for configuring a choi
 | background_video  | `video`  | Object to configure background video. Video will be sized to dimensions of the player and does not loop.  See below for `video` properties.  |
 | brandable_image  | `image`  | Object to configure the brandable image.  See below for `image` properties.  |
 | watch_button  | `button`  | Object to configure the watch normal ads button. See below for `button` properties.  |
+| watch_live_button  | `button`  | Object to configure the watch live button. See below for `button` properties.  |
 | interact_button  | `button`  | Object to configure the interact with engagement button. See below for `button` properties.  |
 | button_delay  | `integer`  | Number of seconds to delay the showing of all buttons within a card configuration.  Decimal values are accepted.  |
 | voiceover  | `URL`  | Array of MP3s URLs to use for the voice over.  |
@@ -32,18 +33,6 @@ This page lists and describes all the possible parameters for configuring a choi
 ```javascript
 {
     "video_url": "https://"
-}
-```
-
-##### `button` object
-```javascript
-{
-    "image_url": "https://",
-    "hover_image_url": "https://",
-    "width": 395,
-    "height": 133,
-    "x": 1036,
-    "y": 699
 }
 ```
 
