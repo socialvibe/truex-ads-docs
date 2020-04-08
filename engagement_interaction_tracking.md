@@ -12,7 +12,7 @@ Engagement interations are used to track how users interact and progress through
 | `category` | `category` is the top level descriptor for the interaction.  All interactions should use the 9 pre-defined category names listed in the section below.  It's important to use these pre-defined categories because reporting is based on them. |
 | `name` | `name` is the next level descriptor below category.  It should describe the action being taken by the interaction.  Ex. video_started. |
 | `value` | `value` is an optional descriptor.  Its used to provide additional context for the interaction, such as a video name.  Or its used to record milliseconds in a timing interaction.  |
-| `step` | `step` indicates the step in which the interaction took place.  Starting at 1 for the initial step of the engagement. |
+| `step` | `step` indicates the step in which the interaction took place.  Starting at 1 for the initial step of the engagement.  Over the years we've emphasized the concept of 'step' less, so this field is less of a requirement these days. |
 | `user_initiated` | This flag indicates whether or not the interaction was triggered from a user input (i.e. click, tap, remote control).  We use this to calculate how many times the engagement was interacted with. |
 
 ---
@@ -21,7 +21,7 @@ Engagement interations are used to track how users interact and progress through
 
 | Category | Description |
 | ------------- | ------------- |
-| `timing` | This is an internal tracking category used by the ad container/renderer for all timing events within the engagement.  For example, when the engagement starts, we track the 'initial'. |
+| `timing` | This is an internal tracking category used by the ad container/renderer for all timing events within the engagement.  For example, when the engagement starts, the 'initial' is a `timing` interaction. |
 | `multimedia` | This category is used for all video or audio events.  Typically tracking the progress of the multimedia asset. |
 | `navigation` | This category is used for progressing through steps in an engagement.  The most common use is for going to the next step in the engagement. |
 | `external_page` | This category is used for external content.  The most common use is for clicking out to an external website.  Its also used for downloading, printing, add to calendar. |
