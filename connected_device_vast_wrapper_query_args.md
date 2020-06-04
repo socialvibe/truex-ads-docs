@@ -20,6 +20,11 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | wx | n/a | x-coordinate of watch button. |
 | wy | n/a | y-coordinate of watch button. |
 | bd | n/a | a value that specifies the number of seconds to delay when all buttons should be shown.  If not specified, there should be no delay. |
+| cx | n/a | x-coordinate of countdown timer. |
+| cy | n/a | y-coordinate of countdown timer. |
+| cw | n/a | width of countdown timer. |
+| ch | n/a | height of countdown timer. |
+| cfs | n/a | font size of countdown timer. |
 | n | n/a | Show name to be displayed in footer. |
 | f | n/a | URL to a show thumbnail image to be displaced in footer. |
 | pos | n/a | Value will be `preroll` or `midroll`--indicates sponsored stream or sponsored ad break. |
