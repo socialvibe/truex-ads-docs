@@ -1,6 +1,6 @@
 ## Connected Device Choice Card VAST Wrapper Query Parameters
 
-The following lists and describes each query parameter that is passed to `VASTAdTagURI` in the TrueX connected device wrapper tag.
+The following lists and describes each query parameter that is passed to `VASTAdTagURI` in the TrueX connected device wrapper tag.  **All pixels calculations are based on 720p.**
 
 ---
 
@@ -20,10 +20,10 @@ The following lists and describes each query parameter that is passed to `VASTAd
 | wx | n/a | x-coordinate of watch button. |
 | wy | n/a | y-coordinate of watch button. |
 | bd | n/a | a value that specifies the number of seconds to delay when all buttons should be shown.  If not specified, there should be no delay. |
-| cx | n/a | x-coordinate of countdown timer. |
-| cy | n/a | y-coordinate of countdown timer. |
-| cw | n/a | width of countdown timer. |
-| ch | n/a | height of countdown timer. |
+| cx | n/a | x-coordinate of countdown timer.  Based on 720p. |
+| cy | n/a | y-coordinate of countdown timer.  Based on 720p. |
+| cw | n/a | width of countdown timer.  Based on 720p. |
+| ch | n/a | height of countdown timer.  Based on 720p. |
 | cfs | n/a | font size of countdown timer. |
 | n | n/a | Show name to be displayed in footer. |
 | f | n/a | URL to a show thumbnail image to be displaced in footer. |
