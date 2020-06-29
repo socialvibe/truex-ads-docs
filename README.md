@@ -9,3 +9,4 @@ Repository for TrueX ad production documentation
 - [TrueX Choice Card VPAID AdInteraction Events](https://github.com/socialvibe/truex-ads-docs/blob/master/choice_card_vpaid_events.md)
 - [TrueX Ad SDK - JavaScript](https://github.com/socialvibe/truex-ads-api-js)
 - [TrueX Ad SDK - ActionScript](https://github.com/socialvibe/truex-ads-api-as3)
+- [Roku TruexAdRenderer (TAR) Choice Card Parameters](https://github.com/socialvibe/truex-ads-docs/blob/master/roku_tar_choice_card_config_params.md)
