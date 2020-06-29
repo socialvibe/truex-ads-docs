@@ -43,7 +43,11 @@ Countdown timers are currently unsupported on TruexAdRenderer (TAR), their addit
 
 ### Choice Card Sprite Images
 
-Choice Cards for TruexAdRenderer (TAR) Roku placements require width and height of the button sprites to be defined using the `ww`, `wh`, `iw` and `ih` parameters. This is to address Roku issues with accurately returning image width and height values in low end device or memory constaint scenarios. More details can be found in the following issue [CTV-2041](https://truextech.atlassian.net/browse/CTV-2041).
+Choice Cards for TruexAdRenderer (TAR) Roku placements require width and height of the button sprite images to be defined using the `ww`, `wh`, `iw` and `ih` parameters. This is to address Roku issues with accurately returning image width and height values in low end device or memory constaint scenarios. More details can be found in the following issue [CTV-2041](https://truextech.atlassian.net/browse/CTV-2041).
+
+Sprite images include selected and unselected button states in the same image. The sprite is split down the middle vertically with the unselected state at the top, and selected state below. Here's an example of what this might look:
+
+![example choice card sprite image](http://ctv.truex.com/docs/example_choice_card_sprite.png)
 
 ### Branded Skip Card Images
 
