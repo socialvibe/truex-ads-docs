@@ -1,4 +1,4 @@
-## Roku TruexAdRenderer Choice Card Parameters
+## Roku TruexAdRenderer (TAR) Choice Card Parameters
 
 The following lists and describes each supported parameter for TruexAdRenderer (TAR) based Choice Cards on the Roku platform.  **All pixel calculations are based on 720p (see notes below).**
 
