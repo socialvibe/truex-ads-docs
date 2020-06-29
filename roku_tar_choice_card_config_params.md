@@ -35,11 +35,11 @@ Choice card layout and sprite images assume a 720p canvas. TruexAdRenderer has l
 
 ### Animation
 
-TruexAdRenderer (TAR) has hard coded button sprite animations which grow the interact or watch button by 10% when selected. This behavior applies to both static and video choice cards.
+TruexAdRenderer (TAR) has hard coded button sprite animations which grow the interact or watch button by 10% when selected. This behavior applies to both static and video choice cards, and currently cannot be customized or disabled.
 
 ### Countdown Timer
 
-Countdown timers are currently unsupported on TruexAdRenderer (TAR), their addition is tracked in [CTV-2159](https://truextech.atlassian.net/browse/CTV-2159).
+Countdown timers are currently unsupported on TruexAdRenderer (TAR), their potential addition is tracked in [CTV-2159](https://truextech.atlassian.net/browse/CTV-2159).
 
 ### Choice Card Sprite Images
 
