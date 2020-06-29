@@ -16,12 +16,12 @@ The following lists and describes each supported parameter for TruexAdRenderer (
 | ww | n/a | Width of the watch button. |
 | wh | n/a | Height of the watch button. |
 | wb | n/a | URL to sprite image for 'watch video ads' button. |
-| bd | 3 | a value that specifies the number of seconds to delay when all buttons should be shown.  If not specified, there should be no delay. Only supported for video choice cards. |
+| bd | 3 | a value that specifies the number of seconds to delay when all buttons should be shown.  Only supported for video choice cards. |
 | bg | n/a | URL for choice card background image. Used whem `bgv` is not present and turns on static choice card mode. |
 | bgv | n/a | URL for choice card background video. When present the choice card becomes a video choice card. |
 | vo | n/a | mp3 URL for choice card voice over audio file. Only supported for static choice cards. |
 | sk | n/a | URL of skip card image or mp4. Can be overridden at runtime by any branded cards sent down by the ad server. |
-| aa | 5 | Number of seconds for auto advance timer. Typically, 30 seconds. -1 for no auto advance. Skip cards need a positive value here. |
+| aa | 5 (skip cards), 30 (choice cards) | Number of seconds for auto advance timer. Typically, 30 seconds for Choice Cards, 5 seconds for Skip Cards. |
 | pos | n/a | Value will be `preroll` or `midroll`--indicates sponsored stream or sponsored ad break. |
 | product | n/a | Value will be `sponsored_stream`, `sponsored_ad_break`, `continue`, or `stream_pass`--indicates the product type.  If not specified, please default to `sponsored_stream` when pos=`preroll` and default to `sponsored_ad_break` when pos=`midroll`. |
 
@@ -31,7 +31,7 @@ The following lists and describes each supported parameter for TruexAdRenderer (
 
 ### Layout
 
-Choice card layout and sprite images assume a 720p canvas. TruexAdRenderer has layout logic which will automatically scale the layout specified in this configuration based on the combination of the channel manifest resolution and the device resolution. In order for this to work take care to design your layout assuming 720p including the sizes of the image assets used for buttons.
+Choice card layout and sprite images assume a 720p canvas. TruexAdRenderer has layout logic which will automatically scale the layout specified in this configuration based on the combination of the channel manifest resolution and the device resolution. In order for this to work take care to design your layout assuming 720p. This includes using image assets designed for 720p native resolution.
 
 ### Animation
 
