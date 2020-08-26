@@ -22,9 +22,13 @@ The typical engagement flow includes the following steps:
 - The user closes the ad lightbox.
 
 ## Usage
-In browser:
+Production:
 ```html
 <script type='text/javascript' src='https://static.truex.com/js/client.js'></script>
+```
+Testing:
+```html
+<script type='text/javascript' src='https://static.truex.com/js/client.test.js'></script>
 ```
 _NPM package available upon request_
 
