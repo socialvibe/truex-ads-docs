@@ -107,7 +107,7 @@ The `ad` object is returned to the `callback` you pass to `requestAd(callback)`.
 | `onCredit` | Triggered when the user has spent 30 seconds and interacted at least once with the ad.  This is also known as the 'billing event' because this is when the advertiser is billed and the publisher earns their per-unit payment.  Yields an `engagement` object (see details [below](#engagement-object)). |
 | `onClose` | Triggered when the ad window is closed.  This is triggered independently of both `onFinish` and `onCredit`, and can occur even prior to the `onStart` event if the user closes the window prior to the ad fully loading.  Note: It is a best practice to refresh your ad in this event handler, as this will ensure no stale/expired ads are presented to the user. |
 | `onFinish` | Triggered when the ad is fully complete and the user has gotten to the end of the ad. |
-| `onMessage` | The `onMessage` event handler allows our engagement unit to pass custom messages back to the publisher.  This is only used for special undocumented events. |
+| `onMessage` | The `onMessage` event handler allows our engagement unit to pass custom messages back to the publisher.  There are currently 3 custom messages passed to this event listener (see details [below](#onMessage-messages)). |
 | `onError` | Triggered when an error has occurred with the ad. This should be considered an exception.  Its best practice to remove the ad container when this occurs. |
 | `onClickthrough` |  (mobile only) Triggered when a clickthrough interaction occurs. Note: this is only triggered when the truex client is constructed with the handle_clickthrough_manually option set to `true`. It is the responsibility of the app to determine how to process the clickthrough URL. A `url` is provided as argument to your event handlers. |
 
@@ -219,4 +219,22 @@ Security and Fraud protection will be handled by:
 174.129.193.108 
 ```
 
+### `onMessage` messages
+The `onMessage` Event Listener has the following 3 messages.
+| Message | Description |
+| ------------- | ------------- |
+| `true_targeting_started` | Fired when TrueX presents the user with a TrueTargeting question. |
+| `true_targeting_complete` | Fired when the user has completed the TrueTargeting question. |
+| `ad_passback` | Publishers can request a limit to the number of consecutive TrueTargeting questions asked.  When that limit is reached `ad_passback` is fired in order for the publisher to waterfall to a different ad source. |
 
+```js
+truexAd.onMessage(function (payload) {
+  if (payload === "ad_passback") {
+    // remove truex and waterfall to next ad source
+  } else if (payload === "true_targeting_started") {
+    // track TT started
+  } else if (payload === "true_targeting_complete") {
+    // track TT completed
+  }
+});
+```
