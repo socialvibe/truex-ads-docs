@@ -12,8 +12,10 @@
   <div id="app"></div>
   <script>
     window.$docsify = {
-      name: '',
-      repo: ''
+      name: 'true[X] Ad Documentation',
+      relativePath: true,
+      loadSidebar: true,
+      basePath: window.location.pathname.toLowerCase().endsWith('index.html') ? '/docs/container_core/' : ''
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
