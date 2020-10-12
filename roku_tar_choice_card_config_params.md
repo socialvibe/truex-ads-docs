@@ -19,6 +19,7 @@ The following lists and describes each supported parameter for TruexAdRenderer (
 | bd | 3 | a value that specifies the number of seconds to delay when all buttons should be shown.  Only supported for video choice cards. |
 | bg | n/a | URL for choice card background image. Used whem `bgv` is not present and turns on static choice card mode. |
 | bgv | n/a | URL for choice card background video. When present the choice card becomes a video choice card. |
+| bgv_fmp4 | n/a | URL for choice card background video in fragmented MP4 format.  This is currently needed for Hulu's Neutron renderer. |
 | vo | n/a | mp3 URL for choice card voice over audio file. Only supported for static choice cards. |
 | sk | n/a | URL of skip card image or mp4. Can be overridden at runtime by any branded cards sent down by the ad server. |
 | aa | 5 (skip cards), 30 (choice cards) | Number of seconds for auto advance timer. Typically, 30 seconds for Choice Cards, 5 seconds for Skip Cards. |
