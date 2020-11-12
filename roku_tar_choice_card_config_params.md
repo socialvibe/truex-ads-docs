@@ -25,6 +25,20 @@ The following lists and describes each supported parameter for TruexAdRenderer (
 | aa | 5 (skip cards), 30 (choice cards) | Number of seconds for auto advance timer. Typically, 30 seconds for Choice Cards, 5 seconds for Skip Cards. |
 | pos | n/a | Value will be `preroll` or `midroll`--indicates sponsored stream or sponsored ad break. |
 | product | n/a | Value will be `sponsored_stream`, `sponsored_ad_break`, `continue`, or `stream_pass`--indicates the product type.  If not specified, please default to `sponsored_stream` when pos=`preroll` and default to `sponsored_ad_break` when pos=`midroll`. |
+| ct | [countdown] | format of string used to display remaining countdown time, [countdown] will be replaced with number of seconds remaining. |
+| ctx | 0 | x-coordinate of the countdown timer label. |
+| cty | 0 | y-coordinate of the countdown timer label. |
+| ctw | 0 | width of the countdown timer label. Setting to 0 (or not setting) automatically sizes the label to fit the text |
+| cth | 0 | height of the countdown timer label. |
+| cts | 24 | font size for text in the timer label. |
+| ctf | system default | font name for text in the timer label. |
+| ctc | 0xddddddff | color for text in the timer label. |
+| cts | n/a | font size for text in the timer label. |
+| ctvx | 0 | x-coordinate of the visual countdown timer bar. |
+| ctvy | 0 | y-coordinate of the visual countdown timer bar. |
+| ctvw | 0 | width of the visual countdown timer bar. |
+| ctvh | 0 | height of the visual countdown timer bar. |
+| ctvc | 0x555555ff | color for visual countdown timer bar. |
 
 ---
 
@@ -40,7 +54,9 @@ TruexAdRenderer (TAR) has hard coded button sprite animations which grow the int
 
 ### Countdown Timer
 
-Countdown timers are currently unsupported on TruexAdRenderer (TAR), their potential addition is tracked in [CTV-2159](https://truextech.atlassian.net/browse/CTV-2159).
+The Choice Card is only shown to the user for a limited time before automatically advancing to standard (non-interactive) video ads. By default a text label is displayed at the upper-left corner that shows the remaining number of seconds until auto-advance. The fields above (`ct*`) can be used to customize the text formatting, including what string to display, its size and color, positioning, and dimensions.
+
+Along with the text countdown, a visual bar can be enabled which animates to indicate the remaining countdown time. It is hidden by default, to enable it simply specify non-zero width and height values for `ctvw/ctvh` fields.
 
 ### Choice Card Sprite Images
 
