@@ -33,7 +33,6 @@ The following lists and describes each supported parameter for TruexAdRenderer (
 | cts | 24 | font size for text in the timer label. |
 | ctf | system default | font name for text in the timer label. |
 | ctc | 0xddddddff | color for text in the timer label. |
-| cts | n/a | font size for text in the timer label. |
 | ctvx | 0 | x-coordinate of the visual countdown timer bar. |
 | ctvy | 0 | y-coordinate of the visual countdown timer bar. |
 | ctvw | 0 | width of the visual countdown timer bar. |
