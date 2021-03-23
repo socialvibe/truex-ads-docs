@@ -32,6 +32,7 @@ These events are optionals and are mainly used for debugging and error tracking 
 | ------------- | ------------- | ------------- |
 |`choice_card_debug` | [debug info] | Fired to send debugging info for analysis.  |
 |`choice_card_error` | [error message] | Fired to send error messages. |
+|`select_back` | n/a | Fired when the user exits directly out of playback by back action |
 |`unit_closed_by_x_after_credit` | n/a | Fired when the user closes the engagement AFTER True Attention. |
 |`unit_closed_by_x_before_credit` | n/a | Fired when the user closes the engagement BEFORE True Attention. |
 |`unit_load` | n/a | Fired when the engagement ad first loads. |
