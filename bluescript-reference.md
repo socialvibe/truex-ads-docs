@@ -24,13 +24,17 @@ _rev. 2020-06-08_
 
 We've created BlueScript as the true[X] creative format on the Roku platform since the built-in Roku SceneGraph XML cannot be dynamically served down, compiled, and instantiated. BlueScript provides us with the dynamic creative language we need to drive interactive ad experiences on behalf of our advertisers on the Roku platform.
 
-BlueScript creatives are mastered and served down by the RTB ad server as part of the `asset_args` payload of ads. The example payloads under the [`vastConfigs`](https://github.com/socialvibe/southback/tree/develop/channel_res/vastConfigs) folder in `southback` exemplify this.
+BlueScript is also present for HTML5 now as well, which allows the same ads for Roku and HTML5 to be easily created by simply copying over the same Bluescript code of the Layout JSON section.
 
-BlueScript carries forward the "step" paradigm introduced in TVML with the top level structure being a list of "steps" (or _cards_) one can navigate between. Then entry-point (first step) for true[X] ads is always `main_card`.
+For Roku, BlueScript creatives are mastered and served down by the RTB ad server as part of the `asset_args` payload of ads. The example payloads under the [`vastConfigs`](https://github.com/socialvibe/southback/tree/develop/channel_res/vastConfigs) folder in `southback` exemplify this.
 
-Each card contains a flat list of BlueScript elements. There is implied hierarchy in the elements being instantiated and added to the scene in order they are declared. Thus, earlier-declared elements will be drawn _underneath_ later-declared elements, if they occupy the same drawing region.
+For HTML5, the RTB server also serves up the ads, but the window_url in the vast config indicates the engagement web experience for display in an iframe. The engagement SDK will pull in the ad payload including the layoutJSON bluescript code. E.g. here is a [sample vast config url](https://qa-get.truex.com/15c7f5269a09bd8c5007ba98263571dd80c458e5/vast/config?dimension_2=0&dimension_5=hilton&stream_position=preroll&stream_id=1234&network_user_id=5a9f137a-51b2-4e1a-9238-0d0ecfb26c16&env[]=html) that returns a vast config. Once running, with the user selecting Yes in the choice card, the ad payload is returned via an [engagement ad vars query](http://qa-serve.truex.com/engage.json?bid_info=0-FzpTVJVASph-4KyRcZJ8ihWgMxpwC6cWtjTmPSUywE6J7g4SgxagXQyuupEotjap4aJDqirZpzXoqRMtcphcUxxoQHboxj7otPH5wute5zecvVgCxnY51PFpWgEhscpneMVZS4QSWfRDXLnHP8x1z5UfiPMVaptcLSJaJAJ8YJL67sUcti6K1vvFJzC722ZbRWTmiqDUttgLAyXBtcKM24CBxMk7vVsL122ivFn43sgEAcbczkvkgCH7u1TiT&campaign_id=4349&creative_id=8245&currency_amount=1&env%5B%5D=html&impression_signature=cb80d8784964bb0cc6b4ddade7461a2cdff5aabf0f36a6010a45041d555c135d&impression_timestamp=1630694571.2783427&initials=0&internal_referring_source=08AMYXWJZUx3OA3UYWgfWA&ip=172.218.11.127&network_user_id=91a8d3ef-e93d-4b47-93c7-3261708514b7&placement_hash=15c7f5269a09bd8c5007ba98263571dd80c458e5&referrer=http%3A%2F%2Flocalhost%3A8080%2F&session_id=kDtp3T7RTp6tcOCbOhwacA&stream_id=1234&stream_id=1234&stream_position=preroll&stream_position=preroll&user_agent=Mozilla%2F5.0%20%28Macintosh%3B%20Intel%20Mac%20OS%20X%2010_15_7%29%20AppleWebKit%2F537.36%20%28KHTML%2C%20like%20Gecko%29%20Chrome%2F92.0.4515.159%20Safari%2F537.36&vault=0-YxSoUqGhh2-2GDi8oPd6PTgP675F7ezDqrQJ8wjZ9JEMHQBKERrNS5FHVPnFni3tfQj7mxTWmebH79AsaeeYtPHfoUuP7PNuKpJ7ZPzpSV4Cmdr8FeWGg4SDe&truexdm_channel=choicecard_mobile464985&iframed.mraid=1&appId=com.truex.skyline&disableWhiteops=false&disableMoat=false&ctv=1). The Bluescript code for the add is in the `creative_json.asset_args.layout` section.
 
-BlueScript elements support event handlers, enabling dynamic behavior. These can be used to trigger a variety of supported actions, such as controlling a video or playing sound effects. This is expressed as lists of behavior actions keyed on events. See below and `southback` repo for examples of this.
+BlueScript carries forward the "step" paradigm introduced in TVML with the top level structure being a list of "steps" (or _cards_) one can navigate between. For Roku, the entry-point (first step) for true[X] ads is always `main_card`. For HTML5, this is just a convention, the first step is initially shown regardless of its name.
+
+Each step card contains a flat list of BlueScript elements. There is implied hierarchy in the elements being instantiated and added to the scene in order they are declared. Thus, earlier-declared elements will be drawn _underneath_ later-declared elements, if they occupy the same drawing region.
+
+BlueScript elements support event handlers, enabling dynamic behavior. These can be used to trigger a variety of supported actions, such as controlling a video or playing sound effects. This is expressed as lists of behavior actions keyed on events. See below and `southback` repo (for Roku) and `Skyline` repo (for HTML5) for examples of this.
 
 ## Overall Structure
 
@@ -40,28 +44,33 @@ BlueScript elements support event handlers, enabling dynamic behavior. These can
 **Schema:**
 ```json
 {
-   "steps": [
-      {
-         "name": "main_card",
-         "__comment__": "optional comment about this step",
-         "elements": [
-            "<(LIST OF BlueScript ELEMENTS (JSON OBJECTS))>"
-         ],
-         "behaviors": {
-            "<ELEMENT ID>" : {
-               "<EVENT>" : [
-                  "<(LIST OF BEHAVIOR ACTIONS TRIGGERED BY EVENT)>"
-               ]
-            }
-         }
+  "steps": [
+    {
+      "name": "main_card",
+      "__comment__": "optional comment about this step",
+      "elements": [
+      "<(LIST OF BlueScript ELEMENTS (JSON OBJECTS))>"
+      ],
+      "behaviors": {
+        "<ELEMENT ID>" : {
+          "<EVENT>" : [
+            "<(LIST OF BEHAVIOR ACTIONS TRIGGERED BY EVENT)>"
+          ]
+        }
       },
-      {
-         "name": "second_card",
-         "elements": [
-            "<(LIST OF BlueScript ELEMENTS (JSON OBJECTS))>"
-         ]
+      "functions": {
+       "<FUNCTION NAME>": [
+          "<(LIST OF BEHAVIOR ACTIONS TO RUN IN THE FUNCTION)>"
+       ]
       }
-      ...]
+    },
+    {
+      "name": "second_card",
+      "elements": [
+      "<(LIST OF BlueScript ELEMENTS (JSON OBJECTS))>"
+      ]
+    }
+    ...]
 }
 ```
 
@@ -69,16 +78,18 @@ BlueScript elements support event handlers, enabling dynamic behavior. These can
 
 ```json
 {
-   "type" : "<TYPE of the BlueScript ELEMENT, [Image](#image), [Video](#video), [Label](#label), [Button](#button), [Audio](#audio), [Rectangle](#rectangle)>",
-   "name" : "<unique STRING ID of the BlueScript ELEMENT>",
-   "__comment__": "optional comment about this element",
-   "<ADDITIONAL ELEMENT-SPECIFIC PROPERTIES>": "e.g. 'width' AND 'height'>"
+    "type" : "<TYPE of the BlueScript ELEMENT, [Image](#image), [Video](#video), [Label](#label), [Button](#button), [Audio](#audio), [Rectangle](#rectangle)>",
+    "name" : "<unique STRING ID of the BlueScript ELEMENT>",
+    "__comment__": "optional comment about this element",
+    "<ADDITIONAL ELEMENT-SPECIFIC PROPERTIES>": "e.g. 'width' AND 'height'"
 }
 ```
 
 ### Examples
 
-[See example payloads in the `southback` repo, `vastConfig` folder.](https://github.com/socialvibe/southback/tree/develop/channel_res/vastConfigs)
+For Roku: See the [example payloads](https://github.com/socialvibe/southback/tree/develop/channel_res/vastConfigs) in the `southback` repo, `vastConfig` folder.
+
+For HTML5: See the [sample-bluescript.json](https://github.com/socialvibe/truex-bluescript-js/blob/develop/src/bluescript/__tests__/sample-bluescript.json) in the `truex-bluescript` repo.
 
 ## BlueScript Element Reference
 
@@ -86,7 +97,7 @@ This section documents the base properties and behaviors inherited by all other 
 
 ### Step
 
-A **step** (or **card**) defines a single, self-contained screen. No two steps can be presented simultaneously, but a step can be cached so that its state is preserved.
+A **step** (or **card**) defines a single, self-contained screen. No two steps can be presented simultaneously. Steps are recreated afresh whenever they are displayed. The ad developer can preserve state across steps with the use of global "key variables" if they need to programmatically restore a previous visual state.
 
 #### Step Properties
 
@@ -94,7 +105,8 @@ Property | Default | Description
 --- | --- | ---
 name | N/A (Required) | ID(String) for the step and used to identify it for behaviors.
 elements | N/A (Required) | An array that contains elements of this step. Z-indexed by the order, the first element is on the top, the last element is at the bottom.
-behaviors | {} | An object, which define the behavior of elements, by their IDs.
+behaviors | {} (Optional)| An object containing named event handlers, which define the behavior of elements, by their IDs.
+functions | {} (Optional) | An object containing named functions, which can be invoked from behavior events and other functions.
 
 #### Elements Properties
 
@@ -103,23 +115,22 @@ Elements - the BlueScript objects defined in each step - has the following prope
 Property | Default | Description
 --- | --- | ---
 type | N/A (Required) | Type for the BlueScript element. See below for what is supported.
-name | N/A (Required) | ID for the element and used to identify it for behaviors.
+name | N/A (Required) | Name of the element and used to identify it for behaviors.
 
 **Note:** More properties are available depending on the TYPE of BlueScript element, detailed per element below.
 
 #### Behaviors Properties
 
-Behaviors - the **step** property that contains all behaviors for each element of the step - is an object with keys that match element IDs:
-* **\<STRING ID\>** - ID of the BlueScript element that the child behaviors are associated with
-  and has an array value that defines the behaviors of the object for each event (see below).
+**Behaviors** - the **step** property that contains all behaviors for each element of the step - is an object with keys that match element names:
+* **\<NAME\>** - Name of the BlueScript element that the child behaviors are associated with
+  and has an array value that defines the behavior "host" action of the object for each event (see below).
 
 Property | Default | Description
 --- | --- | ---
-Element ID | {} | An object that defines the behavior on events. Each base behavior contains an array of actions.
+Element Name | {} | An object that defines the behavior on events. Each base behavior contains an array of actions.
 
 <details>
 <summary>For example:</summary>
-
 ```
 {
   "behaviors": {
@@ -162,6 +173,16 @@ Behavior Event | Description
 --- | ---
 appear | Triggered when the element's parent card is displayed. Note that appear does not tie to visibility.
 disappear | Triggered when the element's parent card is dismissed, such as on a card transition or when ending the ad flow.
+onselect | Trigger when a button with the focus is clicked on or the select/enter button is pressed on the remote.
+onfocusgained | Triggered when a button gains the remote/keyboard focus.
+onfocuslost | Triggered when a button loses the remote/keyboard focus.
+timerTick | Triggered when the countdown timer updates its value. <br/> Use the `{"key": "timerTickValue"}` expression to access the current timer value.
+videoStarted | Triggered when a video starts playback.
+videoFirstQuartile | Triggered when 25% of the video has played.
+videoSecondQuartile | Triggered when 50% of the video has played.
+videoThirdQuartile | Triggered when 75% of the video has played.
+videoCompleted | Triggered when the video has completed playback.
+videoLooped | Triggered when the video has automatically restarted playback.
 
 #### Base Behavior Actions
 
@@ -169,13 +190,15 @@ This section details the **Behavior Actions** that are available to any BlueScri
 
 ##### (1) - `allDoneButtonPushed`
 
-Triggers the "Watch Your Show" button, exiting the ad flow for a completed ad.
+Triggers the "Return to Content" button, exiting the ad flow for a completed ad.
 
 ###### Parameters
 
 N/A
 
 ##### (2) - `showStep`
+
+[Deprecated: "step stacking" is no longer upported, not even available on HTML5. Use explicit `replaceStep` actions instead.]
 
 Navigates to a different BlueScript step, pushing the new step onto the navigational stack. A viewer is able to get back to the previous step using the BACK key or equivalent.
 
@@ -187,7 +210,7 @@ cardName | Name of the step to transition to, as defined in the top level list o
 
 ##### (3) - `replaceStep`
 
-Navigates to a different BlueScript step, replacing the current step on the navigational stack.
+Navigates to a different BlueScript step, replacing the current step being displayed.
 
 ###### Parameters
 
@@ -197,7 +220,8 @@ cardName | Name of the step to transition to, as defined in the top level list o
 
 ##### (4) - `resetFocus`
 
-Re-initializes the focus handler and ensures a proper control is focused.
+Re-initializes the focus handler and ensures a default control is focused, which is usually the visually top most / left most button.
+This can be set programmatically in an "appear" event handler via the `focusElement` action.
 
 ###### Parameters
 
@@ -205,7 +229,7 @@ N/A
 
 ##### (5) - `setAttribute`
 
-Assigns a new value to given property for the native component underlying the BlueScript element.
+Assigns a new value to given property for the script element, typically controlling a visual aspect of the underlying component.
 
 ###### Parameters
 
@@ -241,16 +265,19 @@ uri | Uri of the sound file to trigger playback for.
 
 On Roku, `playSoundEffect` is a wrapper on top of the [`<SoundEffect/>`](https://sdkdocs.roku.com/display/sdkdoc/SoundEffect) SceneGraph component. It is notably limited to WAV files as a format for the sound effects.
 
+On HTML5, the standard .mp3, .wav, etc. file types work.
 
 ##### (8) - `debugLog`
 
-Prints log to BrightScript terminal. (Attach ` | grep "debugLog: "` at the end of `telnet` comment to filter for `debugLog`)
+On Roku, prints a log message to BrightScript terminal. Attach ` | grep "debugLog: "` at the end of `telnet` comment to filter for `debugLog`.
+
+On HTML5, prints a log message to the browser's console log. Examine the console log of the browser the ad is running in.
 
 ###### Example
 ```json
-{ "host" : "debugLog", "value" : "This is a String." },     // Prints: This is a String.
-{ "host" : "debugLog", "value" : { "key": "keyOfValue" }  },        // Prints: what ever is in keyOfValue.
-{ "host" : "debugLog", "value" : { "operation": "+", "values": ["Plus ", "operation."] }  },        // Prints: Plus operation.
+{ "host" : "debugLog", "value" : "This is a String." }, // Prints: This is a String.
+{ "host" : "debugLog", "value" : {"key": "keyOfValue"}  }, // Prints: what ever is in keyOfValue.
+{ "host" : "debugLog", "value" : {"+": ["Plus ", "operation."]}  }, // Prints: Plus operation.
 ```
 
 ###### Parameters
@@ -272,32 +299,32 @@ The `if/else` Behavior Action is a conditional statement, which perform differen
  { "host" : "if",
    "expression" : true,
    "then" : [{  "host" : "debugLog",
-      "value" : "1) if true, print this" }] },
-{ "host" : "if",
-"expression" : false,
-"then" : [{  "host" : "debugLog",
-"value" : "1) if false, print this (should not print this)" }] },
+                "value" : "1) if true, print this" }] },
+ { "host" : "if",
+   "expression" : false,
+   "then" : [{  "host" : "debugLog",
+                "value" : "1) if false, print this (should not print this)" }] },
 
-{ "host" : "if",
-"expression" : false,
-"then" : [{  "host" : "debugLog",
-"value" : "2) if true, print this (should not print this)" }],
-"else" : [{  "host" : "debugLog",
-"value" : "2) else, print this" }] },
+ { "host" : "if",
+   "expression" : false,
+   "then" : [{  "host" : "debugLog",
+                "value" : "2) if true, print this (should not print this)" }],
+   "else" : [{  "host" : "debugLog",
+                "value" : "2) else, print this" }] },
 
-{ "host" : "if",
-"expression" : { "key": "didAchieveTrueAttention" } ,
-"then" : [{  "host" : "debugLog",
-"value" : "3) user DID achieve True[Attention]" }],
-"else" : [{  "host" : "debugLog",
-"value" : "3) user HAS NOT achieve True[Attention]" }] },
+ { "host" : "if",
+   "expression" : { "key": "didAchieveTrueAttention" } ,
+   "then" : [{  "host" : "debugLog",
+                "value" : "3) user DID achieve True[Attention]" }],
+   "else" : [{  "host" : "debugLog",
+                "value" : "3) user HAS NOT achieve True[Attention]" }] },
 
-{ "host" : "if",
-"expression" :  {"operation": "==", "values": [{ "key": "myObject.txLogLevel" }, 3] },
-"then" : [{  "host" : "debugLog",
-"value" : "4) txLogLevel is 3" }],
-"else" : [{  "host" : "debugLog",
-"value" : "4) txLogLevel is not 3" }] }
+ { "host" : "if",
+   "expression" :  {"==": [{ "key": "myObject.txLogLevel" }, 3] },
+   "then" : [{  "host" : "debugLog",
+                "value" : "4) txLogLevel is 3" }],
+   "else" : [{  "host" : "debugLog",
+                "value" : "4) txLogLevel is not 3" }] }
 ```
 
 ###### Parameters
@@ -314,7 +341,7 @@ There is no `else if` as of now.
 
 ##### (10) - `for`
 
-Behavior Action `for` is a control flow statement for specifying iteration, which allows Behavior Actions to be executed repeatedly. Requires a control variable with `from` and `to` values, and a `do` Behavior Actions Array.
+Behavior Action `for` is a control flow statement for specifying iteration, which allows Behavior Actions to be executed repeatedly. Requires a control variable with `from` and `to` values, and a `do` Behavior Actions Array. An optional `value` can be used to specified a "key" or "local" variable to assign the loop value to.
 
 ###### Example
 ```json
@@ -322,18 +349,16 @@ Behavior Action `for` is a control flow statement for specifying iteration, whic
    "from": 0,
    "to": 3,
    "do" : [
-      { "host" : "debugLog",
-         "value" : "test" }
+       { "host" : "debugLog", "value" : "test" }
    ] },
 
-{ "host" : "for",
-"value": { "key": "i" },
-"from": 0,
-"to": { "key": "ta" },
-"do" : [
-{ "host" : "debugLog",
-"value" : { "key": "i" } }
-] },
+ { "host" : "for",
+   "value": { "key": "i" },
+   "from": 0,
+   "to": { "key": "ta" },
+   "do" : [
+       { "host" : "debugLog", "value" : { "key": "i" } }
+   ] },
 ```
 
 ###### Parameters
@@ -341,13 +366,13 @@ Behavior Action `for` is a control flow statement for specifying iteration, whic
 Parameter | Description
 --- | ---
 value | (optional) Value Object variable that the counter should save to. Default `{ "key": "forI" }`
-from | An interger value that the loop counter would start from (could be Value Object)
-to | An interger value that the loop counter would count to (inclusive) (could be Value Object)
+from | An integer value that the loop counter would start from (could be Value Object)
+to | An integer value that the loop counter would count to (inclusive) (could be Value Object)
 do | An array of Behavior Actions that should be executed
 
 ###### Notes
 
-There's no way to break out of a loop early just as of writing of this doc (_aka `break` keyword in C-based languages_)
+One can break out of the loop via a `break` action, or even a `return` action to exist the current event handler or function entirely.
 
 ##### (11) - `assign`
 
@@ -358,16 +383,16 @@ Behavior Action `assign` is an assignment statement that sets and/or re-sets the
  { "host" : "assign",
    "key" : "i",
    "value" : 0 },
-{ "host" : "assign",
-"key" : "i",
-"value" : { "operation": "+", "values": [{ "key": "i" }, 1] } },
-{ "host" : "assign",
-"key" : "object.array.0",
-"value" : "Hello World" },
-{ "host" : "assign",
-"key" : { "operation": "+", "values": ["object.array.", { "key": "i" } ] ,
-"value" : { "key": "i" }},
-}
+ { "host" : "assign",
+   "key" : "i",
+   "value" : { "+": [{ "key": "i" }, 1] } },
+ { "host" : "assign",
+   "key" : "object.array.0",
+   "value" : "Hello World" },
+ { "host" : "assign",
+   "key" : { "+": ["object.array.", { "key": "i" } ] ,
+   "value" : { "key": "i" }},
+ }
 ```
 
 ###### Parameters
@@ -385,7 +410,8 @@ Parameter | Description
 --- | ---
 `host.ad` | Json object of the selected ad (Roku only, not supported on HTML5 yet)
 `host.tagRotationRandom` | A fixed, random number from 0-1 per instance for (video) rotation. Ad author is supposed to read this number and change their ad accordingly.
-`host.adParameters` | Contains all the adParameters and can be accessed by key.  EG.  host.adParameters.some_key
+`host.adParameters` | Contains all the adParameters from Truex Exchange and can be accessed by key.  EG. `host.adParameters.some_key`
+`host.allVars` | Contains all of the ad variables queries from the RTB server. EG. `host.allVars.locationJSON.country_code`
 `host.rotationVideos` | An object with numerous subproperties related to the set of rotation videos
 `host.rotationVideos.<0-N>` to get a specific video with that index (key: video_1 corresponds to `.0`)
 `host.rotationVideos.length` to get the number of rotational videos
@@ -406,8 +432,7 @@ Behavior Action `setTimeout` allows execution of a set of Behavior Actions at sp
 ```json
  { "host" : "setTimeout",
    "duration" : 3,
-   "do": [ { "host" : "debugLog",
-      "value" : "timeout fired after 3 seconds" } ] }
+   "do": [ { "host" : "debugLog", "value" : "timeout fired after 3 seconds" } ] }
 ```
 
 ###### Parameters
@@ -438,8 +463,8 @@ Enables Behavior Actions to read the HTTP values sent by a client during a Web r
    "responseAsJson": true,
    "assignResponseTo": { "key": "weatherJson" },
    "onload": [
-      { "host" : "debugLog",
-         "value" : { "key": "weatherJson.properties.periods.0" } } ] }
+             { "host" : "debugLog",
+               "value" : { "key": "weatherJson.properties.periods.0" } } ] }
 ```
 
 ###### Parameters
@@ -447,7 +472,7 @@ Enables Behavior Actions to read the HTTP values sent by a client during a Web r
 Parameter | Description
 --- | ---
 url | The server/file location.
-assignResponseTo | take a json with a `key` entry, which points to destination that the returned string/json will save to.
+assignResponseTo | take a json with a `key` or `local` entry, which points to variable that the returned string/json will be assigned to.
 responseAsJson | (optional, default: false) will try to parse the return as JSON before save.
 onload | An array of Behavior Actions to be executed on call successed.
 onerror | An array of Behavior Actions to be executed on call failed.
@@ -506,6 +531,8 @@ N/A
 
 ##### (21) - `popStep`
 
+[Deprecated: "step stacking" is no longer supported, not even available on HTML5. Use explicit `replaceStep` actions instead.]
+
 Removes the current BlueScript step from the stack, replacing it with the next step on the navigational stack.
 
 ##### Parameters
@@ -535,13 +562,13 @@ More than one attribute can be animated with one call to `animateElement`.
  { "host": "animateElement",
    "name": "Video_Player",
    "attributes": {
-      "x": 110,
-      "y": 217,
-      "width": 1150,
-      "height": 647
+        "x": 110,
+        "y": 217,
+        "width": 1150,
+        "height": 647
    },
    "duration": 0.5
-}
+ }
 ```
 
 ##### (23) - `trackCustomEvent`
@@ -576,9 +603,9 @@ value | | A value to use for the event, if appropriate.
 ### Value Object
 
 The variable Behavior Actions take as input. There are 3 types:
-1 - Simple Values
+1 - Literal Values
 2 - Stored Values
-3 - Operations
+3 - Expressions
 
 ##### (24) - `setBounds`
 
@@ -598,29 +625,38 @@ height |  | new height of element
 
 All new values are optional by excluding them in the action.  For example, if you only want to change x,y and leave width,height alone.
 
-##### (1) - Simple Values
+##### (1) - Literal Values
 
-The basic variables like String, Boolean, or Number
+The basic values supported by the JSON format: like String, Boolean, or Number, object literals, arrays.
+
+Note that arrays are evaluated as expressions, objects may or may not be depending on where it is used. The general rule
+is that all host action attributes are evaluated as expressions, all operation parameters are evaluated as expressions,
+object literals that do not match any expression format are used as is.
+
+If one is unclear whether or not an object is evaluated or not, they can used the "literal" expression to force the
+unevaluated used of the value.
 
 ###### Example
 ```json
- { "host" : "debugLog",
-   "value" : "this is a string" },
-{ "host" : "debugLog",
-"value" : 1234.56 },
-{ "host" : "debugLog",
-"value" : true },
+ { "host" : "debugLog", "value" : "this is a string" },
+ { "host" : "debugLog", "value" : 1234.56 },
+ { "host" : "debugLog", "value" : true },
+ { "host" : "assign", "key": "testObject", "value" : {"this": "this value", "that": "that value"} },
+ { "host" : "assign", "key": "testArray", "value" : [1, 2, 3] },
+ { "host" : "assign", "key": "testArray2", "value" : [1, 2, {"+": [3, 4]}] }, // final element is 7
+ { "host" : "assign", "key": "testObject2", "value" : {"key": "testObject"} }, // testObject's value is used
+ { "host" : "assign", "key": "testObject3", "value" : {"literal": {"key": "testObject"} } },
+ { "host" : "debugLog", "value" : {"key": "testObject3.key"} } , // outputs "testObject" string
 ```
 
-##### (2) - Stored Values
+##### (2) - Global Stored Values
 
-The local variables stored in the Behavior Action sandbox.
+The global key variables stored in the Behavior Action sandbox.
 
 ###### Example
 ```json
-{ "host" : "debugLog", "value" : { "key": "weatherJson" } },
-{ "host" : "debugLog",
-  "value" : { "key": "weatherJson.properties.periods.0" } },
+ { "host" : "debugLog", "value" : { "key": "weatherJson" } },
+ { "host" : "debugLog", "value" : { "key": "weatherJson.properties.periods.0" } },
 ```
 
 ###### Parameters
@@ -629,82 +665,94 @@ Parameter | Description
 --- | ---
 key | Name of variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be another Value Object)
 
-##### (3) - Operations
+##### (2) - Local Values
+
+Local variables are like key variables, except the scope is limited to the current event handler or function invocation.
+One refers to them using "local" instead of "key" in expressions, `assign`, `for`, and `makeWebRequest` actions.
+
+###### Example
+```json
+ { "host" : "debugLog", "value" : { "local": "weatherJson" } },
+ { "host" : "debugLog", "value" : { "local": "weatherJson.properties.periods.0" } },
+```
+
+##### (3) - Operation Expressions.
 
 Operations are used to compare values, perform arithmetic operations, logical operations, and perform functions that return value (random, for example), given an array of `values` as input.
 
+NOTE: the older form of operation expresses was like:
+```json
+{ "host" : "debugLog", "value" : {"operation": "+", "values": [123, 123] } }, 
+```
+This form is still supported for backwards compatibility so as to not break existing ads. A simplified form is
+now recommended, as shown below.
+
 ###### Arithmetic Operations Example
 ```json
- { "host" : "debugLog",
-   "value" : {"operation": "+", "values": [123, 123] } },
-{ "host" : "debugLog",
-"value" : {"operation": "+", "values": [1, 2, 3] } },
-{ "host" : "debugLog",
-"value" : {"operation": "+", "values": [1,  {"operation": "*", "values": [2, 3] } ] } },
+ { "host" : "debugLog", "value" : {"+": [123, 123] } },
+ { "host" : "debugLog", "value" : {"+": [1, 2, 3] } },
+ { "host" : "debugLog","value" : {"+": [1,  {"*": [2, 3] } ] } },
 ```
 
 ###### String Operations Example
 ```json
+ { "host" : "debugLog", "value" : {"+": ["string", 123] } },
  { "host" : "debugLog",
-   "value" : {"operation": "+", "values": ["string", 123] } },
-{ "host" : "debugLog",
-"value" : "input: replace(\"This is a badass.\", \"badass\", \"awesome\")" },
+   "value" : {"replace": ["This is a badass.", "badass", "awesome"]}},
 ```
 
 ###### Comparison Operations Example
 ```json
- { "host" : "debugLog",
-   "value" : {"operation": "&&", "values": [true, false] } },
-{ "host" : "debugLog",
-"value" : {"operation": "||", "values": [true, false] } },
-{ "host" : "debugLog",
-"value" : {"operation": "!", "values": [true] } },
+ { "host" : "debugLog", "value" : {"&&": [true, false] } },
+ { "host" : "debugLog", "value" : {"||": [true, false] } },
+ { "host" : "debugLog", "value" : {"!": true } },
 ```
 
 ###### Functions Operations Example
 ```json
- { "host" : "debugLog",
-   "value" : {"operation": "random", "values": [10] } },
+ { "host" : "debugLog", "value" : {"random": 10 } },
 ```
 
-###### Parameters
+###### Operation format:
 
-Parameter | Description
---- | ---
-operation | Name of operation.
-values | An array of Simple Values, or Value Object as input. Like Polish notation, operator comes before the values; however, Operations will only take 1 operation at a time.
+{"<operation>": <values>}
+
+Where we have:
+operation | One of the operator strings from the Operator table below.
+values | An array of simple values or expressions, or a single value object as input it the operation takes a single parameter.
 
 ###### Operation
 Operator | Description | Number of input | Input type | Example | Means
 -------  | ----------- | --------------- | ---------- | ------- | -----
-\+ | Addition | >=2 | Number | `{"operation": "+", "values": [123, 123] }` | 123 + 123
-\+ | Concatenate String | >=2 | String | `{"operation": "+", "values": ["hello", "_world"] }` | "hello" + "\_world"
-\- | Subtraction | >=2 | Number | `{"operation": "-", "values": [123, 1, 23] }` | 123 - 1 - 23
-\* | Multiplication | >=2 | Number | `{"operation": "*", "values": [123, 2] }` | 123 \* 2
-/ | Division | >=2 | Number | `{"operation": "/", "values": [123, 2] }` | 123 / 2
-% | Modulus (division remainder) | 2 | Number | `{"operation": "%", "values": [123, 2] }` | 123 % 2
-== | Equal to | 2 | String, Number, or Boolean | `{"operation": "==", "values": [123, 2] }` | 123 == 2
-!= | Not equal | 2 | String, Number, or Boolean | `{"operation": "!=", "values": [123, 2] }` | 123 != 2
-\> | Greater than | 2 | Number | `{"operation": ">", "values": [123, 2] }` | 123 > 2
-< | Less than | 2 | Number | `{"operation": "<", "values": [123, 2] }` | 123 < 2
-\>= | Greater than or equal to | 2 | Number | `{"operation": ">=", "values": [123, 2] }` | 123 >= 2
-<= | Less than or equal to | 2 | Number | `{"operation": "<=", "values": [123, 2] }` | 123 <= 2
-&& | And | 2 | Boolean | `{"operation": "&&", "values": [true, false] }` | true && false --> (false)
-\|\| | Or | 2 | Boolean | `{"operation": "\|\|", "values": [true, false] }` | true \|\| false --> (true)
-! | Not | 1 | Boolean | `{"operation": "!", "values": [true] }` | !true --> (false)
-replace | String replace | 3 | String | `{"operation": "replace", "values": ["Original String to Replace", "Replace", "Modify"] }` | "Original String to Replace".replace("Replace", "Modify")
-random | Random number | 1 | Number | `{"operation": "random", "values": [10] }` | random(10)
-length | Length | 1 | Natural | `{"operation": "length", "values": ["abcde"] }` | "abcde".length()
-max | Maximum | >=2 | Number | `{"operation": "max", "values": [1, 2] }` | max(1, 2)
-min | Minimum | >=2 | Number | `{"operation": "min", "values": [1, 2] }` | min(1, 2)
-floor | Floor | 1 | Number | `{"operation": "floor", "values": [1.5] }` | Math.floor(1.5)
-ceil | Ceiling | 1 | Number | `{"operation": "ceil", "values": [1.5] }` | Math.ceil(1.5)
-round | Round | 1 | Number | `{"operation": "round", "values": [1.5] }` | Math.round(1.5)
-toFixed | Shows specified # of digits after the decimal point | 2 | Number | `{"operation": "toFixed", "values": [3.1415, 3]}` returns `"3.142"` | (3.1415).toFixed(3)
-toTrimFixed | Like {toFixed}, but also strips trailing zeroes | 2 | Number | `{"operation": "toTrimFixed", "values": [2.000001, 4]}` returns `"2"` | Number((2.000001).toFixed(4)).toString()
-zeroFill | Fill number with leading 0s | 2 | Number | `{"operation": "zeroFill", "values": [123, 5]}`  returns `"00123"` | "00" + (123).toString()
-formatMinutesSeconds | Format seconds as `MM:SS`, or `H:MM:SS` if over an hour | 1 | Number | `{"operation": "formatMinutesSeconds", "values": [3599]}` returns `"59:59"` | -
-formatHoursMinutesSeconds | Format seconds as `H:MM:SS` | 1 | Number | `{"operation": "formatMinutesSeconds", "values": [3599]}` returns `"0:59:59"` | -
+\+ | Addition | >=2 | Number | `{"+": [123, 123] }` | 123 + 123
+\+ | Concatenate String | >=2 | String | `{"+": ["hello", "_world"] }` | "hello" + "\_world"
+\- | Subtraction | >=2 | Number | `{"-": [123, 1, 23] }` | 123 - 1 - 23
+\* | Multiplication | >=2 | Number | `{"*": [123, 2] }` | 123 \* 2
+/ | Division | >=2 | Number | `{"/": [123, 2] }` | 123 / 2
+% | Modulus (division remainder) | 2 | Number | `{"%": [123, 2] }` | 123 % 2
+== | Equal to | 2 | String, Number, or Boolean | `{"==": [123, 2] }` | 123 == 2
+!= | Not equal | 2 | String, Number, or Boolean | `{"!=": [123, 2] }` | 123 != 2
+\> | Greater than | 2 | Number | `{">": [123, 2] }` | 123 > 2
+< | Less than | 2 | Number | `{"<": [123, 2] }` | 123 < 2
+\>= | Greater than or equal to | 2 | Number | `{">=": [123, 2] }` | 123 >= 2
+<= | Less than or equal to | 2 | Number | `{"<=": [123, 2] }` | 123 <= 2
+&& | And | 2 | Boolean | `{"&&": [true, false] }` | true && false --> (false)
+\|\| | Or | 2 | Boolean | `{"\|\|": [true, false] }` | true \|\| false --> (true)
+! | Not | 1 | Boolean | `{"!": true }` | !true --> (false)
+replace | String replace | 3 | String | `{"replace": ["Original String to Replace", "Replace", "Modify"] }` | "Original String to Replace".replace("Replace", "Modify")
+random | Random number | 1 | Number | `{"random": 10 }` | random(10)
+length | Length | 1 | Natural | `{"length": "abcde" }` | "abcde".length
+length | Length | 1 | Natural | `{"length": [[1, 2, 3]] }` | [1,2,3].length
+max | Maximum | >=2 | Number | `{"max": [1, 2] }` | max(1, 2)
+min | Minimum | >=2 | Number | `{"min": [1, 2] }` | min(1, 2)
+floor | Floor | 1 | Number | `{"floor": 1.5 }` | Math.floor(1.5)
+ceil | Ceiling | 1 | Number | `{"ceil": 1.5 }` | Math.ceil(1.5)
+round | Round | 1 | Number | `{"round": 1.5 }` | Math.round(1.5)
+toFixed | Shows specified # of digits after the decimal point | 2 | Number | `{"toFixed": [3.1415, 3]}` returns `"3.142"` | (3.1415).toFixed(3)
+toTrimFixed | Like {toFixed}, but also strips trailing zeroes | 2 | Number | `{"toTrimFixed": [2.000001, 4]}` returns `"2"` | Number((2.000001).toFixed(4)).toString()
+zeroFill | Fill number with leading 0s | 2 | Number | `{"zeroFill": [123, 5]}`  returns `"00123"` | "00" + (123).toString()
+formatMinutesSeconds | Format seconds as `MM:SS`, or `H:MM:SS` if over an hour | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"59:59"` | -
+formatHoursMinutesSeconds | Format seconds as `H:MM:SS` | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"0:59:59"` | -
 
 ---
 
@@ -1149,10 +1197,10 @@ The following Roku device models are treated as low end which impacts the behavi
 Assuming there is knowledge of what the A/B experiment object looks like, all information can be accessed with the following notation: `testVariations.<key>`.  This is similar to accessing information in the `host` object.  For example, with the following variation returned from the ad:
 ```json
       "variations": {
-"truex_first_experiment": "control",
-"FAP-460": "oldTT",
-"tvml_cc_test": "T0"
-},
+        "truex_first_experiment": "control",
+        "FAP-460": "oldTT",
+        "tvml_cc_test": "T0"
+      },
 ```
 Within the Bluescript, the value of tvml_cc_test can be acquired with Bluescript such as `"value": { "key": "testVariations.tvml_cc_test" }`
 
