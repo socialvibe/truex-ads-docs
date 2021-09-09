@@ -6,10 +6,10 @@ _rev. 2020-06-08_
 1. [Structure](#overall-structure)
    1. [Top Level Syntax](#top-level-payload-syntax)
    1. [Element Syntax](#basic-bluescript-element-syntax)
+   1. [Values and Expressions](#values-and-expressions)
    1. [Examples](#examples)
 1. [Element Reference](#bluescript-element-reference)
    1. [Step](#step)
-   1. [Values and Expressions](#values-and-expressions)
    1. [Rectangle](#rectangle)
    1. [Image](#image)
    1. [Video](#video)
@@ -73,6 +73,143 @@ BlueScript elements support event handlers, enabling dynamic behavior. These can
     ...]
 }
 ```
+
+### Values and Expressions
+
+The values behavior actions take as input. There are 3 types:
+1 - Literal Values
+2 - Stored Values
+3 - Expressions
+
+##### (1) - Literal Values
+
+The basic values supported by the JSON format: like String, Boolean, or Number, object literals, arrays.
+
+Note that arrays are evaluated as expressions, objects may or may not be depending on where it is used. The general rule
+is that all host action attributes are evaluated as expressions, all operation parameters are evaluated as expressions,
+object literals that do not match any expression format are used as is.
+
+If one is unclear whether or not an object is evaluated or not, they can used the "literal" expression to force the
+unevaluated used of the value.
+
+###### Example
+```json
+ { "host" : "debugLog", "value" : "this is a string" },
+ { "host" : "debugLog", "value" : 1234.56 },
+ { "host" : "debugLog", "value" : true },
+ { "host" : "assign", "key": "testObject", "value" : {"this": "this value", "that": "that value"} },
+ { "host" : "assign", "key": "testArray", "value" : [1, 2, 3] },
+ { "host" : "assign", "key": "testArray2", "value" : [1, 2, {"+": [3, 4]}] }, // final element is 7
+ { "host" : "assign", "key": "testObject2", "value" : {"key": "testObject"} }, // testObject's value is used
+ { "host" : "assign", "key": "testObject3", "value" : {"literal": {"key": "testObject"} } },
+ { "host" : "debugLog", "value" : {"key": "testObject3.key"} } , // outputs "testObject" string
+```
+
+##### (2) - Global Stored Values
+
+The global key variables stored in the Behavior Action sandbox.
+
+###### Example
+```json
+ { "host" : "debugLog", "value" : { "key": "weatherJson" } },
+ { "host" : "debugLog", "value" : { "key": "weatherJson.properties.periods.0" } },
+```
+
+###### Parameters
+
+Parameter | Description
+--- | ---
+key | Name of variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be another [Value or Expression](#values-and-expressions))
+
+##### (2) - Local Values
+
+Local variables are like key variables, except the scope is limited to the current event handler or function invocation.
+One refers to them using "local" instead of "key" in expressions, `assign`, `for`, and `makeWebRequest` actions.
+
+###### Example
+```json
+ { "host" : "debugLog", "value" : { "local": "weatherJson" } },
+ { "host" : "debugLog", "value" : { "local": "weatherJson.properties.periods.0" } },
+```
+
+##### (3) - Operation Expressions.
+
+Operations are used to compare values, perform arithmetic operations, logical operations, and perform functions that return value (random, for example), given an array of `values` as input.
+
+NOTE: the older form of operation expresses was like:
+```json
+{ "host" : "debugLog", "value" : {"operation": "+", "values": [123, 123] } }, 
+```
+This form is still supported for backwards compatibility so as to not break existing ads. A simplified form is
+now recommended, as shown below.
+
+###### Arithmetic Operations Example
+```json
+ { "host" : "debugLog", "value" : {"+": [123, 123] } },
+ { "host" : "debugLog", "value" : {"+": [1, 2, 3] } },
+ { "host" : "debugLog","value" : {"+": [1,  {"*": [2, 3] } ] } },
+```
+
+###### String Operations Example
+```json
+ { "host" : "debugLog", "value" : {"+": ["string", 123] } },
+ { "host" : "debugLog",
+   "value" : {"replace": ["This is a badass.", "badass", "awesome"]}},
+```
+
+###### Comparison Operations Example
+```json
+ { "host" : "debugLog", "value" : {"&&": [true, false] } },
+ { "host" : "debugLog", "value" : {"||": [true, false] } },
+ { "host" : "debugLog", "value" : {"!": true } },
+```
+
+###### Functions Operations Example
+```json
+ { "host" : "debugLog", "value" : {"random": 10 } },
+```
+
+###### Operation format:
+
+{"<operation>": <values>}
+
+Where we have:
+operation | One of the operator strings from the Operator table below.
+values | An array of simple values or expressions, or a single value object as input it the operation takes a single parameter.
+
+###### Operation
+Operator | Description | Number of input | Input type | Example | Means
+-------  | ----------- | --------------- | ---------- | ------- | -----
+\+ | Addition | >=2 | Number | `{"+": [123, 123] }` | 123 + 123
+\+ | Concatenate String | >=2 | String | `{"+": ["hello", "_world"] }` | "hello" + "\_world"
+\- | Subtraction | >=2 | Number | `{"-": [123, 1, 23] }` | 123 - 1 - 23
+\* | Multiplication | >=2 | Number | `{"*": [123, 2] }` | 123 \* 2
+/ | Division | >=2 | Number | `{"/": [123, 2] }` | 123 / 2
+% | Modulus (division remainder) | 2 | Number | `{"%": [123, 2] }` | 123 % 2
+== | Equal to | 2 | String, Number, or Boolean | `{"==": [123, 2] }` | 123 == 2
+!= | Not equal | 2 | String, Number, or Boolean | `{"!=": [123, 2] }` | 123 != 2
+\> | Greater than | 2 | Number | `{">": [123, 2] }` | 123 > 2
+< | Less than | 2 | Number | `{"<": [123, 2] }` | 123 < 2
+\>= | Greater than or equal to | 2 | Number | `{">=": [123, 2] }` | 123 >= 2
+<= | Less than or equal to | 2 | Number | `{"<=": [123, 2] }` | 123 <= 2
+&& | And | 2 | Boolean | `{"&&": [true, false] }` | true && false --> (false)
+\|\| | Or | 2 | Boolean | `{"\|\|": [true, false] }` | true \|\| false --> (true)
+! | Not | 1 | Boolean | `{"!": true }` | !true --> (false)
+replace | String replace | 3 | String | `{"replace": ["Original String to Replace", "Replace", "Modify"] }` | "Original String to Replace".replace("Replace", "Modify")
+random | Random number | 1 | Number | `{"random": 10 }` | random(10)
+length | Length | 1 | Natural | `{"length": "abcde" }` | "abcde".length
+length | Length | 1 | Natural | `{"length": [[1, 2, 3]] }` | [1,2,3].length
+max | Maximum | >=2 | Number | `{"max": [1, 2] }` | max(1, 2)
+min | Minimum | >=2 | Number | `{"min": [1, 2] }` | min(1, 2)
+floor | Floor | 1 | Number | `{"floor": 1.5 }` | Math.floor(1.5)
+ceil | Ceiling | 1 | Number | `{"ceil": 1.5 }` | Math.ceil(1.5)
+round | Round | 1 | Number | `{"round": 1.5 }` | Math.round(1.5)
+toFixed | Shows specified # of digits after the decimal point | 2 | Number | `{"toFixed": [3.1415, 3]}` returns `"3.142"` | (3.1415).toFixed(3)
+toTrimFixed | Like {toFixed}, but also strips trailing zeroes | 2 | Number | `{"toTrimFixed": [2.000001, 4]}` returns `"2"` | Number((2.000001).toFixed(4)).toString()
+zeroFill | Fill number with leading 0s | 2 | Number | `{"zeroFill": [123, 5]}`  returns `"00123"` | "00" + (123).toString()
+formatMinutesSeconds | Format seconds as `MM:SS`, or `H:MM:SS` if over an hour | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"59:59"` | -
+formatHoursMinutesSeconds | Format seconds as `H:MM:SS` | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"0:59:59"` | -
+---
 
 ### Basic BlueScript Element Syntax
 
@@ -617,144 +754,6 @@ height |  | new height of element
 ###### Notes
 
 All new values are optional by excluding them in the action.  For example, if you only want to change x,y and leave width,height alone.
-
-### Values and Expressions
-
-The values behavior actions take as input. There are 3 types:
-1 - Literal Values
-2 - Stored Values
-3 - Expressions
-
-##### (1) - Literal Values
-
-The basic values supported by the JSON format: like String, Boolean, or Number, object literals, arrays.
-
-Note that arrays are evaluated as expressions, objects may or may not be depending on where it is used. The general rule
-is that all host action attributes are evaluated as expressions, all operation parameters are evaluated as expressions,
-object literals that do not match any expression format are used as is.
-
-If one is unclear whether or not an object is evaluated or not, they can used the "literal" expression to force the
-unevaluated used of the value.
-
-###### Example
-```json
- { "host" : "debugLog", "value" : "this is a string" },
- { "host" : "debugLog", "value" : 1234.56 },
- { "host" : "debugLog", "value" : true },
- { "host" : "assign", "key": "testObject", "value" : {"this": "this value", "that": "that value"} },
- { "host" : "assign", "key": "testArray", "value" : [1, 2, 3] },
- { "host" : "assign", "key": "testArray2", "value" : [1, 2, {"+": [3, 4]}] }, // final element is 7
- { "host" : "assign", "key": "testObject2", "value" : {"key": "testObject"} }, // testObject's value is used
- { "host" : "assign", "key": "testObject3", "value" : {"literal": {"key": "testObject"} } },
- { "host" : "debugLog", "value" : {"key": "testObject3.key"} } , // outputs "testObject" string
-```
-
-##### (2) - Global Stored Values
-
-The global key variables stored in the Behavior Action sandbox.
-
-###### Example
-```json
- { "host" : "debugLog", "value" : { "key": "weatherJson" } },
- { "host" : "debugLog", "value" : { "key": "weatherJson.properties.periods.0" } },
-```
-
-###### Parameters
-
-Parameter | Description
---- | ---
-key | Name of variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be another [Value or Expression](#values-and-expressions))
-
-##### (2) - Local Values
-
-Local variables are like key variables, except the scope is limited to the current event handler or function invocation.
-One refers to them using "local" instead of "key" in expressions, `assign`, `for`, and `makeWebRequest` actions.
-
-###### Example
-```json
- { "host" : "debugLog", "value" : { "local": "weatherJson" } },
- { "host" : "debugLog", "value" : { "local": "weatherJson.properties.periods.0" } },
-```
-
-##### (3) - Operation Expressions.
-
-Operations are used to compare values, perform arithmetic operations, logical operations, and perform functions that return value (random, for example), given an array of `values` as input.
-
-NOTE: the older form of operation expresses was like:
-```json
-{ "host" : "debugLog", "value" : {"operation": "+", "values": [123, 123] } }, 
-```
-This form is still supported for backwards compatibility so as to not break existing ads. A simplified form is
-now recommended, as shown below.
-
-###### Arithmetic Operations Example
-```json
- { "host" : "debugLog", "value" : {"+": [123, 123] } },
- { "host" : "debugLog", "value" : {"+": [1, 2, 3] } },
- { "host" : "debugLog","value" : {"+": [1,  {"*": [2, 3] } ] } },
-```
-
-###### String Operations Example
-```json
- { "host" : "debugLog", "value" : {"+": ["string", 123] } },
- { "host" : "debugLog",
-   "value" : {"replace": ["This is a badass.", "badass", "awesome"]}},
-```
-
-###### Comparison Operations Example
-```json
- { "host" : "debugLog", "value" : {"&&": [true, false] } },
- { "host" : "debugLog", "value" : {"||": [true, false] } },
- { "host" : "debugLog", "value" : {"!": true } },
-```
-
-###### Functions Operations Example
-```json
- { "host" : "debugLog", "value" : {"random": 10 } },
-```
-
-###### Operation format:
-
-{"<operation>": <values>}
-
-Where we have:
-operation | One of the operator strings from the Operator table below.
-values | An array of simple values or expressions, or a single value object as input it the operation takes a single parameter.
-
-###### Operation
-Operator | Description | Number of input | Input type | Example | Means
--------  | ----------- | --------------- | ---------- | ------- | -----
-\+ | Addition | >=2 | Number | `{"+": [123, 123] }` | 123 + 123
-\+ | Concatenate String | >=2 | String | `{"+": ["hello", "_world"] }` | "hello" + "\_world"
-\- | Subtraction | >=2 | Number | `{"-": [123, 1, 23] }` | 123 - 1 - 23
-\* | Multiplication | >=2 | Number | `{"*": [123, 2] }` | 123 \* 2
-/ | Division | >=2 | Number | `{"/": [123, 2] }` | 123 / 2
-% | Modulus (division remainder) | 2 | Number | `{"%": [123, 2] }` | 123 % 2
-== | Equal to | 2 | String, Number, or Boolean | `{"==": [123, 2] }` | 123 == 2
-!= | Not equal | 2 | String, Number, or Boolean | `{"!=": [123, 2] }` | 123 != 2
-\> | Greater than | 2 | Number | `{">": [123, 2] }` | 123 > 2
-< | Less than | 2 | Number | `{"<": [123, 2] }` | 123 < 2
-\>= | Greater than or equal to | 2 | Number | `{">=": [123, 2] }` | 123 >= 2
-<= | Less than or equal to | 2 | Number | `{"<=": [123, 2] }` | 123 <= 2
-&& | And | 2 | Boolean | `{"&&": [true, false] }` | true && false --> (false)
-\|\| | Or | 2 | Boolean | `{"\|\|": [true, false] }` | true \|\| false --> (true)
-! | Not | 1 | Boolean | `{"!": true }` | !true --> (false)
-replace | String replace | 3 | String | `{"replace": ["Original String to Replace", "Replace", "Modify"] }` | "Original String to Replace".replace("Replace", "Modify")
-random | Random number | 1 | Number | `{"random": 10 }` | random(10)
-length | Length | 1 | Natural | `{"length": "abcde" }` | "abcde".length
-length | Length | 1 | Natural | `{"length": [[1, 2, 3]] }` | [1,2,3].length
-max | Maximum | >=2 | Number | `{"max": [1, 2] }` | max(1, 2)
-min | Minimum | >=2 | Number | `{"min": [1, 2] }` | min(1, 2)
-floor | Floor | 1 | Number | `{"floor": 1.5 }` | Math.floor(1.5)
-ceil | Ceiling | 1 | Number | `{"ceil": 1.5 }` | Math.ceil(1.5)
-round | Round | 1 | Number | `{"round": 1.5 }` | Math.round(1.5)
-toFixed | Shows specified # of digits after the decimal point | 2 | Number | `{"toFixed": [3.1415, 3]}` returns `"3.142"` | (3.1415).toFixed(3)
-toTrimFixed | Like {toFixed}, but also strips trailing zeroes | 2 | Number | `{"toTrimFixed": [2.000001, 4]}` returns `"2"` | Number((2.000001).toFixed(4)).toString()
-zeroFill | Fill number with leading 0s | 2 | Number | `{"zeroFill": [123, 5]}`  returns `"00123"` | "00" + (123).toString()
-formatMinutesSeconds | Format seconds as `MM:SS`, or `H:MM:SS` if over an hour | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"59:59"` | -
-formatHoursMinutesSeconds | Format seconds as `H:MM:SS` | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"0:59:59"` | -
-
----
 
 ### Rectangle
 
