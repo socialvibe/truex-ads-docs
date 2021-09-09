@@ -600,13 +600,6 @@ category | `fep_roku_layout` | The tracking taxonomy category to use for the tra
 name | N/A (required) | The name of the tracking event.
 value | | A value to use for the event, if appropriate.
 
-### Values and Expressions
-
-The values behavior actions take as input. There are 3 types:
-1 - Literal Values
-2 - Stored Values
-3 - Expressions
-
 ##### (24) - `setBounds`
 
 Instantly sets the bounds / position of an element.  An alternative to animateElement when duration = 0
@@ -624,6 +617,13 @@ height |  | new height of element
 ###### Notes
 
 All new values are optional by excluding them in the action.  For example, if you only want to change x,y and leave width,height alone.
+
+### Values and Expressions
+
+The values behavior actions take as input. There are 3 types:
+1 - Literal Values
+2 - Stored Values
+3 - Expressions
 
 ##### (1) - Literal Values
 
