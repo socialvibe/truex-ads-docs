@@ -9,7 +9,7 @@ _rev. 2020-06-08_
    1. [Examples](#examples)
 1. [Element Reference](#bluescript-element-reference)
    1. [Step](#step)
-   1. [Value Object](#value-object)
+   1. [Values and Expressions](#values-and-expressions)
    1. [Rectangle](#rectangle)
    1. [Image](#image)
    1. [Video](#video)
@@ -284,7 +284,7 @@ On HTML5, prints a log message to the browser's console log. Examine the console
 
 Parameter | Description
 --- | ---
-value | The (string) value to print out. This can be a Value Object, see Value Object session for useage.
+value | The (string) value to print out. This can be a [Value or Expression](#values-and-expressions).
 
 ###### Notes
 
@@ -331,7 +331,7 @@ The `if/else` Behavior Action is a conditional statement, which perform differen
 
 Parameter | Description
 --- | ---
-expression | Expression is a Value Object, which determines the flow of the Behavior Actions
+expression | Expression is a [Value or Expression](#values-and-expressions), which determines the flow of the Behavior Actions
 then | An array of Behavior Actions that should be executed if expression is true
 else | (optional) An array of Behavior Actions that should be executed if expression is NOT true
 
@@ -363,11 +363,11 @@ Behavior Action `for` is a control flow statement for specifying iteration, whic
 
 ###### Parameters
 
-Parameter | Description
+Parameter | DescriptionG
 --- | ---
-value | (optional) Value Object variable that the counter should save to. Default `{ "key": "forI" }`
-from | An integer value that the loop counter would start from (could be Value Object)
-to | An integer value that the loop counter would count to (inclusive) (could be Value Object)
+value | (optional) Local or key variable that the counter should save to. Default `{ "key": "forI" }`
+from | An integer value that the loop counter would start from (could be [Value or Expression](#values-and-expressions))
+to | An integer value that the loop counter would count to (inclusive) (could be [Value or Expression](#values-and-expressions))
 do | An array of Behavior Actions that should be executed
 
 ###### Notes
@@ -399,8 +399,8 @@ Behavior Action `assign` is an assignment statement that sets and/or re-sets the
 
 Parameter | Description
 --- | ---
-key | Name of variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be Value Object)
-value | Value of the variable. (could be Value Object)
+key | Name of variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be [Value or Expression](#values-and-expressions))
+value | Value of the variable. (could be [Value or Expression](#values-and-expressions))
 
 ###### Notes
 
@@ -600,9 +600,9 @@ category | `fep_roku_layout` | The tracking taxonomy category to use for the tra
 name | N/A (required) | The name of the tracking event.
 value | | A value to use for the event, if appropriate.
 
-### Value Object
+### Values and Expressions
 
-The variable Behavior Actions take as input. There are 3 types:
+The values behavior actions take as input. There are 3 types:
 1 - Literal Values
 2 - Stored Values
 3 - Expressions
@@ -663,7 +663,7 @@ The global key variables stored in the Behavior Action sandbox.
 
 Parameter | Description
 --- | ---
-key | Name of variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be another Value Object)
+key | Name of variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be another [Value or Expression](#values-and-expressions))
 
 ##### (2) - Local Values
 
