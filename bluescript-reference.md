@@ -5,16 +5,24 @@ _rev. 2020-06-08_
 1. [Overview](#overview)
 1. [Structure](#overall-structure)
    1. [Top Level Syntax](#top-level-payload-syntax)
-   1. [Element Syntax](#basic-bluescript-element-syntax)
+   1. [Element Syntax](#bluescript-element-syntax)
    1. [Values and Expressions](#values-and-expressions)
    1. [Examples](#examples)
 1. [Element Reference](#bluescript-element-reference)
+   1. [Step](#step)
+      1. [Elements](#elements)
+      1. [Behaviors](#behaviors)
+         1. [Behavior Events](#behavior-events)
+         1. [Behavior Actions](#behavior-actions)
+      1. [Functions](#functions)
+   1. [Step](#step)
    1. [Step](#step)
    1. [Rectangle](#rectangle)
    1. [Image](#image)
    1. [Video](#video)
    1. [Label](#label)
    1. [Button](#button)
+   1. [Text](#text)
    1. [Audio](#audio)
    1. [QRCode](#qrcode)
 1. [Authoring Considerations](#authoring-considerations)
@@ -90,7 +98,7 @@ is that all host action attributes are evaluated as expressions, all operation p
 object literals that do not match any expression format are used as is.
 
 If one is unclear whether or not an object is evaluated or not, they can used the "literal" expression to force the
-unevaluated used of the value.
+unevaluated use of the value.
 
 ###### Example
 ```json
@@ -132,15 +140,15 @@ One refers to them using "local" instead of "key" in expressions, `assign`, `for
  { "host" : "debugLog", "value" : { "local": "weatherJson.properties.periods.0" } },
 ```
 
-##### (3) - Operation Expressions.
+##### (3) - Expressions.
 
-Operations are used to compare values, perform arithmetic operations, logical operations, and perform functions that return value (random, for example), given an array of `values` as input.
+Expressions are used to compare values, perform arithmetic operations, logical operations, and perform functions that return value (random, for example), given an array of `values` as input.
 
-NOTE: the older form of operation expresses was like:
+NOTE: the older form of operation expressions was like:
 ```json
 { "host" : "debugLog", "value" : {"operation": "+", "values": [123, 123] } }, 
 ```
-This form is still supported for backwards compatibility so as to not break existing ads. A simplified form is
+This form is still supported for backwards compatibility so as not to break existing ads. A simplified form is
 now recommended, as shown below.
 
 ###### Arithmetic Operations Example
@@ -169,7 +177,7 @@ now recommended, as shown below.
  { "host" : "debugLog", "value" : {"random": 10 } },
 ```
 
-###### Operation format:
+###### Expression format:
 
 {"<operation>": <values>}
 
@@ -211,7 +219,11 @@ formatMinutesSeconds | Format seconds as `MM:SS`, or `H:MM:SS` if over an hour |
 formatHoursMinutesSeconds | Format seconds as `H:MM:SS` | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"0:59:59"` | -
 ---
 
-### Basic BlueScript Element Syntax
+### Functions
+
+TBD
+
+### BlueScript Element Syntax
 
 ```json
 {
@@ -240,14 +252,14 @@ A **step** (or **card**) defines a single, self-contained screen. No two steps c
 
 Property | Default | Description
 --- | --- | ---
-name | N/A (Required) | ID(String) for the step and used to identify it for behaviors.
+name | N/A (Required) | Name (String) of the step and used to identify it for behaviors.
 elements | N/A (Required) | An array that contains elements of this step. Z-indexed by the order, the first element is on the top, the last element is at the bottom.
 behaviors | {} (Optional)| An object containing named event handlers, which define the behavior of elements, by their IDs.
 functions | {} (Optional) | An object containing named functions, which can be invoked from behavior events and other functions.
 
-#### Elements Properties
+#### Elements
 
-Elements - the BlueScript objects defined in each step - has the following properties:
+**Elements** - Defines the array of BlueScript elements that exist in each step - each element has the following properties:
 
 Property | Default | Description
 --- | --- | ---
@@ -256,7 +268,7 @@ name | N/A (Required) | Name of the element and used to identify it for behavior
 
 **Note:** More properties are available depending on the TYPE of BlueScript element, detailed per element below.
 
-#### Behaviors Properties
+#### Behaviors
 
 **Behaviors** - the **step** property that contains all behaviors for each element of the step - is an object with keys that match element names:
 * **\<NAME\>** - Name of the BlueScript element that the child behaviors are associated with
@@ -279,9 +291,7 @@ Element Name | {} | An object that defines the behavior on events. Each base beh
 ```
 </details>
 
-#### Base Behavior Properties
-
-For each event, an array of **actions** can be defined. BlueScript elements can define any number of behavior actions for any number of events.
+For each event, an array of behavior **actions** can be defined. BlueScript elements can define any number of behavior actions for any number of events.
 
 Property | Default | Description
 --- | --- | ---
@@ -302,7 +312,7 @@ behavior | [ ] | Defines the list of behavior actions to be triggered on specifi
 ```
 </details>
 
-#### Base Behavior Events
+#### Behavior Events
 
 The following are the top-level events that behaviors can be triggered from:
 
@@ -321,7 +331,7 @@ videoThirdQuartile | Triggered when 75% of the video has played.
 videoCompleted | Triggered when the video has completed playback.
 videoLooped | Triggered when the video has automatically restarted playback.
 
-#### Base Behavior Actions
+#### Behavior Actions
 
 This section details the **Behavior Actions** that are available to any BlueScript element. Actions are invoked when Events occur.
 
@@ -1054,6 +1064,12 @@ onSelect | Triggered when the button is selected.
 #### Button Behavior Actions
 
 N/A. Note: manipulating properties of the button such as `checked` can be achieved using the `setAttribute` behavior action.
+
+---
+
+### Text
+
+TBD
 
 ---
 
