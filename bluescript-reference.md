@@ -4,21 +4,21 @@ _rev. 2020-06-08_
 ## Table of Contents
 1. [Overview](#overview)
 1. [Structure](#overall-structure)
-    1. [Top Level Syntax](#top-level-payload-syntax)
-    1. [Element Syntax](#basic-bluescript-element-syntax)
-    1. [Examples](#examples)
+   1. [Top Level Syntax](#top-level-payload-syntax)
+   1. [Element Syntax](#basic-bluescript-element-syntax)
+   1. [Examples](#examples)
 1. [Element Reference](#bluescript-element-reference)
-    1. [Step](#step)
-    1. [Value Object](#value-object)
-    1. [Rectangle](#rectangle)
-    1. [Image](#image)
-    1. [Video](#video)
-    1. [Label](#label)
-    1. [Button](#button)
-    1. [Audio](#audio)
-    1. [QRCode](#qrcode)
+   1. [Step](#step)
+   1. [Value Object](#value-object)
+   1. [Rectangle](#rectangle)
+   1. [Image](#image)
+   1. [Video](#video)
+   1. [Label](#label)
+   1. [Button](#button)
+   1. [Audio](#audio)
+   1. [QRCode](#qrcode)
 1. [Authoring Considerations](#authoring-considerations)
-    1. [Memory Management](#memory-management)
+   1. [Memory Management](#memory-management)
 
 ## Overview
 
@@ -40,28 +40,28 @@ BlueScript elements support event handlers, enabling dynamic behavior. These can
 **Schema:**
 ```json
 {
-  "steps": [
-    {
-      "name": "main_card",
-      "__comment__": "optional comment about this step",
-      "elements": [
-      "<(LIST OF BlueScript ELEMENTS (JSON OBJECTS))>"
-      ],
-      "behaviors": {
-        "<ELEMENT ID>" : {
-          "<EVENT>" : [
-            "<(LIST OF BEHAVIOR ACTIONS TRIGGERED BY EVENT)>"
-          ]
-        }
+   "steps": [
+      {
+         "name": "main_card",
+         "__comment__": "optional comment about this step",
+         "elements": [
+            "<(LIST OF BlueScript ELEMENTS (JSON OBJECTS))>"
+         ],
+         "behaviors": {
+            "<ELEMENT ID>" : {
+               "<EVENT>" : [
+                  "<(LIST OF BEHAVIOR ACTIONS TRIGGERED BY EVENT)>"
+               ]
+            }
+         }
+      },
+      {
+         "name": "second_card",
+         "elements": [
+            "<(LIST OF BlueScript ELEMENTS (JSON OBJECTS))>"
+         ]
       }
-    },
-    {
-      "name": "second_card",
-      "elements": [
-      "<(LIST OF BlueScript ELEMENTS (JSON OBJECTS))>"
-      ]
-    }
-    ...]
+      ...]
 }
 ```
 
@@ -69,10 +69,10 @@ BlueScript elements support event handlers, enabling dynamic behavior. These can
 
 ```json
 {
-    "type" : "<TYPE of the BlueScript ELEMENT, [Image](#image), [Video](#video), [Label](#label), [Button](#button), [Audio](#audio), [Rectangle](#rectangle)>",
-    "name" : "<unique STRING ID of the BlueScript ELEMENT>",
-    "__comment__": "optional comment about this element",
-    "<ADDITIONAL ELEMENT-SPECIFIC PROPERTIES>": "e.g. 'width' AND 'height'>"
+   "type" : "<TYPE of the BlueScript ELEMENT, [Image](#image), [Video](#video), [Label](#label), [Button](#button), [Audio](#audio), [Rectangle](#rectangle)>",
+   "name" : "<unique STRING ID of the BlueScript ELEMENT>",
+   "__comment__": "optional comment about this element",
+   "<ADDITIONAL ELEMENT-SPECIFIC PROPERTIES>": "e.g. 'width' AND 'height'>"
 }
 ```
 
@@ -111,7 +111,7 @@ name | N/A (Required) | ID for the element and used to identify it for behaviors
 
 Behaviors - the **step** property that contains all behaviors for each element of the step - is an object with keys that match element IDs:
 * **\<STRING ID\>** - ID of the BlueScript element that the child behaviors are associated with
-and has an array value that defines the behaviors of the object for each event (see below).
+  and has an array value that defines the behaviors of the object for each event (see below).
 
 Property | Default | Description
 --- | --- | ---
@@ -160,7 +160,7 @@ The following are the top-level events that behaviors can be triggered from:
 
 Behavior Event | Description
 --- | ---
-appear | Triggered when the element's parent card is displayed. Note that appear does not tie to visibility. 
+appear | Triggered when the element's parent card is displayed. Note that appear does not tie to visibility.
 disappear | Triggered when the element's parent card is dismissed, such as on a card transition or when ending the ad flow.
 
 #### Base Behavior Actions
@@ -272,32 +272,32 @@ The `if/else` Behavior Action is a conditional statement, which perform differen
  { "host" : "if",
    "expression" : true,
    "then" : [{  "host" : "debugLog",
-                "value" : "1) if true, print this" }] },
- { "host" : "if",
-   "expression" : false,
-   "then" : [{  "host" : "debugLog",
-                "value" : "1) if false, print this (should not print this)" }] },
+      "value" : "1) if true, print this" }] },
+{ "host" : "if",
+"expression" : false,
+"then" : [{  "host" : "debugLog",
+"value" : "1) if false, print this (should not print this)" }] },
 
- { "host" : "if",
-   "expression" : false,
-   "then" : [{  "host" : "debugLog",
-                "value" : "2) if true, print this (should not print this)" }],
-   "else" : [{  "host" : "debugLog",
-                "value" : "2) else, print this" }] },
+{ "host" : "if",
+"expression" : false,
+"then" : [{  "host" : "debugLog",
+"value" : "2) if true, print this (should not print this)" }],
+"else" : [{  "host" : "debugLog",
+"value" : "2) else, print this" }] },
 
- { "host" : "if",
-   "expression" : { "key": "didAchieveTrueAttention" } ,
-   "then" : [{  "host" : "debugLog",
-                "value" : "3) user DID achieve True[Attention]" }],
-   "else" : [{  "host" : "debugLog",
-                "value" : "3) user HAS NOT achieve True[Attention]" }] },
+{ "host" : "if",
+"expression" : { "key": "didAchieveTrueAttention" } ,
+"then" : [{  "host" : "debugLog",
+"value" : "3) user DID achieve True[Attention]" }],
+"else" : [{  "host" : "debugLog",
+"value" : "3) user HAS NOT achieve True[Attention]" }] },
 
- { "host" : "if",
-   "expression" :  {"operation": "==", "values": [{ "key": "myObject.txLogLevel" }, 3] },
-   "then" : [{  "host" : "debugLog",
-                "value" : "4) txLogLevel is 3" }],
-   "else" : [{  "host" : "debugLog",
-                "value" : "4) txLogLevel is not 3" }] }
+{ "host" : "if",
+"expression" :  {"operation": "==", "values": [{ "key": "myObject.txLogLevel" }, 3] },
+"then" : [{  "host" : "debugLog",
+"value" : "4) txLogLevel is 3" }],
+"else" : [{  "host" : "debugLog",
+"value" : "4) txLogLevel is not 3" }] }
 ```
 
 ###### Parameters
@@ -322,18 +322,18 @@ Behavior Action `for` is a control flow statement for specifying iteration, whic
    "from": 0,
    "to": 3,
    "do" : [
-             { "host" : "debugLog",
-               "value" : "test" }
-            ] },
+      { "host" : "debugLog",
+         "value" : "test" }
+   ] },
 
- { "host" : "for",
-   "value": { "key": "i" },
-   "from": 0,
-   "to": { "key": "ta" },
-   "do" : [
-             { "host" : "debugLog",
-               "value" : { "key": "i" } }
-            ] },
+{ "host" : "for",
+"value": { "key": "i" },
+"from": 0,
+"to": { "key": "ta" },
+"do" : [
+{ "host" : "debugLog",
+"value" : { "key": "i" } }
+] },
 ```
 
 ###### Parameters
@@ -358,16 +358,16 @@ Behavior Action `assign` is an assignment statement that sets and/or re-sets the
  { "host" : "assign",
    "key" : "i",
    "value" : 0 },
- { "host" : "assign",
-   "key" : "i",
-   "value" : { "operation": "+", "values": [{ "key": "i" }, 1] } },
- { "host" : "assign",
-   "key" : "object.array.0",
-   "value" : "Hello World" },
- { "host" : "assign",
-   "key" : { "operation": "+", "values": ["object.array.", { "key": "i" } ] ,
-   "value" : { "key": "i" }},
- }
+{ "host" : "assign",
+"key" : "i",
+"value" : { "operation": "+", "values": [{ "key": "i" }, 1] } },
+{ "host" : "assign",
+"key" : "object.array.0",
+"value" : "Hello World" },
+{ "host" : "assign",
+"key" : { "operation": "+", "values": ["object.array.", { "key": "i" } ] ,
+"value" : { "key": "i" }},
+}
 ```
 
 ###### Parameters
@@ -384,13 +384,19 @@ On roku, all values hidden in a sandbox. Also, `host` would be the object that c
 Parameter | Description
 --- | ---
 `host.ad` | Json object of the selected ad (Roku only, not supported on HTML5 yet)
-`host.tagRotationRandom` | A fixed, random number from 0-1 per instance for (video) rotation. Ad author is supposed to read this number and change their ad accordingly. 
+`host.tagRotationRandom` | A fixed, random number from 0-1 per instance for (video) rotation. Ad author is supposed to read this number and change their ad accordingly.
 `host.adParameters` | Contains all the adParameters and can be accessed by key.  EG.  host.adParameters.some_key
 `host.rotationVideos` | An object with numerous subproperties related to the set of rotation videos
-  `host.rotationVideos.<0-N>` to get a specific video with that index (key: video_1 corresponds to `.0`)
-  `host.rotationVideos.length` to get the number of rotational videos
-  `host.rotationVideos.currentIndex` to get the index (base 0) of the current random video
-  `host.rotationVideos.currentUrl` to get the url of the current random video
+`host.rotationVideos.<0-N>` to get a specific video with that index (key: video_1 corresponds to `.0`)
+`host.rotationVideos.length` to get the number of rotational videos
+`host.rotationVideos.currentIndex` to get the index (base 0) of the current random video
+`host.rotationVideos.currentUrl` to get the url of the current random video
+
+There are also predefined keys that provide additional information dynamically
+`userHasMetTIme` | The minimum time for ad interaction has been met
+`userHasInteracted` | User has interacted with the ad
+`userHasCredit` | User has gained credit for the ad
+`timerTickValue` | Countdown remaining (Choice/Skip Card)
 
 ##### (12) - `setTimeout`
 
@@ -401,7 +407,7 @@ Behavior Action `setTimeout` allows execution of a set of Behavior Actions at sp
  { "host" : "setTimeout",
    "duration" : 3,
    "do": [ { "host" : "debugLog",
-             "value" : "timeout fired after 3 seconds" } ] }
+      "value" : "timeout fired after 3 seconds" } ] }
 ```
 
 ###### Parameters
@@ -432,8 +438,8 @@ Enables Behavior Actions to read the HTTP values sent by a client during a Web r
    "responseAsJson": true,
    "assignResponseTo": { "key": "weatherJson" },
    "onload": [
-             { "host" : "debugLog",
-               "value" : { "key": "weatherJson.properties.periods.0" } } ] }
+      { "host" : "debugLog",
+         "value" : { "key": "weatherJson.properties.periods.0" } } ] }
 ```
 
 ###### Parameters
@@ -529,13 +535,13 @@ More than one attribute can be animated with one call to `animateElement`.
  { "host": "animateElement",
    "name": "Video_Player",
    "attributes": {
-        "x": 110,
-        "y": 217,
-        "width": 1150,
-        "height": 647
+      "x": 110,
+      "y": 217,
+      "width": 1150,
+      "height": 647
    },
    "duration": 0.5
- }
+}
 ```
 
 ##### (23) - `trackCustomEvent`
@@ -600,10 +606,10 @@ The basic variables like String, Boolean, or Number
 ```json
  { "host" : "debugLog",
    "value" : "this is a string" },
- { "host" : "debugLog",
-   "value" : 1234.56 },
- { "host" : "debugLog",
-   "value" : true },
+{ "host" : "debugLog",
+"value" : 1234.56 },
+{ "host" : "debugLog",
+"value" : true },
 ```
 
 ##### (2) - Stored Values
@@ -612,10 +618,9 @@ The local variables stored in the Behavior Action sandbox.
 
 ###### Example
 ```json
- { "host" : "debugLog",
-   "value" : { "key": "weatherJson" } },
- { "host" : "debugLog",
-   "value" : { "key": "weatherJson.properties.periods.0" } },
+{ "host" : "debugLog", "value" : { "key": "weatherJson" } },
+{ "host" : "debugLog",
+  "value" : { "key": "weatherJson.properties.periods.0" } },
 ```
 
 ###### Parameters
@@ -632,28 +637,28 @@ Operations are used to compare values, perform arithmetic operations, logical op
 ```json
  { "host" : "debugLog",
    "value" : {"operation": "+", "values": [123, 123] } },
- { "host" : "debugLog",
-   "value" : {"operation": "+", "values": [1, 2, 3] } },
- { "host" : "debugLog",
-   "value" : {"operation": "+", "values": [1,  {"operation": "*", "values": [2, 3] } ] } },
+{ "host" : "debugLog",
+"value" : {"operation": "+", "values": [1, 2, 3] } },
+{ "host" : "debugLog",
+"value" : {"operation": "+", "values": [1,  {"operation": "*", "values": [2, 3] } ] } },
 ```
 
 ###### String Operations Example
 ```json
  { "host" : "debugLog",
    "value" : {"operation": "+", "values": ["string", 123] } },
- { "host" : "debugLog",
-   "value" : "input: replace(\"This is a badass.\", \"badass\", \"awesome\")" },
+{ "host" : "debugLog",
+"value" : "input: replace(\"This is a badass.\", \"badass\", \"awesome\")" },
 ```
 
 ###### Comparison Operations Example
 ```json
  { "host" : "debugLog",
    "value" : {"operation": "&&", "values": [true, false] } },
- { "host" : "debugLog",
-   "value" : {"operation": "||", "values": [true, false] } },
- { "host" : "debugLog",
-   "value" : {"operation": "!", "values": [true] } },
+{ "host" : "debugLog",
+"value" : {"operation": "||", "values": [true, false] } },
+{ "host" : "debugLog",
+"value" : {"operation": "!", "values": [true] } },
 ```
 
 ###### Functions Operations Example
@@ -713,13 +718,13 @@ TXRectangle is a simple sub-class of Brightscript's [Rectangle](https://develope
 
 ```json
 {
-    "type": "Rectangle",
-    "name": "sampleOverlay",
-    "x": "0",
-    "y": "0",
-    "width": "1920",
-    "height": "1080",
-    "color": "0x00000080"
+   "type": "Rectangle",
+   "name": "sampleOverlay",
+   "x": "0",
+   "y": "0",
+   "width": "1920",
+   "height": "1080",
+   "color": "0x00000080"
 }
 ```
 
@@ -752,13 +757,13 @@ Renders an image at the specified screen coordinates.
 
 ```json
 {
-    "type": "Image",
-    "name": "hiltonBackgroundImage",
-    "x": "0",
-    "y": "0",
-    "width": "1920",
-    "height": "1080",
-    "image_url": "https://media.truex.com/image_assets/2018-05-22/504a601c-60ef-449c-8281-6d973310d053.jpg"
+   "type": "Image",
+   "name": "hiltonBackgroundImage",
+   "x": "0",
+   "y": "0",
+   "width": "1920",
+   "height": "1080",
+   "image_url": "https://media.truex.com/image_assets/2018-05-22/504a601c-60ef-449c-8281-6d973310d053.jpg"
 }
 ```
 
@@ -792,16 +797,16 @@ Renders a video at the specified screen coordinates.
 
 ```json
 {
-    "type"      : "Video",
-    "name"      : "videoPlayer",
-    "x"         : "125",
-    "y"         : "175",
-    "width"     : "1138",
-    "height"    : "640",
-    "video_url"       : "https://media.truex.com/video_assets/2018-05-09/e0baa5cc-641f-4773-9ade-156a53f9608c_large.mp4",
-    "loop"      : false,
-    "autoplay"  : false,
-    "trackingName" : "hilton_worktrip_video"
+   "type"      : "Video",
+   "name"      : "videoPlayer",
+   "x"         : "125",
+   "y"         : "175",
+   "width"     : "1138",
+   "height"    : "640",
+   "video_url"       : "https://media.truex.com/video_assets/2018-05-09/e0baa5cc-641f-4773-9ade-156a53f9608c_large.mp4",
+   "loop"      : false,
+   "autoplay"  : false,
+   "trackingName" : "hilton_worktrip_video"
 }
 ```
 
@@ -901,13 +906,13 @@ Renders a text label at the specified screen coordinates.
 
 ```json
 {
-    "type"      : "Text",
-    "name"      : "firstLabel",
-    "x"         : "200",
-    "y"         : "150",
-    "width"     : "800",
-    "height"    : "0",
-    "text"      : "This is the TXAudio Tester"
+   "type"      : "Text",
+   "name"      : "firstLabel",
+   "x"         : "200",
+   "y"         : "150",
+   "width"     : "800",
+   "height"    : "0",
+   "text"      : "This is the TXAudio Tester"
 }
 ```
 
@@ -952,19 +957,19 @@ Renders a focusable button at the specified screen coordinates.
 
 ```json
 {
-    "type"     : "Button",
-    "name"     : "pauseButton",
-    "x"        : "1389",
-    "y"        : "491",
-    "width"    : "403",
-    "height"   : "120",
-    "image_url": "http://development.scratch.truex.com.s3.amazonaws.com/roku/simon/video_tester/pause_button_unsel.png",
-    "behavior" : {
-        "onselect": [ 	
-                    { "host" : "flagActivityForAttention" },
-                    { "host" : "pauseActiveVideo" }
-                ]
-    }
+   "type"     : "Button",
+   "name"     : "pauseButton",
+   "x"        : "1389",
+   "y"        : "491",
+   "width"    : "403",
+   "height"   : "120",
+   "image_url": "http://development.scratch.truex.com.s3.amazonaws.com/roku/simon/video_tester/pause_button_unsel.png",
+   "behavior" : {
+      "onselect": [
+         { "host" : "flagActivityForAttention" },
+         { "host" : "pauseActiveVideo" }
+      ]
+   }
 }
 ```
 
@@ -982,7 +987,7 @@ checked_image_url |  | Specifies the URI to the image file used for the button's
 hover_checked_image_url |  | Specifies the URI to the image file used for the button's focused state when it is used as a toggle style button.
 checked | false | Whether this toggle style button is set to "on" by default.
 hover_effect | true | If set to true, upon focus button grows by a factor of 25%, with no change in the image to the hover_image_url.
-hover_scale | 1.1 | A float value that indicates the how big, in percentage, this button should glow on hover. 
+hover_scale | 1.1 | A float value that indicates the how big, in percentage, this button should glow on hover.
 focusable | true | Set to false in order to make the button not focusable.
 forceHighResolution | false | Use the button's native / high resolution on memory constrained low end Roku devices. See below [Memory Management](#memory-management) note.
 leftFocus | invalid | ID of element to focus when left directional button is pressed.
@@ -1013,11 +1018,11 @@ Plays background audio.
 
 ```json
 {
-    "type"      : "Audio",
-    "name"      : "backgroundAudio",
-    "audio_url"       : "http://development.scratch.truex.com.s3.amazonaws.com/roku/simon/audio_tester/audio_test.mp3",
-    "autoplay"  : false,
-    "loop"      : true
+   "type"      : "Audio",
+   "name"      : "backgroundAudio",
+   "audio_url"       : "http://development.scratch.truex.com.s3.amazonaws.com/roku/simon/audio_tester/audio_test.mp3",
+   "autoplay"  : false,
+   "loop"      : true
 }
 ```
 
@@ -1084,19 +1089,19 @@ Renders a QR Code as image using the [qr-code-generator](https://github.com/soci
 
 ```json
 {
-    "type"     : "QRCode",
-    "name"     : "qr_code",
-    "x"        : "824",
-    "y"        : "312",
-    "width"    : "264",
-    "height"   : "264",
-    "size"     : "250",
-    "margin"   : "4",
-    "url"      : "https://www.engagementshowcase.com/#sponsored-ad-break-ctv/ca1f7fa6d/",
-    "color"    : "000000",
-    "backgroundColor" : "ffffff",
-    "minify"   : "true",
-    "tagLabel" : "main_qr"
+   "type"     : "QRCode",
+   "name"     : "qr_code",
+   "x"        : "824",
+   "y"        : "312",
+   "width"    : "264",
+   "height"   : "264",
+   "size"     : "250",
+   "margin"   : "4",
+   "url"      : "https://www.engagementshowcase.com/#sponsored-ad-break-ctv/ca1f7fa6d/",
+   "color"    : "000000",
+   "backgroundColor" : "ffffff",
+   "minify"   : "true",
+   "tagLabel" : "main_qr"
 }
 ```
 
@@ -1108,12 +1113,12 @@ x | 0 | X coordinate for the component, assumes origin at the top left, and a 10
 y | 0 | Y coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
 width | 0 | Specifies the width of the button in local coordinates. If set to 0, the width of the bitmap from the image file is used. If set to a value greater than 0, the bitmap is scaled to that width.
 height | 0 | Specifies the height of the button in local coordinates. If set to 0, the height of the bitmap from the image file is used. If set to a value greater than 0, the bitmap is scaled to that width.
-url | | Specifies the information that is encoded in the QR Code image. This is also the fallback url for the tagLabel option. Using this field without setting the tagLabel will generate a QR Code contains only the information in this field, with no 1st party tracking. One should give the tagLabel a value (that does not have "Click" tag set) to get the trackings. 
-size | dynamic | Specifies the native size in pixels of the QR Code image being returned. 
+url | | Specifies the information that is encoded in the QR Code image. This is also the fallback url for the tagLabel option. Using this field without setting the tagLabel will generate a QR Code contains only the information in this field, with no 1st party tracking. One should give the tagLabel a value (that does not have "Click" tag set) to get the trackings.
+size | dynamic | Specifies the native size in pixels of the QR Code image being returned.
 margin | 4 | Specifies the margin, in number of dots in QR Code matrix.
 color | 0xddddddff | Specifies the color of dots rendered in the QR Code.
 backgroundColor | 0x00000000 | Specifies the background color for the QR Code, covers the final calculated width and height of the element.
-minify | false | Specifies if we would pass final url to `multidevice.truex.com/minify` for minimize. 
+minify | false | Specifies if we would pass final url to `multidevice.truex.com/minify` for minimize.
 tagLabel | (empty) | Specifies if this QR Code should take its url from the tag manager with the matching label. When set, the `url` field is ignored, and TAR will try to get the last matching label from the Tag Mangager, with Trigger "QR Code" (`qr_code`), and Type "Click"; all the other 3rd party pixels with Trigger "QR Code" (`qr_code`), and Type "Pixel"; as well as a 1st party pixel. We will use the `interact.live` redirect service to redirect, and fires all the necessary pixel. If there is no matching "Click" with this given the tagLabel, TAR will use the url field as the fallback redirect url.
 
 ---
@@ -1144,10 +1149,10 @@ The following Roku device models are treated as low end which impacts the behavi
 Assuming there is knowledge of what the A/B experiment object looks like, all information can be accessed with the following notation: `testVariations.<key>`.  This is similar to accessing information in the `host` object.  For example, with the following variation returned from the ad:
 ```json
       "variations": {
-        "truex_first_experiment": "control",
-        "FAP-460": "oldTT",
-        "tvml_cc_test": "T0"
-      },
+"truex_first_experiment": "control",
+"FAP-460": "oldTT",
+"tvml_cc_test": "T0"
+},
 ```
 Within the Bluescript, the value of tvml_cc_test can be acquired with Bluescript such as `"value": { "key": "testVariations.tvml_cc_test" }`
 
