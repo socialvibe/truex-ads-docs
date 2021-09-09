@@ -15,8 +15,6 @@ _rev. 2020-06-08_
          1. [Behavior Events](#behavior-events)
          1. [Behavior Actions](#behavior-actions)
       1. [Functions](#functions)
-   1. [Step](#step)
-   1. [Step](#step)
    1. [Rectangle](#rectangle)
    1. [Image](#image)
    1. [Video](#video)
@@ -172,12 +170,12 @@ now recommended, as shown below.
  { "host" : "debugLog", "value" : {"!": true } },
 ```
 
-###### Functions Operations Example
+###### Misc Operations Example
 ```json
  { "host" : "debugLog", "value" : {"random": 10 } },
 ```
 
-###### Expression format:
+###### Operation Expression format:
 
 {"<operation>": <values>}
 
@@ -218,10 +216,6 @@ zeroFill | Fill number with leading 0s | 2 | Number | `{"zeroFill": [123, 5]}`  
 formatMinutesSeconds | Format seconds as `MM:SS`, or `H:MM:SS` if over an hour | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"59:59"` | -
 formatHoursMinutesSeconds | Format seconds as `H:MM:SS` | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"0:59:59"` | -
 ---
-
-### Functions
-
-TBD
 
 ### BlueScript Element Syntax
 
@@ -764,6 +758,14 @@ height |  | new height of element
 ###### Notes
 
 All new values are optional by excluding them in the action.  For example, if you only want to change x,y and leave width,height alone.
+
+---
+
+#### Functions
+
+TBD
+
+---
 
 ### Rectangle
 
