@@ -322,6 +322,7 @@ The `return` host action can be used to return from the function immediately.
 Local variable values can be assigned via the `local` assign action. Such variables exist only during the current invocation's execution.
 
 <summary>For example:</summary>
+
 ```json
 {
   "elements": [...],
