@@ -238,7 +238,7 @@ For HTML5: See the [sample-bluescript.json](https://github.com/socialvibe/truex-
 
 ## BlueScript Element Reference
 
-This section documents the base properties and behaviors inherited by all other BlueScript elements.
+This section documents the available elements available for creating the diplayed UX of a step.
 
 ### Step
 
@@ -313,7 +313,41 @@ behavior | {} | Defines the list of [behavior actions](#behavior-actions) to be 
 
 #### Functions
 
-TBD
+A step's "functions" property contains all reusable functions, keyed by function name, that can be called from other event action execution, expressions, and even other functions.
+
+One uses the `invoke` behavior action or expression to execute functions. Arguments are passed by name, and are referred to with the function via the `arg` expression.
+
+The `return` host action can be used to return from the function immediately.
+
+Local variable values can be assigned via the `local` assign action. Such variables exist only during the current invocation's execution.
+
+<summary>For example:</summary>
+```json
+{
+  "elements": [...],
+  "functions": {
+    "testFunction": [
+      {"host": "assign", "local": "v", "value": {"arg": "x"}}
+      {"host": "return", "value": {"+": [{"local": "v"}, {"local": "v"}]}}
+    ]
+  },
+  "behaviors": {
+    "testButton": {
+      "appear": [
+        {
+	  "host": "invoke",
+	  "function": "testFunction",
+	  "args": {"x": 123}
+	},
+        {
+	  "host": "debugLog",
+	  "value": {"invoke": "testFunction", "args": {"x": 123}}
+	}
+      ]
+    }
+  }
+}
+```
 
 ---
 
