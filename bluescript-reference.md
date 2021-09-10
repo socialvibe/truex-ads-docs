@@ -11,6 +11,9 @@ _rev. 2021-09-10
       1. [Functions](#functions)
    1. [Examples](#examples)
 1. [BlueScript Values and Expressions](#bluescript-values-and-expressions)
+   1. [Literal Values](#literal-values)
+   1. [Stored Values](#stored-values)
+   1. [Expressions](#expressions)
 1. [BlueScript Elements](#bluescript-element-reference)
    1. [Rectangle](#rectangle)
    1. [Image](#image)
@@ -249,74 +252,121 @@ Expressions are used to compare values, perform arithmetic operations, logical o
 { "host" : "debugLog", "value" : {"operation": "+", "values": [123, 123] } }, 
 ```
 This form is still supported for backwards compatibility so as not to break existing ads. A simplified form is
-now recommended, as shown below.
+now recommended, as shown with the examples below:
 
-#### Arithmetic Operations Example
+#### Arithmetic Operations
 ```json
- { "host" : "debugLog", "value" : {"+": [123, 123] } },
- { "host" : "debugLog", "value" : {"+": [1, 2, 3] } },
- { "host" : "debugLog","value" : {"+": [1,  {"*": [2, 3] } ] } },
+{ "host" : "debugLog", "value" : {"+": [123, 123] } }, // 246
+{ "host" : "debugLog", "value" : {"+": [1, 2, 3] } }, // 6
+{ "host" : "debugLog", "value" : {"-": [10, 5] } },   // 5
+{ "host" : "debugLog", "value" : {"*": [2, 4, 3] } }, // 24
+{ "host" : "debugLog", "value" : {"/": [10, 2] } },   // 5
+{ "host" : "debugLog", "value" : {"%": [17, 10] } },  // 7
+{ "host" : "debugLog", "value" : {"floor": 2.3 } },   // 2
+{ "host" : "debugLog", "value" : {"ceil": 2.3 } },    // 3
+{ "host" : "debugLog", "value" : {"round": 2 } },     // 2
+{ "host" : "debugLog", "value" : {"round": 2.3 } },   // 2
+{ "host" : "debugLog", "value" : {"round": 2.5 } },   // 3
+{ "host" : "debugLog", "value" : {"round": 2.8 } },   // 3
 ```
 
-#### String Operations Example
+#### String Operations
 ```json
- { "host" : "debugLog", "value" : {"+": ["string", 123] } },
- { "host" : "debugLog", "value" : {"replace": ["This is a badass.", "badass", "awesome"]}},
+ { "host" : "debugLog", "value" : {"+": ["full name: ", "John", " ", "Doe"] } }, // full name: John Doe
+ { "host" : "debugLog", "value" : {"replace": ["This is badass.", "badass", "awesome"]}}, // This is awesome 
 ```
 
-#### Comparison Operations Example
+#### Comparison Operations
 ```json
- { "host" : "debugLog", "value" : {"&&": [true, false] } },
- { "host" : "debugLog", "value" : {"||": [true, false] } },
- { "host" : "debugLog", "value" : {"!": true } },
+{ "host" : "debugLog", "value" : {"==": [1, 1] } },           // true
+{ "host" : "debugLog", "value" : {"==": ["this", "that"] } }, // false
+{ "host" : "debugLog", "value" : {"!=": [1, 1] } },           // false
+{ "host" : "debugLog", "value" : {"!=": ["this", "that"] } }, // true
+{ "host" : "debugLog", "value" : {"<": [2, 3] } },           // true
+{ "host" : "debugLog", "value" : {"<=": [3, 3] } },           // true
+{ "host" : "debugLog", "value" : {">": [5, 4] } },           // true
+{ "host" : "debugLog", "value" : {">=": [5, 5] } },           // true
+{ "host" : "debugLog", "value" : {"&&": [true, false] } },    // false
+{ "host" : "debugLog", "value" : {"||": [true, false] } },    // true
+{ "host" : "debugLog", "value" : {"!": true } },              // false
 ```
 
-#### Misc Operations Example
+#### Misc Expressions
 ```json
- { "host" : "debugLog", "value" : {"random": 10 } },
+{ "host" : "debugLog", "value" : {"element": "button1", "attribute": "image_url"} },
+{ "host" : "debugLog", "value" : {"random": 10 } },                // random 0 to 9, excluding 10
+{ "host" : "assign", "value" : {"literal": {"random": 10}} }, // {"random": 10}, i.e. unevaluated expression
+{ "host" : "debugLog", "value" : {"length": ["abcde"] } },           // 5
+{ "host" : "debugLog", "value" : {"length": "abcde" } },           // single arg convenience
+{ "host" : "debugLog", "value" : {"length": [["a", "b", "c"]] } }, // 3 ; note array args require explicit array wrapper
+{ "host" : "debugLog", "value" : {"toFixed": [3.1415, 3]} },       // 3.142
+{ "host" : "debugLog", "value" : {"toTrimFixed": [2.000001, 4]} }, // 2
+{ "host" : "debugLog", "value" : {"zeroFill": [123, 5]} },         // 00123
+{ "host" : "debugLog", "value" : {"formatMinutesSeconds": 3599} },      // "59:59"
+{ "host" : "debugLog", "value" : {"formatHoursMinutesSeconds": 3599} }, // "0:59:59"
 ```
 
-#### Operation Expression format:
+#### Variable References
 ```json
-{"<operation>": <values>}
+{"host": "assign", "key": "globalVar", "value": 123},
+{"host": "debugLog", "value": {"key": "globalVar"}},
+{"host": "assign", "key": "localVar", "value": "something else"},
+{"host": "debugLog", "value": {"local": "localVar"}},
+{
+  "host": "assign", "key": "objectValue", "value": {
+    "literal": {
+      "this": 123,
+      "that": {"a": true, "b": false}
+    }
+  }
+},
+{"host": "debugLog", "value": {"local": "objectValue.that.a"}},
+{"host": "assign", "key": "objectValue.that.b", "value": true},
+        
+{"host": "debugLog", "value": {"arg": "x"}}, // error if "x" not supplied when function invoked
+{"host": "debugLog", "value": {"arg": "x", "default": 0}}, // default is used if not supplied
 ```
 
-Where we have:
-operation | One of the operator strings from the Operator table below.
-values | An array of simple values or expressions, or a single value object as input it the operation takes a single parameter.
+#### Date Expressions
+```json
+{"host": "assign", "local": "now", "value":  {"date":  "now"}}, // from clock
+{"host": "assign", "local": "now", "value":  {
+   "date": {
+      "year": 2021, "month":  9, "day": 10, "hours": 16, "minutes": 33, "seconds": 12, "milliseconds": 480
+   }
+}},
+{ "host" : "debugLog", "value" : {"local":  "now.year"} },           // 2021
+{ "host" : "debugLog", "value" : {"local":  "now.month"} },          // 9
+{ "host" : "debugLog", "value" : {"local":  "now.day"} },            // 10
+{ "host" : "debugLog", "value" : {"local":  "now.hours"} },          // 16
+{ "host" : "debugLog", "value" : {"local":  "now.minutes"} },        // 33
+{ "host" : "debugLog", "value" : {"local":  "now.seconds"} },        // 12
+{ "host" : "debugLog", "value" : {"local":  "now.milliseconds"} },   // 480
+{ "host" : "debugLog", "value" : {"local":  "now.weekDay"} },        // 5
+{ "host" : "debugLog", "value" : {"local":  "now.timezoneOffset"} }, // 480
+{ "host" : "debugLog", "value" : {"local":  "now.time"} },           // 1631316792480, e.g. millis since Jan 1, 1970
 
-##### Operation
-Operator | Description | Number of input | Input type | Example | Means
--------  | ----------- | --------------- | ---------- | ------- | -----
-\+ | Addition | >=2 | Number | `{"+": [123, 123] }` | 123 + 123
-\+ | Concatenate String | >=2 | String | `{"+": ["hello", "_world"] }` | "hello" + "\_world"
-\- | Subtraction | >=2 | Number | `{"-": [123, 1, 23] }` | 123 - 1 - 23
-\* | Multiplication | >=2 | Number | `{"*": [123, 2] }` | 123 \* 2
-/ | Division | >=2 | Number | `{"/": [123, 2] }` | 123 / 2
-% | Modulus (division remainder) | 2 | Number | `{"%": [123, 2] }` | 123 % 2
-== | Equal to | 2 | String, Number, or Boolean | `{"==": [123, 2] }` | 123 == 2
-!= | Not equal | 2 | String, Number, or Boolean | `{"!=": [123, 2] }` | 123 != 2
-\> | Greater than | 2 | Number | `{">": [123, 2] }` | 123 > 2
-< | Less than | 2 | Number | `{"<": [123, 2] }` | 123 < 2
-\>= | Greater than or equal to | 2 | Number | `{">=": [123, 2] }` | 123 >= 2
-<= | Less than or equal to | 2 | Number | `{"<=": [123, 2] }` | 123 <= 2
-&& | And | 2 | Boolean | `{"&&": [true, false] }` | true && false --> (false)
-&vert;&vert; | Or | 2 | Boolean | {"&vert;&vert;": [true, false] } | true &vert;&vert; false --> (true)
-! | Not | 1 | Boolean | `{"!": true }` | !true --> (false)
-replace | String replace | 3 | String | `{"replace": ["Original String to Replace", "Replace", "Modify"] }` | "Original String to Replace".replace("Replace", "Modify")
-random | Random number | 1 | Number | `{"random": 10 }` | random(10)
-length | Length | 1 | Natural | `{"length": "abcde" }` | "abcde".length
-length | Length | 1 | Natural | `{"length": [[1, 2, 3]] }` | [1,2,3].length
-max | Maximum | >=2 | Number | `{"max": [1, 2] }` | max(1, 2)
-min | Minimum | >=2 | Number | `{"min": [1, 2] }` | min(1, 2)
-floor | Floor | 1 | Number | `{"floor": 1.5 }` | Math.floor(1.5)
-ceil | Ceiling | 1 | Number | `{"ceil": 1.5 }` | Math.ceil(1.5)
-round | Round | 1 | Number | `{"round": 1.5 }` | Math.round(1.5)
-toFixed | Shows specified # of digits after the decimal point | 2 | Number | `{"toFixed": [3.1415, 3]}` returns `"3.142"` | (3.1415).toFixed(3)
-toTrimFixed | Like {toFixed}, but also strips trailing zeroes | 2 | Number | `{"toTrimFixed": [2.000001, 4]}` returns `"2"` | Number((2.000001).toFixed(4)).toString()
-zeroFill | Fill number with leading 0s | 2 | Number | `{"zeroFill": [123, 5]}`  returns `"00123"` | "00" + (123).toString()
-formatMinutesSeconds | Format seconds as `MM:SS`, or `H:MM:SS` if over an hour | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"59:59"` | -
-formatHoursMinutesSeconds | Format seconds as `H:MM:SS` | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"0:59:59"` | -
+{"host": "assign", "local": "now", "value":  {"date":  1631316792480}}, // from timestamp
+{"host": "assign", "local": "nextWeek", "value": {"+": [{"local": "now.time"}, {"*": [7, 24, 60, 60, 1000]}}, // next week
+
+{ "host": "assign", "local": "yearStart", "value":  {"date": {"year": 2021}} },
+{ "host" : "debugLog", "value" : {"local": "yearStart.month"} },   // 1
+{ "host" : "debugLog", "value" : {"local": "yearStart.day"} },     // 1
+{ "host" : "debugLog", "value" : {"local": "yearStart.hours"} },   // 0
+{ "host" : "debugLog", "value" : {"local": "yearStart.minutes"} }, // 0
+{ "host" : "debugLog", "value" : {"local": "yearStart.seconds"} }, // 0
+{ "host" : "debugLog", "value" : {"local": "yearStart.time"} },    // 1612166400000
+
+{ "host": "assign", "local": "yearMo", "value":  {"date": {"year": 1999, "month": 12}} },
+{ "host" : "debugLog", "value" : {"local": "yearStart.month"} },   // 12
+{ "host" : "debugLog", "value" : {"local": "yearStart.day"} },     // 1
+```
+
+#### Expression Composition
+```json
+{ "host" : "debugLog", "value" : {"+": [1, {"*": [2, {"local": "testValue"}] } ] } }
+```
+
 ---
 
 ## BlueScript Element Reference
