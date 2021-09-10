@@ -1,7 +1,7 @@
 # BlueScript Documentation
 _rev. 2021-09-10
 
-## Table of Contents
+## 1 Table of Contents 1
 1. [Overview](#overview)
 1. [Structure](#overall-structure)
    1. [Top Level Syntax](#top-level-syntax)
@@ -26,7 +26,7 @@ _rev. 2021-09-10
 1. [Authoring Considerations](#authoring-considerations)
    1. [Memory Management](#memory-management)
 
-## Overview
+## 1 Overview
 
 We've created BlueScript as the true[X] creative format on the Roku platform since the built-in Roku SceneGraph XML cannot be dynamically served down, compiled, and instantiated. BlueScript provides us with the dynamic creative language we need to drive interactive ad experiences on behalf of our advertisers on the Roku platform.
 
@@ -42,9 +42,9 @@ Each step card contains a flat list of BlueScript elements. There is implied hie
 
 BlueScript elements support event handlers, enabling dynamic behavior. These can be used to trigger a variety of supported actions, such as controlling a video or playing sound effects. This is expressed as lists of behavior actions keyed on events. See below and `southback` repo (for Roku) and `Skyline` repo (for HTML5) for examples of this.
 
-## Overall Structure
+## (1) Overall Structure 1
 
-### Top Level Syntax
+### (1) Top Level Syntax 1.1
 > _**Formatting note**: strings inside of carets (`"< ... >"`) are meta-descriptions, not absolute values_
 
 **Schema:**
@@ -80,34 +80,32 @@ BlueScript elements support event handlers, enabling dynamic behavior. These can
 }
 ```
 
-### Step
+### (1)(1) Step 1.1
 
 A **step** (or **card**) defines a single, self-contained screen. No two steps can be presented simultaneously.
 Steps are recreated afresh whenever they are displayed. The ad developer can preserve state across steps with
 the use of global "key variables" if they need to programmatically restore a previous visual state.
 
-#### Step Properties
-
-Property | Default | Description
+Step Property | Default | Description
 --- | --- | ---
 name | N/A (Required) | Name (String) of the step and used to identify it for behaviors.
 elements | N/A (Required) | An array that contains [elements](#bluescript-element-reference) of this step. Z-indexed by the order, the first element is on the top, the last element is at the bottom.
 behaviors | {} (Optional)| An object containing [named event handlers](#behavior-events), which define the behavior of elements, by their element names.
 functions | {} (Optional) | An object containing named functions, which can be invoked from behavior events and other functions.
 
-#### Elements
+### Elements
 
-**Elements** - Defines the array of BlueScript elements that exist in each step - each element has the following properties:
+A step's "elements" defines the array of BlueScript visual elements that are to be displayed in each step - each element has the following properties:
 
-Property | Default | Description
+Element Property | Default | Description
 --- | --- | ---
-type | N/A (Required) | Type for the BlueScript element. See below for what is supported.
+type | N/A (Required) | Type for the BlueScript element. See [possible element types below](#bluescript-element-reference) for what is supported.
 name | N/A (Required) | Name of the element and used to identify it for behaviors.
 
 **Note:** More properties are available depending on the TYPE of BlueScript element, detailed in 
 the [element reference](#bluescript-element-reference) section.
 
-#### Behaviors
+### Behaviors
 
 A step's "behaviors" property contains all behaviors for each element of the step - is an object with keys that match element names:
 * **\<NAME\>** - Name of the BlueScript element that the child behaviors are associated with
@@ -136,7 +134,7 @@ behavior | {} | Defines the list of [behavior actions](#behavior-actions) to be 
 }
 ```
 
-#### Functions
+### Functions
 
 A step's "functions" property contains all reusable functions, keyed by function name, that can be called from other event action execution, expressions, and even other functions.
 
@@ -185,14 +183,15 @@ For HTML5: See the [sample-bluescript.json](https://github.com/socialvibe/truex-
 
 ## BlueScript Values and Expressions
 
-There are The values behavior actions take as input. There are 3 types:
+Behavior actions take various values as input to their actions. There are 3 types:
 1 - Literal Values
 2 - Stored Values
 3 - Expressions
 
 ### Literal Values
 
-The basic values supported by the JSON format: like String, Boolean, or Number, object literals, arrays.
+The basic value typs supported by BlueScript are those of the JSON format like String, Boolean, Number, 
+object literals, arrays.
 
 Note that arrays are evaluated as expressions, objects may or may not be depending on where it is used. The general rule
 is that all host action attributes are evaluated as expressions, all operation parameters are evaluated as expressions,
@@ -217,19 +216,21 @@ For example:
 ### Stored Values
 
 Stored values are either global key variables, or local variables. Global values are available across steps, local values 
-are available only within the scope of the currently excuting event behavior, or current function invocation.
+are available only within the scope of the currently executing behavior event handler, or current function invocation.
 
-One uses the `assign` host action to set a stored value, or a `key` or `local` variable expression to access it.
+One uses the `assign` host action to set a stored value, and a `key` or `local` variable expression to access it.
 
-Note that the obj.field "dot" selection notation is support to assign to and reference sub fields of an object value. 
-The fields can refer to numbers which are then interpreted as array indices.
+Note that the obj.field "dot" selection notation can be used to assign values to and reference sub fields of an object value. 
+The fields can also refer to numbers which are then interpreted as array indices.
 
 For example:
 ```json
  { "host" : "assign", "key": "globalValue", "value":  123},
  { "host" : "debugLog", "value" : { "key": "globalValue" } },
- { "host" : "assign", "local": "localValue", "value": {"field1": 1, "field2": {"subField": [1, 2, 3]}}},
- { "host" : "debugLog", "value" : { "local": "localValue.field1.2" } },
+ { "host" : "assign", "local": "localValue", "value": {"field_1": 1, "field_2": {"subField": [1, 2, 3]}}},
+ { "host" : "debugLog", "value" : { "local": "localValue.field_1" } },
+ { "host" : "debugLog", "value" : { "local": "localValue.field1_2.subField.2" } },
+ { "host" : "assign", "local": "localValue.field_2.subField.2", "value":  4},
 ```
 
 ### Expressions.
