@@ -5,14 +5,13 @@ _rev. 2021-09-10
 1. [Overview](#overview)
 1. [Structure](#overall-structure)
    1. [Top Level Syntax](#top-level-syntax)
-   1. [Element Syntax](#bluescript-element-syntax)
-   1. [Values and Expressions](#values-and-expressions)
-   1. [Examples](#examples)
-1. [BlueScript Element Reference](#bluescript-element-reference)
    1. [Step](#step)
       1. [Elements](#elements)
       1. [Behaviors](#behaviors)
-      1. [Functions](#functions)x
+      1. [Functions](#functions)
+   1. [Examples](#examples)
+1. [BlueScript Values and Expressions](#bluescript-values-and-expressions)
+1. [BlueScript Elements](#bluescript-element-reference)
    1. [Rectangle](#rectangle)
    1. [Image](#image)
    1. [Video](#video)
@@ -21,9 +20,9 @@ _rev. 2021-09-10
    1. [Text](#text)
    1. [Audio](#audio)
    1. [QRCode](#qrcode)
-1. [BlueScript Behavior Reference](#bluescript-behavior-reference)
-   1. [Behavior Events](#behavior-events)
-   1. [Behavior Actions](#behavior-actions)
+1. [BlueScript Behaviors](#bluescript-behavior-reference)
+   1. [Events](#behavior-events)
+   1. [Actions](#behavior-actions)
 1. [Authoring Considerations](#authoring-considerations)
    1. [Memory Management](#memory-management)
 
@@ -59,7 +58,7 @@ BlueScript elements support event handlers, enabling dynamic behavior. These can
       "<(LIST OF BlueScript ELEMENTS (JSON OBJECTS))>"
       ],
       "behaviors": {
-        "<ELEMENT ID>" : {
+        "<ELEMENT NAME>" : {
           "<EVENT>" : [
             "<(LIST OF BEHAVIOR ACTIONS TRIGGERED BY EVENT)>"
           ]
@@ -81,14 +80,117 @@ BlueScript elements support event handlers, enabling dynamic behavior. These can
 }
 ```
 
-### Values and Expressions
+### Step
 
-The values behavior actions take as input. There are 3 types:
+A **step** (or **card**) defines a single, self-contained screen. No two steps can be presented simultaneously.
+Steps are recreated afresh whenever they are displayed. The ad developer can preserve state across steps with
+the use of global "key variables" if they need to programmatically restore a previous visual state.
+
+#### Step Properties
+
+Property | Default | Description
+--- | --- | ---
+name | N/A (Required) | Name (String) of the step and used to identify it for behaviors.
+elements | N/A (Required) | An array that contains [elements](#bluescript-element-reference) of this step. Z-indexed by the order, the first element is on the top, the last element is at the bottom.
+behaviors | {} (Optional)| An object containing [named event handlers](#behavior-events), which define the behavior of elements, by their element names.
+functions | {} (Optional) | An object containing named functions, which can be invoked from behavior events and other functions.
+
+#### Elements
+
+**Elements** - Defines the array of BlueScript elements that exist in each step - each element has the following properties:
+
+Property | Default | Description
+--- | --- | ---
+type | N/A (Required) | Type for the BlueScript element. See below for what is supported.
+name | N/A (Required) | Name of the element and used to identify it for behaviors.
+
+**Note:** More properties are available depending on the TYPE of BlueScript element, detailed in 
+the [element reference](#bluescript-element-reference) section.
+
+#### Behaviors
+
+A step's "behaviors" property contains all behaviors for each element of the step - is an object with keys that match element names:
+* **\<NAME\>** - Name of the BlueScript element that the child behaviors are associated with
+  and has an array value that defines the behavior "host" action of the object for each event (see below).
+
+Property | Default | Description
+--- | --- | ---
+Element Name | {} | An object that defines the behavior on events. Each base behavior contains an array of actions.
+
+For each event, an array of [behavior actions](#behavior-actions) can be defined. BlueScript elements can define any number of behavior actions for any number of events.
+
+Property | Default | Description
+--- | --- | ---
+behavior | {} | Defines the list of [behavior actions](#behavior-actions) to be triggered on specific [named events](#behavior-events).
+
+<summary>For example:</summary>
+
+```json
+{
+  "behaviors": {
+    "fooLabel": {
+      "appear": [ <ACTIONS> ],
+      "disappear": [ <ACTIONS> ]
+    }
+  }
+}
+```
+
+#### Functions
+
+A step's "functions" property contains all reusable functions, keyed by function name, that can be called from other event action execution, expressions, and even other functions.
+
+One uses the `invoke` behavior action or expression to execute functions. Arguments are passed by name, and are referred to with the function via the `arg` expression.
+
+The `return` host action can be used to return from the function immediately.
+
+Local variable values can be assigned via the `local` assign action. Such variables exist only during the current invocation's execution.
+
+<summary>For example:</summary>
+
+```json
+{
+  "elements": [...],
+  "functions": {
+    "testFunction": [
+      {"host": "assign", "local": "v", "value": {"arg": "x"}}
+      {"host": "return", "value": {"+": [{"local": "v"}, {"local": "v"}]}}
+    ]
+  },
+  "behaviors": {
+    "testButton": {
+      "appear": [
+        {
+	  "host": "invoke",
+	  "function": "testFunction",
+	  "args": {"x": 123}
+	},
+        {
+	  "host": "debugLog",
+	  "value": {"invoke": "testFunction", "args": {"x": 123}}
+	}
+      ]
+    }
+  }
+}
+```
+
+---
+
+### Examples
+
+For Roku: See the [example payloads](https://github.com/socialvibe/southback/tree/develop/channel_res/vastConfigs) in the `southback` repo, `vastConfig` folder.
+
+For HTML5: See the [sample-bluescript.json](https://github.com/socialvibe/truex-bluescript-js/blob/develop/src/bluescript/__tests__/sample-bluescript.json) in the `truex-bluescript` repo.
+
+## BlueScript Values and Expressions
+
+There are The values behavior actions take as input. There are 3 types:
 1 - Literal Values
 2 - Stored Values
 3 - Expressions
 
-##### (1) - Literal Values
+### Literal Values
 
 The basic values supported by the JSON format: like String, Boolean, or Number, object literals, arrays.
 
@@ -99,7 +201,7 @@ object literals that do not match any expression format are used as is.
 If one is unclear whether or not an object is evaluated or not, they can used the "literal" expression to force the
 unevaluated use of the value.
 
-###### Example
+For example:
 ```json
  { "host" : "debugLog", "value" : "this is a string" },
  { "host" : "debugLog", "value" : 1234.56 },
@@ -112,34 +214,25 @@ unevaluated use of the value.
  { "host" : "debugLog", "value" : {"key": "testObject3.key"} } , // outputs "testObject" string
 ```
 
-##### (2) - Global Stored Values
+### Stored Values
 
-The global key variables stored in the Behavior Action sandbox.
+Stored values are either global key variables, or local variables. Global values are available across steps, local values 
+are available only within the scope of the currently excuting event behavior, or current function invocation.
 
-###### Example
+One uses the `assign` host action to set a stored value, or a `key` or `local` variable expression to access it.
+
+Note that the obj.field "dot" selection notation is support to assign to and reference sub fields of an object value. 
+The fields can refer to numbers which are then interpreted as array indices.
+
+For example:
 ```json
- { "host" : "debugLog", "value" : { "key": "weatherJson" } },
- { "host" : "debugLog", "value" : { "key": "weatherJson.properties.periods.0" } },
+ { "host" : "assign", "key": "globalValue", "value":  123},
+ { "host" : "debugLog", "value" : { "key": "globalValue" } },
+ { "host" : "assign", "local": "localValue", "value": {"field1": 1, "field2": {"subField": [1, 2, 3]}}},
+ { "host" : "debugLog", "value" : { "local": "localValue.field1.2" } },
 ```
 
-###### Parameters
-
-Parameter | Description
---- | ---
-key | Name of variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be another [Value or Expression](#values-and-expressions))
-
-##### (2) - Local Values
-
-Local variables are like key variables, except the scope is limited to the current event handler or function invocation.
-One refers to them using "local" instead of "key" in expressions, `assign`, `for`, and `makeWebRequest` actions.
-
-###### Example
-```json
- { "host" : "debugLog", "value" : { "local": "weatherJson" } },
- { "host" : "debugLog", "value" : { "local": "weatherJson.properties.periods.0" } },
-```
-
-##### (3) - Expressions.
+### Expressions.
 
 Expressions are used to compare values, perform arithmetic operations, logical operations, and perform functions that return value (random, for example), given an array of `values` as input.
 
@@ -219,138 +312,10 @@ formatMinutesSeconds | Format seconds as `MM:SS`, or `H:MM:SS` if over an hour |
 formatHoursMinutesSeconds | Format seconds as `H:MM:SS` | 1 | Number | `{"formatMinutesSeconds": 3599}` returns `"0:59:59"` | -
 ---
 
-### BlueScript Element Syntax
-
-```json
-{
-    "type" : "<TYPE of the BlueScript ELEMENT, [Image](#image), [Video](#video), [Label](#label), [Button](#button), [Audio](#audio), [Rectangle](#rectangle)>",
-    "name" : "<unique STRING ID of the BlueScript ELEMENT>",
-    "__comment__": "optional comment about this element",
-    "<ADDITIONAL ELEMENT-SPECIFIC PROPERTIES>": "e.g. 'width' AND 'height'"
-}
-```
-
-### Examples
-
-For Roku: See the [example payloads](https://github.com/socialvibe/southback/tree/develop/channel_res/vastConfigs) in the `southback` repo, `vastConfig` folder.
-
-For HTML5: See the [sample-bluescript.json](https://github.com/socialvibe/truex-bluescript-js/blob/develop/src/bluescript/__tests__/sample-bluescript.json) in the `truex-bluescript` repo.
-
 ## BlueScript Element Reference
 
-This section documents the available elements available for creating the diplayed UX of a step.
-
-### Step
-
-A **step** (or **card**) defines a single, self-contained screen. No two steps can be presented simultaneously. Steps are recreated afresh whenever they are displayed. The ad developer can preserve state across steps with the use of global "key variables" if they need to programmatically restore a previous visual state.
-
-#### Step Properties
-
-Property | Default | Description
---- | --- | ---
-name | N/A (Required) | Name (String) of the step and used to identify it for behaviors.
-elements | N/A (Required) | An array that contains elements of this step. Z-indexed by the order, the first element is on the top, the last element is at the bottom.
-behaviors | {} (Optional)| An object containing named event handlers, which define the behavior of elements, by their IDs.
-functions | {} (Optional) | An object containing named functions, which can be invoked from behavior events and other functions.
-
-#### Elements
-
-**Elements** - Defines the array of BlueScript elements that exist in each step - each element has the following properties:
-
-Property | Default | Description
---- | --- | ---
-type | N/A (Required) | Type for the BlueScript element. See below for what is supported.
-name | N/A (Required) | Name of the element and used to identify it for behaviors.
-
-**Note:** More properties are available depending on the TYPE of BlueScript element, detailed per element below.
-
-#### Behaviors
-
-**Behaviors** - the **step** property that contains all behaviors for each element of the step - is an object with keys that match element names:
-* **\<NAME\>** - Name of the BlueScript element that the child behaviors are associated with
-  and has an array value that defines the behavior "host" action of the object for each event (see below).
-
-Property | Default | Description
---- | --- | ---
-Element Name | {} | An object that defines the behavior on events. Each base behavior contains an array of actions.
-
-<details>
-<summary>For example:</summary>
-```
-{
-  "behaviors": {
-    "fooLabel": {
-      <BEHAVIORS>
-    }
-  }
-}
-```
-</details>
-
-For each event, an array of behavior **actions** can be defined. BlueScript elements can define any number of behavior actions for any number of events.
-
-Property | Default | Description
---- | --- | ---
-behavior | {} | Defines the list of [behavior actions](#behavior-actions) to be triggered on specific [named events](#behavior-events).
-
-<details>
-<summary>For example:</summary>
-
-```json
-{
-  "behaviors": {
-    "fooLabel": {
-      "appear": [ <ACTIONS> ],
-      "disappear": [ <ACTIONS> ]
-    }
-  }
-}
-```
-
-</details>
-
----
-
-#### Functions
-
-A step's "functions" property contains all reusable functions, keyed by function name, that can be called from other event action execution, expressions, and even other functions.
-
-One uses the `invoke` behavior action or expression to execute functions. Arguments are passed by name, and are referred to with the function via the `arg` expression.
-
-The `return` host action can be used to return from the function immediately.
-
-Local variable values can be assigned via the `local` assign action. Such variables exist only during the current invocation's execution.
-
-<summary>For example:</summary>
-
-```json
-{
-  "elements": [...],
-  "functions": {
-    "testFunction": [
-      {"host": "assign", "local": "v", "value": {"arg": "x"}}
-      {"host": "return", "value": {"+": [{"local": "v"}, {"local": "v"}]}}
-    ]
-  },
-  "behaviors": {
-    "testButton": {
-      "appear": [
-        {
-	  "host": "invoke",
-	  "function": "testFunction",
-	  "args": {"x": 123}
-	},
-        {
-	  "host": "debugLog",
-	  "value": {"invoke": "testFunction", "args": {"x": 123}}
-	}
-      ]
-    }
-  }
-}
-```
-
----
+This section documents the available elements available for creating the diplayed UX of a step, 
+i.e. the possible elements of a step's "elements" array.
 
 ### Rectangle
 
