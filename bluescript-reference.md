@@ -1,7 +1,7 @@
-# BlueScript Documentation
+# BlueScript Reference Guide
 _rev. 2021-09-10
 
-## 1 Table of Contents 1
+## Table of Contents
 1. [Overview](#overview)
 1. [Structure](#overall-structure)
    1. [Top Level Syntax](#top-level-syntax)
@@ -80,7 +80,7 @@ BlueScript elements support event handlers, enabling dynamic behavior. These can
 }
 ```
 
-### (1)(1) Step 1.1
+### Step
 
 A **step** (or **card**) defines a single, self-contained screen. No two steps can be presented simultaneously.
 Steps are recreated afresh whenever they are displayed. The ad developer can preserve state across steps with
@@ -93,7 +93,7 @@ elements | N/A (Required) | An array that contains [elements](#bluescript-elemen
 behaviors | {} (Optional)| An object containing [named event handlers](#behavior-events), which define the behavior of elements, by their element names.
 functions | {} (Optional) | An object containing named functions, which can be invoked from behavior events and other functions.
 
-### Elements
+#### Elements
 
 A step's "elements" defines the array of BlueScript visual elements that are to be displayed in each step - each element has the following properties:
 
@@ -105,7 +105,7 @@ name | N/A (Required) | Name of the element and used to identify it for behavior
 **Note:** More properties are available depending on the TYPE of BlueScript element, detailed in 
 the [element reference](#bluescript-element-reference) section.
 
-### Behaviors
+#### Behaviors
 
 A step's "behaviors" property contains all behaviors for each element of the step - is an object with keys that match element names:
 * **\<NAME\>** - Name of the BlueScript element that the child behaviors are associated with
@@ -134,7 +134,7 @@ behavior | {} | Defines the list of [behavior actions](#behavior-actions) to be 
 }
 ```
 
-### Functions
+#### Functions
 
 A step's "functions" property contains all reusable functions, keyed by function name, that can be called from other event action execution, expressions, and even other functions.
 
@@ -188,9 +188,16 @@ Behavior actions take various values as input to their actions. There are 3 type
 2 - Stored Values
 3 - Expressions
 
+*NOTE:* Boolean values are used as literals for attributes (e.g. a `Text` element's `wrap` attribute) and 
+in expressions like in the `if` host action. When non-boolean values are used where a boolean value is expected, they
+are evaluated in a "truthy" manner accordnig to the following rules:
+* false values are: `false`, 0, `null`, `undefined`, "", and "false".
+* true values are `true`, 1, and in fact any value that is not a false value.
+* in particular, non-null object and array values are evaluated as `true` in boolean contexts.
+
 ### Literal Values
 
-The basic value typs supported by BlueScript are those of the JSON format like String, Boolean, Number, 
+The basic value types supported by BlueScript are those of the JSON format like strings, booleans, numbers, 
 object literals, arrays.
 
 Note that arrays are evaluated as expressions, objects may or may not be depending on where it is used. The general rule
@@ -237,40 +244,39 @@ For example:
 
 Expressions are used to compare values, perform arithmetic operations, logical operations, and perform functions that return value (random, for example), given an array of `values` as input.
 
-NOTE: the older form of operation expressions was like:
+*NOTE:* the older form of operation expressions was like:
 ```json
 { "host" : "debugLog", "value" : {"operation": "+", "values": [123, 123] } }, 
 ```
 This form is still supported for backwards compatibility so as not to break existing ads. A simplified form is
 now recommended, as shown below.
 
-###### Arithmetic Operations Example
+#### Arithmetic Operations Example
 ```json
  { "host" : "debugLog", "value" : {"+": [123, 123] } },
  { "host" : "debugLog", "value" : {"+": [1, 2, 3] } },
  { "host" : "debugLog","value" : {"+": [1,  {"*": [2, 3] } ] } },
 ```
 
-###### String Operations Example
+#### String Operations Example
 ```json
  { "host" : "debugLog", "value" : {"+": ["string", 123] } },
- { "host" : "debugLog",
-   "value" : {"replace": ["This is a badass.", "badass", "awesome"]}},
+ { "host" : "debugLog", "value" : {"replace": ["This is a badass.", "badass", "awesome"]}},
 ```
 
-###### Comparison Operations Example
+#### Comparison Operations Example
 ```json
  { "host" : "debugLog", "value" : {"&&": [true, false] } },
  { "host" : "debugLog", "value" : {"||": [true, false] } },
  { "host" : "debugLog", "value" : {"!": true } },
 ```
 
-###### Misc Operations Example
+#### Misc Operations Example
 ```json
  { "host" : "debugLog", "value" : {"random": 10 } },
 ```
 
-###### Operation Expression format:
+#### Operation Expression format:
 ```json
 {"<operation>": <values>}
 ```
@@ -279,7 +285,7 @@ Where we have:
 operation | One of the operator strings from the Operator table below.
 values | An array of simple values or expressions, or a single value object as input it the operation takes a single parameter.
 
-###### Operation
+##### Operation
 Operator | Description | Number of input | Input type | Example | Means
 -------  | ----------- | --------------- | ---------- | ------- | -----
 \+ | Addition | >=2 | Number | `{"+": [123, 123] }` | 123 + 123
@@ -295,7 +301,7 @@ Operator | Description | Number of input | Input type | Example | Means
 \>= | Greater than or equal to | 2 | Number | `{">=": [123, 2] }` | 123 >= 2
 <= | Less than or equal to | 2 | Number | `{"<=": [123, 2] }` | 123 <= 2
 && | And | 2 | Boolean | `{"&&": [true, false] }` | true && false --> (false)
-\|\| | Or | 2 | Boolean | `{"\|\|": [true, false] }` | true \|\| false --> (true)
+&vert;&vert; | Or | 2 | Boolean | {"&vert;&vert;": [true, false] } | true &vert;&vert; false --> (true)
 ! | Not | 1 | Boolean | `{"!": true }` | !true --> (false)
 replace | String replace | 3 | String | `{"replace": ["Original String to Replace", "Replace", "Modify"] }` | "Original String to Replace".replace("Replace", "Modify")
 random | Random number | 1 | Number | `{"random": 10 }` | random(10)
