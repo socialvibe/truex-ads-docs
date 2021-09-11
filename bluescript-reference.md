@@ -321,7 +321,8 @@ now recommended, as shown with the examples below:
 
 #### Date Expressions
 ```json
-{"host": "assign", "local": "now", "value":  {"date":  "now"}}, // from clock
+{"host": "assign", "local": "now", "value":  {"date": "now"}}, // from clock
+{"host": "assign", "local": "now", "value":  {"date": 1631316792480}}, // from timestamp
 {"host": "assign", "local": "now", "value":  {
    "date": {
       "year": 2021, "month":  9, "day": 10, "hours": 16, "minutes": 33, "seconds": 12, "milliseconds": 480
@@ -338,7 +339,6 @@ now recommended, as shown with the examples below:
 { "host" : "debugLog", "value" : {"local":  "now.timezoneOffset"} }, // 480
 { "host" : "debugLog", "value" : {"local":  "now.time"} },           // 1631316792480, e.g. millis since Jan 1, 1970
 
-{"host": "assign", "local": "now", "value":  {"date":  1631316792480}}, // from timestamp
 {"host": "assign", "local": "millisPerWeek", "value": {"*": [7, 24, 60, 60, 1000]}},
 {
   "host": "assign", "local": "nextWeek", 
@@ -353,22 +353,31 @@ now recommended, as shown with the examples below:
 { "host" : "debugLog", "value" : {"local": "yearStart.seconds"} }, // 0
 { "host" : "debugLog", "value" : {"local": "yearStart.time"} },    // 1612166400000
 
-{ "host": "assign", "local": "yearMo", "value":  {"date": {"year": 1999, "month": 12}} },
-{ "host" : "debugLog", "value" : {"local": "yearStart.month"} },   // 12
-{ "host" : "debugLog", "value" : {"local": "yearStart.day"} },     // 1
+{ "host": "assign", "local": "dec1999", "value":  {"date": {"year": 1999, "month": 12}} },
+{ "host" : "debugLog", "value" : {"local": "dec1999.year"} },   // 1999
+{ "host" : "debugLog", "value" : {"local": "dec1999.month"} },  // 12
+{ "host" : "debugLog", "value" : {"local": "dec1999.day"} },    // 1
+{ "host" : "debugLog", "value" : {"local": "dec1999.time"} },   // 944035200000
 ```
 
 #### Misc Expressions
 ```json
 { "host" : "debugLog", "value" : {"element": "button1", "attribute": "image_url"} },
+
 { "host" : "debugLog", "value" : {"random": 10 } },                // random 0 to 9, excluding 10
+
 { "host" : "assign", "value" : {"literal": {"random": 10}} }, // {"random": 10}, i.e. unevaluated expression
+
 { "host" : "debugLog", "value" : {"length": ["abcde"] } },           // 5
 { "host" : "debugLog", "value" : {"length": "abcde" } },           // single arg convenience
 { "host" : "debugLog", "value" : {"length": [["a", "b", "c"]] } }, // 3 ; note array args require explicit array wrapper
+
 { "host" : "debugLog", "value" : {"toFixed": [3.1415, 3]} },       // 3.142
+
 { "host" : "debugLog", "value" : {"toTrimFixed": [2.000001, 4]} }, // 2
+
 { "host" : "debugLog", "value" : {"zeroFill": [123, 5]} },         // 00123
+
 { "host" : "debugLog", "value" : {"formatMinutesSeconds": 3599} },      // "59:59"
 { "host" : "debugLog", "value" : {"formatHoursMinutesSeconds": 3599} }, // "0:59:59"
 ```
