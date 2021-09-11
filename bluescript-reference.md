@@ -14,6 +14,13 @@ _rev. 2021-09-10
    1. [Literal Values](#literal-values)
    1. [Stored Values](#stored-values)
    1. [Expressions](#expressions)
+      1. [Arithmetic Operations](#arithmetic-operations)
+      1. [String Operations](#string-operations)
+      1. [Comparison Operations](#comparison-operations)
+      1. [Variable References](#variable-references)
+      1. [Date Expressions](#date-expressions)
+      1. [Misc Expressions](#misc-expressions)
+      1. [Expression Composition](#expression-composition)
 1. [BlueScript Elements](#bluescript-element-reference)
    1. [Rectangle](#rectangle)
    1. [Image](#image)
@@ -291,21 +298,6 @@ now recommended, as shown with the examples below:
 { "host" : "debugLog", "value" : {"!": true } },              // false
 ```
 
-#### Misc Expressions
-```json
-{ "host" : "debugLog", "value" : {"element": "button1", "attribute": "image_url"} },
-{ "host" : "debugLog", "value" : {"random": 10 } },                // random 0 to 9, excluding 10
-{ "host" : "assign", "value" : {"literal": {"random": 10}} }, // {"random": 10}, i.e. unevaluated expression
-{ "host" : "debugLog", "value" : {"length": ["abcde"] } },           // 5
-{ "host" : "debugLog", "value" : {"length": "abcde" } },           // single arg convenience
-{ "host" : "debugLog", "value" : {"length": [["a", "b", "c"]] } }, // 3 ; note array args require explicit array wrapper
-{ "host" : "debugLog", "value" : {"toFixed": [3.1415, 3]} },       // 3.142
-{ "host" : "debugLog", "value" : {"toTrimFixed": [2.000001, 4]} }, // 2
-{ "host" : "debugLog", "value" : {"zeroFill": [123, 5]} },         // 00123
-{ "host" : "debugLog", "value" : {"formatMinutesSeconds": 3599} },      // "59:59"
-{ "host" : "debugLog", "value" : {"formatHoursMinutesSeconds": 3599} }, // "0:59:59"
-```
-
 #### Variable References
 ```json
 {"host": "assign", "key": "globalVar", "value": 123},
@@ -360,6 +352,21 @@ now recommended, as shown with the examples below:
 { "host": "assign", "local": "yearMo", "value":  {"date": {"year": 1999, "month": 12}} },
 { "host" : "debugLog", "value" : {"local": "yearStart.month"} },   // 12
 { "host" : "debugLog", "value" : {"local": "yearStart.day"} },     // 1
+```
+
+#### Misc Expressions
+```json
+{ "host" : "debugLog", "value" : {"element": "button1", "attribute": "image_url"} },
+{ "host" : "debugLog", "value" : {"random": 10 } },                // random 0 to 9, excluding 10
+{ "host" : "assign", "value" : {"literal": {"random": 10}} }, // {"random": 10}, i.e. unevaluated expression
+{ "host" : "debugLog", "value" : {"length": ["abcde"] } },           // 5
+{ "host" : "debugLog", "value" : {"length": "abcde" } },           // single arg convenience
+{ "host" : "debugLog", "value" : {"length": [["a", "b", "c"]] } }, // 3 ; note array args require explicit array wrapper
+{ "host" : "debugLog", "value" : {"toFixed": [3.1415, 3]} },       // 3.142
+{ "host" : "debugLog", "value" : {"toTrimFixed": [2.000001, 4]} }, // 2
+{ "host" : "debugLog", "value" : {"zeroFill": [123, 5]} },         // 00123
+{ "host" : "debugLog", "value" : {"formatMinutesSeconds": 3599} },      // "59:59"
+{ "host" : "debugLog", "value" : {"formatHoursMinutesSeconds": 3599} }, // "0:59:59"
 ```
 
 #### Expression Composition
