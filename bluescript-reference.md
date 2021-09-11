@@ -250,7 +250,7 @@ For example:
  { "host" : "assign", "local": "localValue.field_2.subField.2", "value":  4},
 ```
 
-### Expressions.
+### Expressions
 
 Expressions are used to compare values, perform arithmetic operations, logical operations, and perform functions that return value (random, for example), given an array of `values` as input.
 
@@ -280,7 +280,7 @@ now recommended, as shown with the examples below:
 #### String Operations
 ```json
  { "host" : "debugLog", "value" : {"+": ["full name: ", "John", " ", "Doe"] } }, // full name: John Doe
- { "host" : "debugLog", "value" : {"replace": ["This is badass.", "badass", "awesome"]}}, // This is awesome 
+ { "host" : "debugLog", "value" : {"replace": ["This is badass", "badass", "awesome"]}}, // This is awesome 
 ```
 
 #### Comparison Operations
@@ -312,7 +312,7 @@ now recommended, as shown with the examples below:
     }
   }
 },
-{"host": "debugLog", "value": {"local": "objectValue.that.a"}},
+{"host": "debugLog", "value": {"key": "objectValue.that.a"}},
 {"host": "assign", "key": "objectValue.that.b", "value": true},
         
 {"host": "debugLog", "value": {"arg": "x"}}, // error if "x" not supplied when function invoked
