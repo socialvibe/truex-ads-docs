@@ -339,7 +339,7 @@ now recommended, as shown with the examples below:
 { "host" : "debugLog", "value" : {"local":  "now.time"} },           // 1631316792480, e.g. millis since Jan 1, 1970
 
 {"host": "assign", "local": "now", "value":  {"date":  1631316792480}}, // from timestamp
-{"host": "assign", "local": "millsPerWeek", "value": {"*": [7, 24, 60, 60, 1000]}},
+{"host": "assign", "local": "millisPerWeek", "value": {"*": [7, 24, 60, 60, 1000]}},
 {
   "host": "assign", "local": "nextWeek", 
   "value": {"date": {"+": [{"local": "now.time"}, {"local": "millisPerWeek"}]}}
