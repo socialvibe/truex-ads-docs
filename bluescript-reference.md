@@ -341,7 +341,7 @@ now recommended, as shown with the examples below:
 {"host": "assign", "local": "now", "value":  {"date":  1631316792480}}, // from timestamp
 {
   "host": "assign", "local": "nextWeek", 
-  "value": {"date": {"+": [{"local": "now.time"}, {"*": [7, 24, 60, 60, 1000]}]}} // next week
+  "value": {"date": {"+": [{"local": "now.time"}, {"*": [7, 24, 60, 60, 1000]}]}}
 },
 
 { "host": "assign", "local": "yearStart", "value":  {"date": {"year": 2021}} },
