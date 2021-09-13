@@ -25,9 +25,8 @@ _rev. 2021-09-10
    1. [Rectangle](#rectangle)
    1. [Image](#image)
    1. [Video](#video)
-   1. [Label](#label)
-   1. [Button](#button)
    1. [Text](#text)
+   1. [Button](#button)
    1. [Audio](#audio)
    1. [QRCode](#qrcode)
 1. [BlueScript Behaviors](#bluescript-behavior-reference)
@@ -111,9 +110,14 @@ Element Property | Default | Description
 --- | --- | ---
 type | N/A (Required) | Type for the BlueScript element. See [possible element types below](#bluescript-element-reference) for what is supported.
 name | N/A (Required) | Name of the element and used to identify it for behaviors.
+x | 0 | Screen-space X position, where x=0 is the left side of the (assumed 1080p) screen
+y | 0 | Screen-space Y position, where y=0 is the top of the (assumed 1080p) screen
+width | 0 | Specifies the width of the element on the screen. If 0 the width is computed dynamically from the element's visual content.
+height | 0 | Specifies the height of the element on the screen. If 0 the width is computed dynamically from the element's visual content.
+opacity | 1 | In the range [0, 1] where 0 is fully transparent and 1 is fully opaque
 
-**Note:** More properties are available depending on the TYPE of BlueScript element, detailed in 
-the [element reference](#bluescript-element-reference) section.
+**Note:** More properties are available depending on the type of BlueScript element, detailed in 
+the [element reference section](#bluescript-element-reference) below.
 
 #### Behaviors
 
@@ -242,6 +246,26 @@ For example:
  { "host" : "debugLog", "value" : { "local": "localValue.field1_2.subField.2" } },
  { "host" : "assign", "local": "localValue.field_2.subField.2", "value":  4},
 ```
+
+Certain implied global key variables always exist as read only values:
+
+Name | Description
+--- | ---
+`host.ad` | Json object of the selected ad (Roku only, not supported on HTML5 yet)
+`host.tagRotationRandom` | A fixed, random number from 0-1 per instance for (video) rotation. Ad author is supposed to read this number and change their ad accordingly.
+`host.adParameters` | Contains all the adParameters from Truex Exchange and can be accessed by key.  EG. `host.adParameters.some_key`
+`host.allVars` | Contains all of the ad variables queries from the RTB server. EG. `host.allVars.locationJSON.country_code`
+`host.rotationVideos` | An object with numerous subproperties related to the set of rotation videos
+`host.rotationVideos.<0-N>` to get a specific video with that index (key: video_1 corresponds to `.0`)
+`host.rotationVideos.length` to get the number of rotational videos
+`host.rotationVideos.currentIndex` to get the index (base 0) of the current random video
+`host.rotationVideos.currentUrl` to get the url of the current random video
+
+There are also predefined keys that provide additional information dynamically
+`userHasMetTIme` | The minimum time for ad interaction has been met
+`userHasInteracted` | User has interacted with the ad
+`userHasCredit` | User has gained credit for the ad
+`timerTickValue` | Countdown remaining (Choice/Skip Card)
 
 ### Expressions
 
@@ -409,30 +433,19 @@ TXRectangle is a simple sub-class of Brightscript's [Rectangle](https://develope
 }
 ```
 
-#### Rectangle Properties
+#### Additional Rectangle Properties
 
 Property | Default | Description
 --- | --- | ---
-x | 0 | Screen-space X position, where x=0 is the left side of the (assumed 1080p) screen
-y | 0 | Screen-space Y position, where y=0 is the top of the (assumed 1080p) screen
-width | 0 | Specifies the width of the Rectangle on the screen
-height | 0 | Specifies the height of the Rectangle on the screen
 color | 0xFFFFFFFF | Specifies the RGBA color drawn to the rectangle region
 blendingEnabled | true | Specifies if the rectangle should be alpha blended with the nodes that are behind it
-
-#### Rectangle Behavior Events
-
-N/A
-
-#### Rectangle Behavior Actions
-
-N/A
 
 ---
 
 ### Image
 
-Renders an image at the specified screen coordinates.
+Renders an image at the specified screen coordinates, such that the image is scaled to fit within the element's 
+specified size.
 
 #### Example
 
@@ -448,25 +461,12 @@ Renders an image at the specified screen coordinates.
 }
 ```
 
-#### Image Properties
+#### Additional Image Properties
 
 Property | Default | Description
 --- | --- | ---
-x | 0 | X coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
-y | 0 | Y coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
-width | 0 | Specifies the width of the image in local coordinates. If set to 0, the width of the bitmap from the image file is used. If set to a value greater than 0, the bitmap is scaled to that width.
-height | 0 | Specifies the height of the image in local coordinates. If set to 0, the height of the bitmap from the image file is used. If set to a value greater than 0, the bitmap is scaled to that height.
 image_url | N/A (Required) | Specifies the URI to the image file.
-opacity | 1 | In the range [0, 1] where 0 is full transparent and 1 is fully opaque
 forceHighResolution | false | Use the image's native / high resolution on memory constrained low end Roku devices. See below [Memory Management](#memory-management) note.
-
-#### Image Behavior Events
-
-N/A
-
-#### Image Behavior Actions
-
-N/A
 
 ---
 
@@ -491,14 +491,10 @@ Renders a video at the specified screen coordinates.
 }
 ```
 
-#### Video Properties
+#### Additional Video Properties
 
 Property | Default | Description
 --- | --- | ---
-x | 0 | X coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
-y | 0 | Y coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
-width | 0 | Specifies the width of the video in local coordinates. If set to 0, the video play window is set to the width of the entire display screen.
-height | 0 | Specifies the height of the video in local coordinates. If set to 0, he video play window is set to the height of the entire display screen.
 video_url | N/A (Required) | Specifies the URI to the video file. MP4 format is expected.
 loop | true | If set to true, the video will be restarted from the beginning after the end is reached.
 autoplay | true | If set to true, the video will be automatically started on card display.
@@ -521,19 +517,6 @@ useRotation | false | If set to true, will ignore the video url and try to apply
 #### Notes
 
 On Roku, only a single Media node may be actively playing or buffering media at a given time. This means that it is not possible to have multiple inline videos playing concurrently or a background / ambient video with inline window windows on top. This also precludes the use of background audio playing together with a video.
-
-#### Video Behavior Events
-
-Behavior Event | Description
---- | ---
-videoStarted | Triggered when the active video has started playback.
-videoCompleted | Triggered when the active video has completed playback.
-videoFirstQuartile | Triggered when the active video has completed 25% of its playback.
-videoSecondQuartile | Triggered when the active video has completed 50% of its playback.
-videoThirdQuartile | Triggered when the active video has completed 75% of its playback.
-videoLooped | Triggered when the active video has looped playback.
-videoDidEnterFullscreen | Triggered when video animated into fullscreen
-videoDidExitFullscreen | Triggered when video animated back to window
 
 #### Video Behavior Actions
 
@@ -579,7 +562,7 @@ target | Name of the video to stop.
 
 ---
 
-### Label
+### Text
 
 Renders a text label at the specified screen coordinates.
 
@@ -597,36 +580,23 @@ Renders a text label at the specified screen coordinates.
 }
 ```
 
-#### Label Properties
+#### Additional Text Properties
 
 Property | Default | Description
 --- | --- | ---
-x | 0 | X coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
-y | 0 | Y coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
-width | 0 | Specifies the width of the label in local coordinates. If the width field is greater than zero, the computed width is the value of the width field. If the width field is equal to zero, the computed width is the rendered width of the text.
-height | 0 | Specifies the height of the label in local coordinates. If set to 0, the height of the label is computed based on the height of the number of lines of text that need to be rendered. That is, one line of text, unless wrapping is turned on.
-text |  | Specifies the text string to render in the label.
-color | 0xddddddff | Specifies the color of text rendered in the label.  Supports HTML code formats.  RGB formats such as rgb(r,g,b) rgba(r,g,b,a) rgba(r%,g%,b%,a%) with commas or whitespace.  And Hex formats such as  #RGB #RGBA #RRGGBB #RRGGBBAA.
-backgroundColor | 0x00000000 | Specifies the background color for the label, covers the final calculated width and height of the element.  Supports HTML code formats (see color above)
-fontName | (system default) | Specifies the font name for the text rendered in the label. That is either a [built-in](https://sdkdocs.roku.com/display/sdkdoc/Typography) system font, or a TTF/OTF font we ship with the library.
+text |  | Specifies the text string to render in the Text element.
+color | 0xddddddff | Specifies the color of text rendered in the text element.  Supports HTML code formats.  RGB formats such as rgb(r,g,b) rgba(r,g,b,a) rgba(r%,g%,b%,a%) with commas or whitespace.  And Hex formats such as  #RGB #RGBA #RRGGBB #RRGGBBAA.
+backgroundColor | 0x00000000 | Specifies the background color for the text element, covers the final calculated width and height of the element.  Supports HTML code formats (see color above)
+fontName | (system default) | (Roku only) Specifies the font name for the text rendered in the text element. That is either a [built-in](https://sdkdocs.roku.com/display/sdkdoc/Typography) system font, or a TTF/OTF font we ship with the library. For portability with HTML5 ads, a font_url asset is recommended to use instead. 
 font_size | 24 | Size of the font, in points. Note that this is only supported for OTF/TTF files, as the default system fonts imply a given font size.
 font_url |   | Fully qualified URL of an OTF/TTF font asset to be dynamically loaded.  Externally hosted unlike fontName and must end with extension .otf/.ttf.
 alignment | center | Horizontal alignment, one of `left`, `center` or `right`.
 vertical_alignment | top | Vertical alignment, one of `top`, `center` or `bottom`.
 wrap | true | The wrap field is used to control how the text is broken into multiple lines. If false, a single line of text will be displayed. Else, the text is broken over multiple lines each of the calculated width, up to the specified height.
 
-#### Label Behavior Events
-
-N/A
-
-#### Label Behavior Actions
-
-N/A. Note: manipulating properties of the label such as `text` `color` and `backgroundColor` can be achieved using the `setAttribute` behavior action.
-
-
-###### Notes
-
-On Roku, the Label element is a thin wrapper on top of a `<Label/>` SceneGraph node. Refer to the [Roku documentation](https://sdkdocs.roku.com/display/sdkdoc/Label) for detailed description of layout and wrapping behavior.
+NOTE:
+* Manipulating properties of the text element such as `text` `color` and `backgroundColor` can be achieved using the `setAttribute` behavior action.
+* On Roku, the Label element is a thin wrapper on top of a `<Label/>` SceneGraph node. Refer to the [Roku documentation](https://sdkdocs.roku.com/display/sdkdoc/Label) for detailed description of layout and wrapping behavior.
 
 ---
 
@@ -634,8 +604,7 @@ On Roku, the Label element is a thin wrapper on top of a `<Label/>` SceneGraph n
 
 Renders a focusable button at the specified screen coordinates.
 
-#### Example
-
+For example:
 ```json
 {
    "type"     : "Button",
@@ -654,21 +623,17 @@ Renders a focusable button at the specified screen coordinates.
 }
 ```
 
-#### Button Properties
+#### Additional Button Properties
 
 Property | Default | Description
 --- | --- | ---
-x | 0 | X coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
-y | 0 | Y coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
-width | 0 | Specifies the width of the button in local coordinates. If set to 0, the width of the bitmap from the image file is used. If set to a value greater than 0, the bitmap is scaled to that width.
-height | 0 | Specifies the height of the button in local coordinates. If set to 0, the height of the bitmap from the image file is used. If set to a value greater than 0, the bitmap is scaled to that width.
 image_url | N/A (Required) | Specifies the URI to the image file used for the button.
 hover_image_url |  | Specifies the URI to the image file used for the button's focused state.
 checked_image_url |  | Specifies the URI to the image file used for the button's enabled or checked state.
 hover_checked_image_url |  | Specifies the URI to the image file used for the button's focused state when it is used as a toggle style button.
 checked | false | Whether this toggle style button is set to "on" by default.
-hover_effect | true | If set to true, upon focus button grows by a factor of 25%, with no change in the image to the hover_image_url.
-hover_scale | 1.1 | A float value that indicates the how big, in percentage, this button should glow on hover.
+hover_effect | true | If set to true, upon focus button grows by a scale factor of the hover_scale attribute, with no change in the image to the hover_image_url.
+hover_scale | 1.1 | A float value that indicates the how big, in percentage, this button should grow on hover.
 focusable | true | Set to false in order to make the button not focusable.
 forceHighResolution | false | Use the button's native / high resolution on memory constrained low end Roku devices. See below [Memory Management](#memory-management) note.
 leftFocus | invalid | ID of element to focus when left directional button is pressed.
@@ -691,12 +656,6 @@ N/A. Note: manipulating properties of the button such as `checked` can be achiev
 
 ---
 
-### Text
-
-TBD
-
----
-
 ### Audio
 
 Plays background audio.
@@ -713,14 +672,16 @@ Plays background audio.
 }
 ```
 
-#### Audio Properties
+#### Additional Audio Properties
+
+Note: visual properties are not relevant for the Audio element, e.g. x, y, width, height, opacity. 
 
 Property | Default | Description
 --- | --- | ---
 audio_url | N/A (Required) | Specifies the URI to the audio file. MP3 format* is expected. Always use the Asset Uploader.
 loop | true | If set to true, the audio will restart from the beginning after the end is reached.
 autoplay | true | If set to true, the audio will be automatically started on card display.
-global | false | If true, audio sticks/continues playing across card transitions.
+global | false | If true, audio sticks/continues playing across step card transitions.
 
 #### Notes
 
@@ -728,15 +689,11 @@ On Roku, only a single Media node may be actively playing or buffering media at 
 
 Note on MP3 format. On PlayStation, and some other platforms, MP3 is not supported. BlueScript engine will try to get the MP4 version (same location, same name) of the given audio instead. Asset Uploader in True Exchange is encoding that MP4 file automatically. Be sure to include a MP4 version of your audio file if you cannot use the Asset Uploader.
 
-#### Audio Behavior Events
-
-N/A
-
 #### Audio Behavior Actions
 
 ##### (1) - `playActiveAudio`
 
-Starts or resumes playback (for a paused file) for the active audio element.
+Starts or resumes playback (if currently paused) for the active audio element.
 
 ###### Parameters
 
@@ -792,14 +749,10 @@ Renders a QR Code as image using the [qr-code-generator](https://github.com/soci
 }
 ```
 
-#### Button Properties
+#### Additional Button Properties
 
 Property | Default | Description
 --- | --- | ---
-x | 0 | X coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
-y | 0 | Y coordinate for the component, assumes origin at the top left, and a 1080p sized canvas.
-width | 0 | Specifies the width of the button in local coordinates. If set to 0, the width of the bitmap from the image file is used. If set to a value greater than 0, the bitmap is scaled to that width.
-height | 0 | Specifies the height of the button in local coordinates. If set to 0, the height of the bitmap from the image file is used. If set to a value greater than 0, the bitmap is scaled to that width.
 url | | Specifies the information that is encoded in the QR Code image. This is also the fallback url for the tagLabel option. Using this field without setting the tagLabel will generate a QR Code contains only the information in this field, with no 1st party tracking. One should give the tagLabel a value (that does not have "Click" tag set) to get the trackings.
 size | dynamic | Specifies the native size in pixels of the QR Code image being returned.
 margin | 4 | Specifies the margin, in number of dots in QR Code matrix.
@@ -820,9 +773,9 @@ Behavior Event | Description
 --- | ---
 appear | Triggered when the element's parent card is displayed. Note that appear does not tie to visibility.
 disappear | Triggered when the element's parent card is dismissed, such as on a card transition or when ending the ad flow.
-onselect | Trigger when a button with the focus is clicked on or the select/enter button is pressed on the remote.
-onfocusgained | Triggered when a button gains the remote/keyboard focus.
-onfocuslost | Triggered when a button loses the remote/keyboard focus.
+onSelect | Triggered when a button with the focus is clicked on or the select/enter button is pressed on the remote.
+onFocusGained | Triggered when a button or video gains the remote/keyboard focus.
+onFocusLost | Triggered when a button or video loses the remote/keyboard focus.
 timerTick | Triggered when the countdown timer updates its value. <br/> Use the `{"key": "timerTickValue"}` expression to access the current timer value.
 videoStarted | Triggered when a video starts playback.
 videoFirstQuartile | Triggered when 25% of the video has played.
@@ -830,11 +783,13 @@ videoSecondQuartile | Triggered when 50% of the video has played.
 videoThirdQuartile | Triggered when 75% of the video has played.
 videoCompleted | Triggered when the video has completed playback.
 videoLooped | Triggered when the video has automatically restarted playback.
+videoDidEnterFullscreen | Triggered when the video is to fullscreen size.
+videoDidExitFullscreen | Triggered when video is set back to its original size.
 
 ### Behavior Actions
 
-This section details the **Behavior Actions** that are available to any BlueScript element. 
-Actions are invoked when Events occur, or when a BlueScript function is invoked.
+This section details the behavior actions that can be scripted. Actions are invoked when Events occur, 
+or when a BlueScript function is invoked.
 
 ##### (1) - `allDoneButtonPushed`
 
@@ -1047,30 +1002,11 @@ Behavior Action `assign` is an assignment statement that sets and/or re-sets the
 
 Parameter | Description
 --- | ---
-key | Name of variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be [Value or Expression](#values-and-expressions))
-value | Value of the variable. (could be [Value or Expression](#values-and-expressions))
+key | Name of global variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be [value or expression](#values-and-expressions))
+local | Name of a local variable. Either `key` or `local` must be specified.
+value | Value of the variable (could be an expression).
 
-###### Notes
-
-On roku, all values hidden in a sandbox. Also, `host` would be the object that contains data from the host app. These includes
-
-Parameter | Description
---- | ---
-`host.ad` | Json object of the selected ad (Roku only, not supported on HTML5 yet)
-`host.tagRotationRandom` | A fixed, random number from 0-1 per instance for (video) rotation. Ad author is supposed to read this number and change their ad accordingly.
-`host.adParameters` | Contains all the adParameters from Truex Exchange and can be accessed by key.  EG. `host.adParameters.some_key`
-`host.allVars` | Contains all of the ad variables queries from the RTB server. EG. `host.allVars.locationJSON.country_code`
-`host.rotationVideos` | An object with numerous subproperties related to the set of rotation videos
-`host.rotationVideos.<0-N>` to get a specific video with that index (key: video_1 corresponds to `.0`)
-`host.rotationVideos.length` to get the number of rotational videos
-`host.rotationVideos.currentIndex` to get the index (base 0) of the current random video
-`host.rotationVideos.currentUrl` to get the url of the current random video
-
-There are also predefined keys that provide additional information dynamically
-`userHasMetTIme` | The minimum time for ad interaction has been met
-`userHasInteracted` | User has interacted with the ad
-`userHasCredit` | User has gained credit for the ad
-`timerTickValue` | Countdown remaining (Choice/Skip Card)
+All globals values are maintained across step displays. Local variables are maintained during the current event handler or function invocation.
 
 ##### (12) - `setTimeout`
 
@@ -1137,7 +1073,7 @@ name | Name of the node to bring to the front of the view
 
 ##### (16) - `focusElement`
 
-Sets the focus to a specified TXElement. onFocusGained and onFocusLost are triggered when switching focus.
+Sets the focus to a specified button or video. onFocusGained and onFocusLost are triggered when switching focus.
 
 ###### Parameters
 
@@ -1198,7 +1134,7 @@ Parameter | Default | Description
 attributes | N/A (required) | and object defining which attributes are to be animated; (x, y, width, height and opacity. position and size are supported legacy attributes)
 duration | 0.35 | the length of time (in seconds) it will take to play the animation
 easeFunction | `outCubic` | how the values will evolve throughout the animation duration
-optional | false | whether or not the animation can be ignored for low-end devices under stress
+optional | false | (Roku only) whether or not the animation can be ignored for low-end devices under stress
 
 ###### Notes
 
