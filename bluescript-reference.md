@@ -775,9 +775,10 @@ Triggers the "Return to Content" button, exiting the ad flow for a completed ad.
 
 Navigates to a different BlueScript step, pushing the new step onto the navigational stack. A viewer is able to get back to the previous step using the BACK key or equivalent.
 
-Parameter | Description
---- | ---
-cardName | Name of the step to transition to, as defined in the top level list of BlueScript steps.
+Parameters:
+
+|   |   |
+| cardName | Name of the step to transition to, as defined in the top level list of BlueScript steps.
 
 ##### (3) - `replaceStep`
 
