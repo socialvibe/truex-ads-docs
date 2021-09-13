@@ -183,7 +183,7 @@ Behavior actions take various values as input to their actions. There are 3 type
 2 - Stored Values
 3 - Expressions
 
-*NOTE:* Boolean values are used as literals for attributes (e.g. a `Text` element's `wrap` attribute) and 
+NOTE: Boolean values are used as literals for attributes (e.g. a `Text` element's `wrap` attribute) and 
 in expressions like in the `if` host action. When non-boolean values are used where a boolean value is expected, they
 are evaluated in a "truthy" manner according to the following rules:
 * false values are: `false`, 0, `null`, `undefined`, "", and "false".
