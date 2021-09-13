@@ -403,8 +403,6 @@ i.e. the possible elements of a step's "elements" array.
 
 Renders a single-colored rectangle at the specified screen coordinates.
 
-TXRectangle is a simple sub-class of Brightscript's [Rectangle](https://developer.roku.com/docs/references/scenegraph/renderable-nodes/rectangle.md) component that allows us to assign behaviors and play animations. All of the original Rectangle functionality is supported.
-
 For example:
 ```json
 {
