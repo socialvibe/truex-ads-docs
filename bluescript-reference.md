@@ -51,12 +51,12 @@ Each step card contains a flat list of BlueScript elements. There is implied hie
 
 BlueScript elements support event handlers, enabling dynamic behavior. These can be used to trigger a variety of supported actions, such as controlling a video or playing sound effects. This is expressed as lists of behavior actions keyed on events. See below and `southback` repo (for Roku) and `Skyline` repo (for HTML5) for examples of this.
 
-## (1) Overall Structure 1
+## Overall Structure
 
-### (1) Top Level Syntax 1.1
+### Top Level Syntax
 > _**Formatting note**: strings inside of carets (`"< ... >"`) are meta-descriptions, not absolute values_
 
-**Schema:**
+Schema:
 ```json
 {
   "steps": [
@@ -121,28 +121,16 @@ the [element reference section](#bluescript-element-reference) below.
 
 #### Behaviors
 
-A step's "behaviors" property contains all behaviors for each element of the step - is an object with keys that match element names:
-* **\<NAME\>** - Name of the BlueScript element that the child behaviors are associated with
-  and has an array value that defines the behavior "host" action of the object for each event (see below).
+A step's "behaviors" property contains all behaviors for each element of the step - is an object with keys that match element names to a map of event handlers, where each event handler maps to an array of [behavior actions](#behavior-actions) to execute when the event occurs. BlueScript elements can define any number of behavior actions for any number of events.
 
-Property | Default | Description
---- | --- | ---
-Element Name | {} | An object that defines the behavior on events. Each base behavior contains an array of actions.
-
-For each event, an array of [behavior actions](#behavior-actions) can be defined. BlueScript elements can define any number of behavior actions for any number of events.
-
-Property | Default | Description
---- | --- | ---
-behavior | {} | Defines the list of [behavior actions](#behavior-actions) to be triggered on specific [named events](#behavior-events).
-
-<summary>For example:</summary>
-
+For example:
 ```json
 {
   "behaviors": {
-    "fooLabel": {
+    "button1": {
       "appear": [ <ACTIONS> ],
-      "disappear": [ <ACTIONS> ]
+      "disappear": [ <ACTIONS> ],
+      "onSelect": [ <ACTIONS> ]
     }
   }
 }
