@@ -765,7 +765,7 @@ videoDidExitFullscreen | Triggered when video is set back to its original size.
 This section details the behavior actions that can be scripted. Actions are invoked when Events occur, 
 or when a BlueScript function is invoked.
 
-##### (1) - `allDoneButtonPushed`
+##### `allDoneButtonPushed`
 
 Triggers the "Return to Content" button, exiting the ad flow for a completed ad.
 
@@ -774,8 +774,6 @@ Triggers the "Return to Content" button, exiting the ad flow for a completed ad.
 [Deprecated: "step stacking" is no longer upported, not even available on HTML5. Use explicit `replaceStep` actions instead.]
 
 Navigates to a different BlueScript step, pushing the new step onto the navigational stack. A viewer is able to get back to the previous step using the BACK key or equivalent.
-
-###### Parameters
 
 Parameter | Description
 --- | ---
