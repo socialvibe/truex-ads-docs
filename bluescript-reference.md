@@ -511,43 +511,9 @@ downFocus | invalid | ID of element to focus when down directional button is pre
 autoFocus | false | If set to true, the video (if focusable) will be focused by default.
 useRotation | false | If set to true, will ignore the video url and try to apply the value of `video_n` from the ad parameters.
 
-#### Notes
+NOTE: On Roku, only a single Media node may be actively playing or buffering media at a given time. This means that it is not possible to have multiple inline videos playing concurrently or a background / ambient video with inline window windows on top. This also precludes the use of background audio playing together with a video.
 
-On Roku, only a single Media node may be actively playing or buffering media at a given time. This means that it is not possible to have multiple inline videos playing concurrently or a background / ambient video with inline window windows on top. This also precludes the use of background audio playing together with a video.
-
-#### Video Behavior Actions
-
-##### `playVideo`
-
-Starts or resumes playback (for a paused video) for the target video.
-
-Parameter | Description
---- | ---
-target | Name of the video to play.
-
-##### `pauseVideo`
-
-Pauses playback for the target video.
-
-Parameter | Description
---- | ---
-target | Name of the video to pause.
-
-##### `resetVideo`
-
-Resets playback for the target video by setting the play head to the beginning.
-
-Parameter | Description
---- | ---
-target | Name of the video to reset.
-
-##### `stopVideo`
-
-Stops playback for the target video.
-
-Parameter | Description
---- | ---
-target | Name of the video to stop.
+Related video actions: [playVideo](#playVideo), [pauseVideo](#pauseVideo), [resetVideo](#resetVideo), [stopVideo](#stopVideo)
 
 ---
 
@@ -660,29 +626,12 @@ loop | true | If set to true, the audio will restart from the beginning after th
 autoplay | true | If set to true, the audio will be automatically started on card display.
 global | false | If true, audio sticks/continues playing across step card transitions.
 
-#### Notes
+NOTES:
+* On Roku, only a single Media node may be actively playing or buffering media at a given time. This means that it is not possible to have multiple inline videos playing concurrently or a background / ambient video with inline window windows on top. This also precludes the use of background audio playing together with a video. Any additional stream started after the first one will fail silently.
+* For the MP3 format. On the PlayStation 5 and some other platforms, MP3 is not supported. BlueScript engine will try to get the MP4 version (same location, same name) of the given audio instead. Asset Uploader in True Exchange is encoding that MP4 file automatically. Be sure to include a MP4 version of your audio file if you cannot use the Asset Uploader.
 
-On Roku, only a single Media node may be actively playing or buffering media at a given time. This means that it is not possible to have multiple inline videos playing concurrently or a background / ambient video with inline window windows on top. This also precludes the use of background audio playing together with a video. Any additional stream started after the first one will fail silently.
-
-Note on MP3 format. On PlayStation, and some other platforms, MP3 is not supported. BlueScript engine will try to get the MP4 version (same location, same name) of the given audio instead. Asset Uploader in True Exchange is encoding that MP4 file automatically. Be sure to include a MP4 version of your audio file if you cannot use the Asset Uploader.
-
-#### Audio Behavior Actions
-
-##### `playActiveAudio`
-
-Starts or resumes playback (if currently paused) for the active audio element.
-
-##### `pauseActiveAudio`
-
-Pauses playback for the active audio element.
-
-##### `resetActiveAudio`
-
-Resets playback for the active audio element by setting the play head to the beginning.
-
-##### `stopActiveAudio`
-
-Stops playback for the active audio element.
+Related audio actions: [playActiveAudio](#playActiveAudio), [pauseActiveAudio](#pauseActiveAudio), 
+[resetActiveAudio](#resetActiveAudio), [stopActiveAudio](#stopActiveAudio)
 
 ---
 
@@ -750,6 +699,54 @@ videoDidExitFullscreen | Triggered when video is set back to its original size.
 
 This section details the behavior actions that can be scripted. Actions are invoked when Events occur, 
 or when a BlueScript function is invoked.
+
+##### `playActiveAudio`
+
+Starts or resumes playback (if currently paused) for the active audio element.
+
+##### `pauseActiveAudio`
+
+Pauses playback for the active audio element.
+
+##### `resetActiveAudio`
+
+Resets playback for the active audio element by setting the play head to the beginning.
+
+##### `stopActiveAudio`
+
+Stops playback for the active audio element.
+
+##### `playVideo`
+
+Starts or resumes playback (for a paused video) for the target video.
+
+Parameter | Description
+--- | ---
+target | Name of the video to play.
+
+##### `pauseVideo`
+
+Pauses playback for the target video.
+
+Parameter | Description
+--- | ---
+target | Name of the video to pause.
+
+##### `resetVideo`
+
+Resets playback for the target video by setting the play head to the beginning.
+
+Parameter | Description
+--- | ---
+target | Name of the video to reset.
+
+##### `stopVideo`
+
+Stops playback for the target video.
+
+Parameter | Description
+--- | ---
+target | Name of the video to stop.
 
 ##### `allDoneButtonPushed`
 
