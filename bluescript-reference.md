@@ -239,21 +239,19 @@ Certain implied global key variables always exist as read only values:
 
 Name | Description
 --- | ---
+`userHasMetTIme` | The minimum time for ad interaction has been met
+`userHasInteracted` | User has interacted with the ad
+`userHasCredit` | User has gained credit for the ad
+`timerTickValue` | Countdown remaining for the engagement ad or ChoiceCard/SkipCard
 `host.ad` | Json object of the selected ad (Roku only, not supported on HTML5 yet)
 `host.tagRotationRandom` | A fixed, random number from 0-1 per instance for (video) rotation. Ad author is supposed to read this number and change their ad accordingly.
 `host.adParameters` | Contains all the adParameters from Truex Exchange and can be accessed by key.  EG. `host.adParameters.some_key`
 `host.allVars` | Contains all of the ad variables queries from the RTB server. EG. `host.allVars.locationJSON.country_code`
 `host.rotationVideos` | An object with numerous subproperties related to the set of rotation videos
-`host.rotationVideos.<0-N>` to get a specific video with that index (key: video_1 corresponds to `.0`)
-`host.rotationVideos.length` to get the number of rotational videos
-`host.rotationVideos.currentIndex` to get the index (base 0) of the current random video
-`host.rotationVideos.currentUrl` to get the url of the current random video
-
-There are also predefined keys that provide additional information dynamically
-`userHasMetTIme` | The minimum time for ad interaction has been met
-`userHasInteracted` | User has interacted with the ad
-`userHasCredit` | User has gained credit for the ad
-`timerTickValue` | Countdown remaining (Choice/Skip Card)
+`host.rotationVideos.<0-N>` | to get a specific video with that index (key: video_1 corresponds to `.0`)
+`host.rotationVideos.length` | to get the number of rotational videos
+`host.rotationVideos.currentIndex` | to get the index (base 0) of the current random video
+`host.rotationVideos.currentUrl` | to get the url of the current random video
 
 ### Expressions
 
