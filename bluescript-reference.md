@@ -32,8 +32,8 @@ _rev. 2021-09-10
 1. [BlueScript Behaviors](#bluescript-behavior-reference)
    1. [Events](#behavior-events)
    1. [Actions](#behavior-actions)
-1. [Authoring Considerations](#authoring-considerations)
-   1. [Memory Management](#memory-management)
+1. [Roku Authoring Considerations](#roku-authoring-considerations)
+   1. [Roku Memory Management](#roku-memory-management)
 
 ## 1 Overview
 
@@ -1135,11 +1135,11 @@ value | | A value to use for the event, if appropriate.
 
 ---
 
-## Authoring Considerations
+## Roku Authoring Considerations
 
 This section documents additional considerations to take into account when authoring creatives for the Roku platform using BlueScript.
 
-### Memory Management
+### Roku Memory Management
 
 Roku devices have limited memory available to load and display images. Compounding the problem is the fact that Roku stores images in uncompressed form, so that a loaded image takes up WIDTH x HEIGHT x 4 bytes, regardless of its size on disk. On lower end devices, this can be problematic, and rather than cause a critical error, exceeding this limit leads to flickering and other artifacts as the Roku system aggressively cycles images in and out of texture memory. This is all documented in [detail here](https://developer.roku.com/docs/developer-program/performance-guide/memory-management.md).
 
