@@ -418,7 +418,7 @@ For example:
 }
 ```
 
-#### Additional Rectangle Properties
+Additional Rectangle Properties:
 
 Property | Default | Description
 --- | --- | ---
@@ -445,7 +445,7 @@ For example:
 }
 ```
 
-#### Additional Image Properties
+Additional Image Properties:
 
 Property | Default | Description
 --- | --- | ---
@@ -474,7 +474,7 @@ For example:
 }
 ```
 
-#### Additional Video Properties
+Additional Video Properties:
 
 Property | Default | Description
 --- | --- | ---
@@ -520,7 +520,7 @@ For example:
 }
 ```
 
-#### Additional Text Properties
+Additional Text Properties:
 
 Property | Default | Description
 --- | --- | ---
@@ -563,7 +563,7 @@ For example:
 }
 ```
 
-#### Additional Button Properties
+Additional Button Properties:
 
 Property | Default | Description
 --- | --- | ---
@@ -601,9 +601,7 @@ For example:
 }
 ```
 
-#### Additional Audio Properties
-
-Note: visual properties are not relevant for the Audio element, e.g. x, y, width, height, opacity. 
+Additional Audio Properties:
 
 Property | Default | Description
 --- | --- | ---
@@ -613,6 +611,7 @@ autoplay | true | If set to true, the audio will be automatically started on car
 global | false | If true, audio sticks/continues playing across step card transitions.
 
 NOTES:
+* Visual properties are not relevant for the Audio element, e.g. x, y, width, height, opacity.
 * On Roku, only a single Media node may be actively playing or buffering media at a given time. This means that it is not possible to have multiple inline videos playing concurrently or a background / ambient video with inline window windows on top. This also precludes the use of background audio playing together with a video. Any additional stream started after the first one will fail silently.
 * For the MP3 format. On the PlayStation 5 and some other platforms, MP3 is not supported. BlueScript engine will try to get the MP4 version (same location, same name) of the given audio instead. Asset Uploader in True Exchange is encoding that MP4 file automatically. Be sure to include a MP4 version of your audio file if you cannot use the Asset Uploader.
 
@@ -644,7 +643,7 @@ For example:
 }
 ```
 
-#### Additional Button Properties
+Additional Button Properties:
 
 Property | Default | Description
 --- | --- | ---
