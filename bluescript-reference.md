@@ -685,108 +685,86 @@ videoDidExitFullscreen | Triggered when video is set back to its original size.
 This section details the behavior actions that can be scripted. Actions are invoked when Events occur, 
 or when a BlueScript function is invoked.
 
-##### `playActiveAudio`
-
-Starts or resumes playback (if currently paused) for the active audio element.
-
-##### `pauseActiveAudio`
-
-Pauses playback for the active audio element.
-
-##### `resetActiveAudio`
-
-Resets playback for the active audio element by setting the play head to the beginning.
-
-##### `stopActiveAudio`
-
-Stops playback for the active audio element.
-
-##### `playVideo`
-
-Starts or resumes playback (for a paused video) for the target video.
-
-Parameter | Description
---- | ---
-target | Name of the video to play.
-
-##### `pauseVideo`
-
-Pauses playback for the target video.
-
-Parameter | Description
---- | ---
-target | Name of the video to pause.
-
-##### `resetVideo`
-
-Resets playback for the target video by setting the play head to the beginning.
-
-Parameter | Description
---- | ---
-target | Name of the video to reset.
-
-##### `stopVideo`
-
-Stops playback for the target video.
-
-Parameter | Description
---- | ---
-target | Name of the video to stop.
-
 ##### `allDoneButtonPushed`
 
 Triggers the "Return to Content" button, exiting the ad flow for a completed ad.
 
-##### `showStep`
+---
 
-[Deprecated: "step stacking" is no longer upported, not even available on HTML5. Use explicit `replaceStep` actions instead.]
+##### `animateElement`
 
-Navigates to a different BlueScript step, pushing the new step onto the navigational stack. A viewer is able to get back to the previous step using the BACK key or equivalent.
+Animates Bluescript element attributes. This action is only supported on rendered elements (not Audio), and only with certain fields (see below).
+
+Parameter | Default | Description
+--- | --- | ---
+attributes | (required) | and object defining which attributes are to be animated; (x, y, width, height and opacity. position and size are supported legacy attributes)
+duration | 0.35 | the length of time (in seconds) it will take to play the animation
+easeFunction | `outCubic` | how the values will evolve throughout the animation duration
+optional | false | (Roku only) whether or not the animation can be ignored for low-end devices under stress
+
+###### Notes
+
+Elements attributes are animated to the specified value **from their current value**!
+
+More than one attribute can be animated with one call to `animateElement`.
+
+```json
+ { "host": "animateElement",
+   "name": "Video_Player",
+   "attributes": {
+        "x": 110,
+        "y": 217,
+        "width": 1150,
+        "height": 647
+   },
+   "duration": 0.5
+ }
+```
+
+---
+
+##### `assign`
+
+Behavior Action `assign` is an assignment statement that sets and/or re-sets the value stored in the storage denoted by a variable name (named by key); in other words, it copies a value into the variable.
+
+For example:
+```json
+ { "host" : "assign",
+   "key" : "i",
+   "value" : 0 },
+ { "host" : "assign",
+   "key" : "i",
+   "value" : { "+": [{ "key": "i" }, 1] } },
+ { "host" : "assign",
+   "key" : "object.array.0",
+   "value" : "Hello World" },
+ { "host" : "assign",
+   "key" : { "+": ["object.array.", { "key": "i" } ] ,
+   "value" : { "key": "i" }},
+ }
+```
 
 Parameter | Description
 --- | ---
-cardName | Name of the step to transition to, as defined in the top level list of BlueScript steps.
+key | Name of global variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be [value or expression](#values-and-expressions))
+local | Name of a local variable. Either `key` or `local` must be specified.
+value | Value of the variable (could be an expression).
 
-##### `replaceStep`
+All globals values are maintained across step displays. Local variables are maintained during the current event handler or function invocation.
 
-Navigates to a different BlueScript step, replacing the current step being displayed.
+---
 
-Parameter | Description
---- | ---
-cardName | Name of the step to transition to, as defined in the top level list of BlueScript steps.
 
-##### `resetFocus`
+##### `bringToFront`
 
-Re-initializes the focus handler and ensures a default control is focused, which is usually the visually top most / left most button.
-This can be set programmatically in an "appear" event handler via the `focusElement` action.
-
-##### `setAttribute`
-
-Assigns a new value to given property for the script element, typically controlling a visual aspect of the underlying component.
+Changes child order of a TXElement so that it draws on top of all other views.
 
 Parameter | Description
 --- | ---
-name | Name of the BlueScript element that will have one of its underlying properties changed.
-key | Name of the underlying property to update.
-value | New value for the underlying property.
+name | Name of the node to bring to the front of the view
 
-NOTE: On Roku, `setAttribute` manipulates the SceneGraph component underlying the BlueScript element. In effect, it allows access to underlying implementation for the element. This could have adverse effects.
+---
 
-##### `flagActivityForAttention`
-
-Flags the engagement as having been interacted with, fulfilling the interaction requirement of true[ATTENTION].
-
-##### `playSoundEffect`
-
-Triggers a sound effect for playback.
-
-Parameter | Description
---- | ---
-uri | Uri of the sound file to trigger playback for.
-
-NOTES: On Roku, `playSoundEffect` is a wrapper on top of the [`<SoundEffect/>`](https://sdkdocs.roku.com/display/sdkdoc/SoundEffect) SceneGraph component. It is notably limited to WAV files as a format for the sound effects.
-
-On HTML5, the standard .mp3, .wav, etc. file types work.
 
 ##### `debugLog`
 
@@ -806,6 +784,88 @@ Parameter | Description
 value | The (string) value to print out. This can be a [Value or Expression](#values-and-expressions).
 
 NOTES: We would always try to cast any types into string.
+
+---
+
+
+##### `disableUserInput`
+
+Prevent user input from being handled.
+
+---
+
+
+##### `disableUserNavigation`
+
+Prevent user directional input from being handled.
+
+---
+
+
+##### `enableUserInput`
+
+Allow user input to be handled.
+
+---
+
+
+##### `enableUserNavigation`
+
+Allow user directional input to be handled
+
+---
+
+
+##### `flagActivityForAttention`
+
+Flags the engagement as having been interacted with, fulfilling the interaction requirement of true[ATTENTION].
+
+---
+
+
+##### `focusElement`
+
+Sets the focus to a specified button or video. onFocusGained and onFocusLost are triggered when switching focus.
+
+Parameter | Description
+--- | ---
+name | Name of the node that will capture focus
+
+---
+
+
+##### `for`
+
+Behavior Action `for` is a control flow statement for specifying iteration, which allows Behavior Actions to be executed repeatedly. Requires a control variable with `from` and `to` values, and a `do` Behavior Actions Array. An optional `value` can be used to specified a "key" or "local" variable to assign the loop value to.
+
+For example:
+```json
+ { "host" : "for",
+   "from": 0,
+   "to": 3,
+   "do" : [
+       { "host" : "debugLog", "value" : "test" }
+   ] },
+
+ { "host" : "for",
+   "value": { "key": "i" },
+   "from": 0,
+   "to": { "key": "ta" },
+   "do" : [
+       { "host" : "debugLog", "value" : { "key": "i" } }
+   ] },
+```
+
+Parameter | DescriptionG
+--- | ---
+value | (optional) Local or key variable that the counter should save to. Default `{ "key": "forI" }`
+from | An integer value that the loop counter would start from (could be [Value or Expression](#values-and-expressions))
+to | An integer value that the loop counter would count to (inclusive) (could be [Value or Expression](#values-and-expressions))
+do | An array of Behavior Actions that should be executed
+
+NOTE: One can break out of the loop via a `break` action, or even a `return` action to exist the current event handler or function entirely.
+
+---
 
 ##### `if/else`
 
@@ -852,91 +912,7 @@ else | (optional) An array of Behavior Actions that should be executed if expres
 
 NOTE: There is no `else if` as of now.
 
-##### `for`
-
-Behavior Action `for` is a control flow statement for specifying iteration, which allows Behavior Actions to be executed repeatedly. Requires a control variable with `from` and `to` values, and a `do` Behavior Actions Array. An optional `value` can be used to specified a "key" or "local" variable to assign the loop value to.
-
-For example:
-```json
- { "host" : "for",
-   "from": 0,
-   "to": 3,
-   "do" : [
-       { "host" : "debugLog", "value" : "test" }
-   ] },
-
- { "host" : "for",
-   "value": { "key": "i" },
-   "from": 0,
-   "to": { "key": "ta" },
-   "do" : [
-       { "host" : "debugLog", "value" : { "key": "i" } }
-   ] },
-```
-
-Parameter | DescriptionG
---- | ---
-value | (optional) Local or key variable that the counter should save to. Default `{ "key": "forI" }`
-from | An integer value that the loop counter would start from (could be [Value or Expression](#values-and-expressions))
-to | An integer value that the loop counter would count to (inclusive) (could be [Value or Expression](#values-and-expressions))
-do | An array of Behavior Actions that should be executed
-
-NOTE: One can break out of the loop via a `break` action, or even a `return` action to exist the current event handler or function entirely.
-
-##### `assign`
-
-Behavior Action `assign` is an assignment statement that sets and/or re-sets the value stored in the storage denoted by a variable name (named by key); in other words, it copies a value into the variable.
-
-For example:
-```json
- { "host" : "assign",
-   "key" : "i",
-   "value" : 0 },
- { "host" : "assign",
-   "key" : "i",
-   "value" : { "+": [{ "key": "i" }, 1] } },
- { "host" : "assign",
-   "key" : "object.array.0",
-   "value" : "Hello World" },
- { "host" : "assign",
-   "key" : { "+": ["object.array.", { "key": "i" } ] ,
-   "value" : { "key": "i" }},
- }
-```
-
-Parameter | Description
---- | ---
-key | Name of global variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be [value or expression](#values-and-expressions))
-local | Name of a local variable. Either `key` or `local` must be specified.
-value | Value of the variable (could be an expression).
-
-All globals values are maintained across step displays. Local variables are maintained during the current event handler or function invocation.
-
-##### `setTimeout`
-
-Behavior Action `setTimeout` allows execution of a set of Behavior Actions at specified time intervals. (One time, or repeat)
-
-For example:
-```json
- { "host" : "setTimeout",
-   "duration" : 3,
-   "do": [ { "host" : "debugLog", "value" : "timeout fired after 3 seconds" } ] }
-```
-
-Parameter | Description
---- | ---
-repeat | (optional, default false) A boolean value that indicate if the timer will fire repeatedly.
-duration | `duration` indicates the number of seconds before execution. Note: we will tolerate `timeout`, or `delay`
-do | An array of Behavior Actions to be executed.
-
-###### Notes
-
-Creative is expected to stop their repeated timers.
-Currently there are no menthod to stop an individual timer.
-
-##### `stopAllTimers`
-
-The `stopAllTimers` stops the execution of all the timers specified in setTimeout(), and clear all the saved timers.
+---
 
 ##### `makeWebRequest`
 
@@ -961,37 +937,53 @@ responseAsJson | (optional, default: false) will try to parse the return as JSON
 onload | An array of Behavior Actions to be executed on call successed.
 onerror | An array of Behavior Actions to be executed on call failed.
 
-##### `bringToFront`
+---
 
-Changes child order of a TXElement so that it draws on top of all other views.
+##### `pauseActiveAudio`
+
+Pauses playback for the active audio element.
+
+---
+
+##### `pauseVideo`
+
+Pauses playback for the target video.
 
 Parameter | Description
 --- | ---
-name | Name of the node to bring to the front of the view
+target | Name of the video to pause.
 
-##### `focusElement`
+---
 
-Sets the focus to a specified button or video. onFocusGained and onFocusLost are triggered when switching focus.
+##### `playActiveAudio`
+
+Starts or resumes playback (if currently paused) for the active audio element.
+
+---
+
+##### `playSoundEffect`
+
+Triggers a sound effect for playback.
 
 Parameter | Description
 --- | ---
-name | Name of the node that will capture focus
+uri | Uri of the sound file to trigger playback for.
 
-##### `disableUserInput`
+NOTES:
+* On Roku, `playSoundEffect` is a wrapper on top of the [`<SoundEffect/>`](https://sdkdocs.roku.com/display/sdkdoc/SoundEffect) SceneGraph component. It is notably limited to WAV files as a format for the sound effects.
+* On HTML5, the standard .mp3, .wav, etc. file types work.
 
-Prevent user input from being handled.
+---
 
-##### `enableUserInput`
+##### `playVideo`
 
-Allow user input to be handled.
+Starts or resumes playback (for a paused video) for the target video.
 
-##### `disableUserNavigation`
+Parameter | Description
+--- | ---
+target | Name of the video to play.
 
-Prevent user directional input from being handled.
-
-##### `enableUserNavigation`
-
-Allow user directional input to be handled
+---
 
 ##### `popStep`
 
@@ -999,35 +991,123 @@ Allow user directional input to be handled
 
 Removes the current BlueScript step from the stack, replacing it with the next step on the navigational stack.
 
-##### `animateElement`
+---
 
-Animates Bluescript element attributes. This action is only supported on rendered elements (not Audio), and only with certain fields (see below).
+##### `replaceStep`
+
+Navigates to a different BlueScript step, replacing the current step being displayed.
+
+Parameter | Description
+--- | ---
+cardName | Name of the step to transition to, as defined in the top level list of BlueScript steps.
+
+---
+
+##### `resetActiveAudio`
+
+Resets playback for the active audio element by setting the play head to the beginning.
+
+---
+
+##### `resetFocus`
+
+Re-initializes the focus handler and ensures a default control is focused, which is usually the visually top most / left most button.
+This can be set programmatically in an "appear" event handler via the `focusElement` action.
+
+---
+
+##### `resetVideo`
+
+Resets playback for the target video by setting the play head to the beginning.
+
+Parameter | Description
+--- | ---
+target | Name of the video to reset.
+
+---
+
+##### `setAttribute`
+
+Assigns a new value to given property for the script element, typically controlling a visual aspect of the underlying component.
+
+Parameter | Description
+--- | ---
+name | Name of the BlueScript element that will have one of its underlying properties changed.
+key | Name of the underlying property to update.
+value | New value for the underlying property.
+
+NOTE: On Roku, `setAttribute` manipulates the SceneGraph component underlying the BlueScript element. In effect, it allows access to underlying implementation for the element. This could have adverse effects.
+
+---
+
+##### `setBounds`
+
+Instantly sets the bounds / position of an element.  An alternative to animateElement when duration = 0
 
 Parameter | Default | Description
 --- | --- | ---
-attributes | (required) | and object defining which attributes are to be animated; (x, y, width, height and opacity. position and size are supported legacy attributes)
-duration | 0.35 | the length of time (in seconds) it will take to play the animation
-easeFunction | `outCubic` | how the values will evolve throughout the animation duration
-optional | false | (Roku only) whether or not the animation can be ignored for low-end devices under stress
+target |  | the name of the target node
+x |  | new x position
+y |  | new y position
+width |  | new width of element
+height |  | new height of element
 
-###### Notes
+NOTES: All new values are optional by excluding them in the action.  For example, if you only want to change x,y and leave width,height alone.
 
-Elements attributes are animated to the specified value **from their current value**!
+---
 
-More than one attribute can be animated with one call to `animateElement`.
+##### `setTimeout`
 
+Behavior Action `setTimeout` allows execution of a set of Behavior Actions at specified time intervals. (One time, or repeat)
+
+For example:
 ```json
- { "host": "animateElement",
-   "name": "Video_Player",
-   "attributes": {
-        "x": 110,
-        "y": 217,
-        "width": 1150,
-        "height": 647
-   },
-   "duration": 0.5
- }
+ { "host" : "setTimeout",
+   "duration" : 3,
+   "do": [ { "host" : "debugLog", "value" : "timeout fired after 3 seconds" } ] }
 ```
+
+Parameter | Description
+--- | ---
+repeat | (optional, default false) A boolean value that indicate if the timer will fire repeatedly.
+duration | `duration` indicates the number of seconds before execution. Note: we will tolerate `timeout`, or `delay`
+do | An array of Behavior Actions to be executed.
+
+NOTES: Creative is expected to stop their repeated timers.
+Currently there are no menthod to stop an individual timer.
+
+---
+
+##### `showStep`
+
+[Deprecated: "step stacking" is no longer upported, not even available on HTML5. Use explicit `replaceStep` actions instead.]
+
+Navigates to a different BlueScript step, pushing the new step onto the navigational stack. A viewer is able to get back to the previous step using the BACK key or equivalent.
+
+Parameter | Description
+--- | ---
+cardName | Name of the step to transition to, as defined in the top level list of BlueScript steps.
+
+
+##### `stopAllTimers`
+
+The `stopAllTimers` stops the execution of all the timers specified in setTimeout(), and clear all the saved timers.
+
+---
+
+##### `stopActiveAudio`
+
+Stops playback for the active audio element.
+
+---
+
+##### `stopVideo`
+
+Stops playback for the target video.
+
+Parameter | Description
+--- | ---
+target | Name of the video to stop.
 
 ##### `trackCustomEvent`
 
@@ -1054,23 +1134,6 @@ Parameter | Default | Description
 category | `fep_roku_layout` | The tracking taxonomy category to use for the tracking call. Typically omitted so default value is used.
 name | (required) | The name of the tracking event.
 value | | A value to use for the event, if appropriate.
-
-##### `setBounds`
-
-Instantly sets the bounds / position of an element.  An alternative to animateElement when duration = 0
-
-Parameter | Default | Description
---- | --- | ---
-target |  | the name of the target node
-x |  | new x position
-y |  | new y position
-width |  | new width of element
-height |  | new height of element
-
-###### Notes
-
-All new values are optional by excluding them in the action.  For example, if you only want to change x,y and leave width,height alone.
-
 
 ---
 
