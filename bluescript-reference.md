@@ -517,7 +517,7 @@ On Roku, only a single Media node may be actively playing or buffering media at 
 
 #### Video Behavior Actions
 
-##### (1) - `playVideo`
+##### `playVideo`
 
 Starts or resumes playback (for a paused video) for the target video.
 
@@ -525,7 +525,7 @@ Parameter | Description
 --- | ---
 target | Name of the video to play.
 
-##### (2) - `pauseVideo`
+##### `pauseVideo`
 
 Pauses playback for the target video.
 
@@ -533,7 +533,7 @@ Parameter | Description
 --- | ---
 target | Name of the video to pause.
 
-##### (3) - `resetVideo`
+##### `resetVideo`
 
 Resets playback for the target video by setting the play head to the beginning.
 
@@ -541,7 +541,7 @@ Parameter | Description
 --- | ---
 target | Name of the video to reset.
 
-##### (4) - `stopVideo`
+##### `stopVideo`
 
 Stops playback for the target video.
 
@@ -668,19 +668,19 @@ Note on MP3 format. On PlayStation, and some other platforms, MP3 is not support
 
 #### Audio Behavior Actions
 
-##### (1) - `playActiveAudio`
+##### `playActiveAudio`
 
 Starts or resumes playback (if currently paused) for the active audio element.
 
-##### (2) - `pauseActiveAudio`
+##### `pauseActiveAudio`
 
 Pauses playback for the active audio element.
 
-##### (3) - `resetActiveAudio`
+##### `resetActiveAudio`
 
 Resets playback for the active audio element by setting the play head to the beginning.
 
-##### (4) - `stopActiveAudio`
+##### `stopActiveAudio`
 
 Stops playback for the active audio element.
 
@@ -755,7 +755,7 @@ or when a BlueScript function is invoked.
 
 Triggers the "Return to Content" button, exiting the ad flow for a completed ad.
 
-##### (2) - `showStep`
+##### `showStep`
 
 [Deprecated: "step stacking" is no longer upported, not even available on HTML5. Use explicit `replaceStep` actions instead.]
 
@@ -765,7 +765,7 @@ Parameter | Description
 --- | ---
 cardName | Name of the step to transition to, as defined in the top level list of BlueScript steps.
 
-##### (3) - `replaceStep`
+##### `replaceStep`
 
 Navigates to a different BlueScript step, replacing the current step being displayed.
 
@@ -773,12 +773,12 @@ Parameter | Description
 --- | ---
 cardName | Name of the step to transition to, as defined in the top level list of BlueScript steps.
 
-##### (4) - `resetFocus`
+##### `resetFocus`
 
 Re-initializes the focus handler and ensures a default control is focused, which is usually the visually top most / left most button.
 This can be set programmatically in an "appear" event handler via the `focusElement` action.
 
-##### (5) - `setAttribute`
+##### `setAttribute`
 
 Assigns a new value to given property for the script element, typically controlling a visual aspect of the underlying component.
 
@@ -790,11 +790,11 @@ value | New value for the underlying property.
 
 NOTE: On Roku, `setAttribute` manipulates the SceneGraph component underlying the BlueScript element. In effect, it allows access to underlying implementation for the element. This could have adverse effects.
 
-##### (6) - `flagActivityForAttention`
+##### `flagActivityForAttention`
 
 Flags the engagement as having been interacted with, fulfilling the interaction requirement of true[ATTENTION].
 
-##### (7) - `playSoundEffect`
+##### `playSoundEffect`
 
 Triggers a sound effect for playback.
 
@@ -806,7 +806,7 @@ NOTES: On Roku, `playSoundEffect` is a wrapper on top of the [`<SoundEffect/>`](
 
 On HTML5, the standard .mp3, .wav, etc. file types work.
 
-##### (8) - `debugLog`
+##### `debugLog`
 
 On Roku, prints a log message to BrightScript terminal. Attach ` | grep "debugLog: "` at the end of `telnet` comment to filter for `debugLog`.
 
@@ -825,7 +825,7 @@ value | The (string) value to print out. This can be a [Value or Expression](#va
 
 NOTES: We would always try to cast any types into string.
 
-##### (9) - `if/else`
+##### `if/else`
 
 The `if/else` Behavior Action is a conditional statement, which perform different actions depending on whether the `expression` boolean condition evaluates to true or false.
 
@@ -870,7 +870,7 @@ else | (optional) An array of Behavior Actions that should be executed if expres
 
 NOTE: There is no `else if` as of now.
 
-##### (10) - `for`
+##### `for`
 
 Behavior Action `for` is a control flow statement for specifying iteration, which allows Behavior Actions to be executed repeatedly. Requires a control variable with `from` and `to` values, and a `do` Behavior Actions Array. An optional `value` can be used to specified a "key" or "local" variable to assign the loop value to.
 
@@ -901,7 +901,7 @@ do | An array of Behavior Actions that should be executed
 
 NOTE: One can break out of the loop via a `break` action, or even a `return` action to exist the current event handler or function entirely.
 
-##### (11) - `assign`
+##### `assign`
 
 Behavior Action `assign` is an assignment statement that sets and/or re-sets the value stored in the storage denoted by a variable name (named by key); in other words, it copies a value into the variable.
 
@@ -930,7 +930,7 @@ value | Value of the variable (could be an expression).
 
 All globals values are maintained across step displays. Local variables are maintained during the current event handler or function invocation.
 
-##### (12) - `setTimeout`
+##### `setTimeout`
 
 Behavior Action `setTimeout` allows execution of a set of Behavior Actions at specified time intervals. (One time, or repeat)
 
@@ -952,11 +952,11 @@ do | An array of Behavior Actions to be executed.
 Creative is expected to stop their repeated timers.
 Currently there are no menthod to stop an individual timer.
 
-##### (13) - `stopAllTimers`
+##### `stopAllTimers`
 
 The `stopAllTimers` stops the execution of all the timers specified in setTimeout(), and clear all the saved timers.
 
-##### (14) - `makeWebRequest`
+##### `makeWebRequest`
 
 Enables Behavior Actions to read the HTTP values sent by a client during a Web request.
 
@@ -979,7 +979,7 @@ responseAsJson | (optional, default: false) will try to parse the return as JSON
 onload | An array of Behavior Actions to be executed on call successed.
 onerror | An array of Behavior Actions to be executed on call failed.
 
-##### (15) - `bringToFront`
+##### `bringToFront`
 
 Changes child order of a TXElement so that it draws on top of all other views.
 
@@ -987,7 +987,7 @@ Parameter | Description
 --- | ---
 name | Name of the node to bring to the front of the view
 
-##### (16) - `focusElement`
+##### `focusElement`
 
 Sets the focus to a specified button or video. onFocusGained and onFocusLost are triggered when switching focus.
 
@@ -995,29 +995,29 @@ Parameter | Description
 --- | ---
 name | Name of the node that will capture focus
 
-##### (17) - `disableUserInput`
+##### `disableUserInput`
 
 Prevent user input from being handled.
 
-##### (18) - `enableUserInput`
+##### `enableUserInput`
 
 Allow user input to be handled.
 
-##### (19) - `disableUserNavigation`
+##### `disableUserNavigation`
 
 Prevent user directional input from being handled.
 
-##### (20) - `enableUserNavigation`
+##### `enableUserNavigation`
 
 Allow user directional input to be handled
 
-##### (21) - `popStep`
+##### `popStep`
 
 [Deprecated: "step stacking" is no longer supported, not even available on HTML5. Use explicit `replaceStep` actions instead.]
 
 Removes the current BlueScript step from the stack, replacing it with the next step on the navigational stack.
 
-##### (22) - `animateElement`
+##### `animateElement`
 
 Animates Bluescript element attributes. This action is only supported on rendered elements (not Audio), and only with certain fields (see below).
 
@@ -1047,7 +1047,7 @@ More than one attribute can be animated with one call to `animateElement`.
  }
 ```
 
-##### (23) - `trackCustomEvent`
+##### `trackCustomEvent`
 
 Tracks an event back to the true[X] server. This can be used to report back custom events and activity done by a viewer in the unit, such that it can be used for client-facing reports later on.
 
@@ -1073,7 +1073,7 @@ category | `fep_roku_layout` | The tracking taxonomy category to use for the tra
 name | (required) | The name of the tracking event.
 value | | A value to use for the event, if appropriate.
 
-##### (24) - `setBounds`
+##### `setBounds`
 
 Instantly sets the bounds / position of an element.  An alternative to animateElement when duration = 0
 
