@@ -97,8 +97,8 @@ the use of global "key variables" if they need to programmatically restore a pre
 
 Step Property | Default | Description
 --- | --- | ---
-name | N/A (Required) | Name (String) of the step and used to identify it for behaviors.
-elements | N/A (Required) | An array that contains [elements](#bluescript-element-reference) of this step. Z-indexed by the order, the first element is on the top, the last element is at the bottom.
+name | (required) | Name (String) of the step and used to identify it for behaviors.
+elements | (required) | An array that contains [elements](#bluescript-element-reference) of this step. Z-indexed by the order, the first element is on the top, the last element is at the bottom.
 behaviors | {} (Optional)| An object containing [named event handlers](#behavior-events), which define the behavior of elements, by their element names.
 functions | {} (Optional) | An object containing named functions, which can be invoked from behavior events and other functions.
 
@@ -108,8 +108,8 @@ A step's "elements" defines the array of BlueScript visual elements that are to 
 
 Element Property | Default | Description
 --- | --- | ---
-type | N/A (Required) | Type for the BlueScript element. See [possible element types below](#bluescript-element-reference) for what is supported.
-name | N/A (Required) | Name of the element and used to identify it for behaviors.
+type | (required) | Type for the BlueScript element. See [possible element types below](#bluescript-element-reference) for what is supported.
+name | (required) | Name of the element and used to identify it for behaviors.
 x | 0 | Screen-space X position, where x=0 is the left side of the (assumed 1080p) screen
 y | 0 | Screen-space Y position, where y=0 is the top of the (assumed 1080p) screen
 width | 0 | Specifies the width of the element on the screen. If 0 the width is computed dynamically from the element's visual content.
@@ -465,7 +465,7 @@ specified size.
 
 Property | Default | Description
 --- | --- | ---
-image_url | N/A (Required) | Specifies the URI to the image file.
+image_url | (required) | Specifies the URI to the image file.
 forceHighResolution | false | Use the image's native / high resolution on memory constrained low end Roku devices. See below [Memory Management](#memory-management) note.
 
 ---
@@ -495,7 +495,7 @@ Renders a video at the specified screen coordinates.
 
 Property | Default | Description
 --- | --- | ---
-video_url | N/A (Required) | Specifies the URI to the video file. MP4 format is expected.
+video_url | (required) | Specifies the URI to the video file. MP4 format is expected.
 loop | true | If set to true, the video will be restarted from the beginning after the end is reached.
 autoplay | true | If set to true, the video will be automatically started on card display.
 replayable | false | If set to true, makes the video player focusable on playback completion, enabling replay of the video.
@@ -503,7 +503,7 @@ mute | false | Set to true to mute the audio of the video currently playing. Set
 fullscreen | false | When toggled, the video will be animated to fullscreen, or back to window
 zoomAnimationDuration | 0.35 | The time it takes to animated between window and fullscreen. The 0.35 is copie from tvOS TAR. (Note: must be > 0)
 easeFunction | "inOutCubic" | This string defines the animation curve. For full list of easeFunction, see: https://sdkdocs.roku.com/display/sdkdoc/Animation#Animation-Fields
-currentTime | N/A | This value is the floating point time of the current stream.  This has a margin of error of 500ms due to how position is handled.
+currentTime | 0 | This value is the floating point time of the current stream.  This has a margin of error of 500ms due to how position is handled.
 trackingName | | When set, tracking calls utilize this name instead of the uri to identify videos. Greatly facilitates analysis. Note that when `useRotation` set to true, a `_n` suffix will be added to the trackingName, where `n` is the index of the video with "1 indexing".
 preview_image_url | | When set, implements a static image to overlay on top of the video player on video playback completion.
 focusable | false | Set to true in order to make the video focusable.
@@ -627,7 +627,7 @@ For example:
 
 Property | Default | Description
 --- | --- | ---
-image_url | N/A (Required) | Specifies the URI to the image file used for the button.
+image_url | (required) | Specifies the URI to the image file used for the button.
 hover_image_url |  | Specifies the URI to the image file used for the button's focused state.
 checked_image_url |  | Specifies the URI to the image file used for the button's enabled or checked state.
 hover_checked_image_url |  | Specifies the URI to the image file used for the button's focused state when it is used as a toggle style button.
@@ -642,17 +642,7 @@ upFocus | invalid | ID of element to focus when up directional button is pressed
 downFocus | invalid | ID of element to focus when down directional button is pressed.
 autoFocus | false | If set to true, the button will be focused by default.
 
-#### Button Behavior Events
-
-Behavior Event | Description
---- | ---
-onFocusGained | Triggered when the button receives focus.
-onFocusLost | Triggered when the button loses focus.
-onSelect | Triggered when the button is selected.
-
-#### Button Behavior Actions
-
-N/A. Note: manipulating properties of the button such as `checked` can be achieved using the `setAttribute` behavior action.
+Note: manipulating properties of the button such as `checked` can be achieved using the `setAttribute` behavior action.
 
 ---
 
@@ -678,7 +668,7 @@ Note: visual properties are not relevant for the Audio element, e.g. x, y, width
 
 Property | Default | Description
 --- | --- | ---
-audio_url | N/A (Required) | Specifies the URI to the audio file. MP3 format* is expected. Always use the Asset Uploader.
+audio_url | (required) | Specifies the URI to the audio file. MP3 format* is expected. Always use the Asset Uploader.
 loop | true | If set to true, the audio will restart from the beginning after the end is reached.
 autoplay | true | If set to true, the audio will be automatically started on card display.
 global | false | If true, audio sticks/continues playing across step card transitions.
@@ -695,33 +685,17 @@ Note on MP3 format. On PlayStation, and some other platforms, MP3 is not support
 
 Starts or resumes playback (if currently paused) for the active audio element.
 
-###### Parameters
-
-N/A
-
 ##### (2) - `pauseActiveAudio`
 
 Pauses playback for the active audio element.
-
-###### Parameters
-
-N/A
 
 ##### (3) - `resetActiveAudio`
 
 Resets playback for the active audio element by setting the play head to the beginning.
 
-###### Parameters
-
-N/A
-
 ##### (4) - `stopActiveAudio`
 
 Stops playback for the active audio element.
-
-###### Parameters
-
-N/A
 
 ---
 
@@ -795,10 +769,6 @@ or when a BlueScript function is invoked.
 
 Triggers the "Return to Content" button, exiting the ad flow for a completed ad.
 
-###### Parameters
-
-N/A
-
 ##### (2) - `showStep`
 
 [Deprecated: "step stacking" is no longer upported, not even available on HTML5. Use explicit `replaceStep` actions instead.]
@@ -826,10 +796,6 @@ cardName | Name of the step to transition to, as defined in the top level list o
 Re-initializes the focus handler and ensures a default control is focused, which is usually the visually top most / left most button.
 This can be set programmatically in an "appear" event handler via the `focusElement` action.
 
-###### Parameters
-
-N/A
-
 ##### (5) - `setAttribute`
 
 Assigns a new value to given property for the script element, typically controlling a visual aspect of the underlying component.
@@ -849,10 +815,6 @@ On Roku, `setAttribute` manipulates the SceneGraph component underlying the Blue
 ##### (6) - `flagActivityForAttention`
 
 Flags the engagement as having been interacted with, fulfilling the interaction requirement of true[ATTENTION].
-
-###### Parameters
-
-N/A
 
 ##### (7) - `playSoundEffect`
 
@@ -1085,43 +1047,23 @@ name | Name of the node that will capture focus
 
 Prevent user input from being handled.
 
-###### Parameters
-
-N/A
-
 ##### (18) - `enableUserInput`
 
 Allow user input to be handled.
-
-###### Parameters
-
-N/A
 
 ##### (19) - `disableUserNavigation`
 
 Prevent user directional input from being handled.
 
-###### Parameters
-
-N/A
-
 ##### (20) - `enableUserNavigation`
 
 Allow user directional input to be handled
-
-###### Parameters
-
-N/A
 
 ##### (21) - `popStep`
 
 [Deprecated: "step stacking" is no longer supported, not even available on HTML5. Use explicit `replaceStep` actions instead.]
 
 Removes the current BlueScript step from the stack, replacing it with the next step on the navigational stack.
-
-##### Parameters
-
-N/A
 
 ##### (22) - `animateElement`
 
@@ -1131,7 +1073,7 @@ Animates Bluescript element attributes. This action is only supported on rendere
 
 Parameter | Default | Description
 --- | --- | ---
-attributes | N/A (required) | and object defining which attributes are to be animated; (x, y, width, height and opacity. position and size are supported legacy attributes)
+attributes | (required) | and object defining which attributes are to be animated; (x, y, width, height and opacity. position and size are supported legacy attributes)
 duration | 0.35 | the length of time (in seconds) it will take to play the animation
 easeFunction | `outCubic` | how the values will evolve throughout the animation duration
 optional | false | (Roku only) whether or not the animation can be ignored for low-end devices under stress
@@ -1181,7 +1123,7 @@ Tracks an event back to the true[X] server. This can be used to report back cust
 Parameter | Default | Description
 --- | --- | ---
 category | `fep_roku_layout` | The tracking taxonomy category to use for the tracking call. Typically omitted so default value is used.
-name | N/A (required) | The name of the tracking event.
+name | (required) | The name of the tracking event.
 value | | A value to use for the event, if appropriate.
 
 ##### (24) - `setBounds`
