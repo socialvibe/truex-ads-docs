@@ -643,7 +643,7 @@ For example:
 }
 ```
 
-Additional Button Properties:
+Additional QRCode Properties:
 
 Property | Default | Description
 --- | --- | ---
