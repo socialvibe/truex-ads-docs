@@ -271,7 +271,7 @@ There are also predefined keys that provide additional information dynamically
 
 Expressions are used to compare values, perform arithmetic operations, logical operations, and perform functions that return value (random, for example), given an array of `values` as input.
 
-*NOTE:* the older form of operation expressions was like:
+NOTE: the older form of operation expressions was like:
 ```json
 { "host" : "debugLog", "value" : {"operation": "+", "values": [123, 123] } }, 
 ```
@@ -419,8 +419,7 @@ Renders a single-colored rectangle at the specified screen coordinates.
 
 TXRectangle is a simple sub-class of Brightscript's [Rectangle](https://developer.roku.com/docs/references/scenegraph/renderable-nodes/rectangle.md) component that allows us to assign behaviors and play animations. All of the original Rectangle functionality is supported.
 
-#### Example
-
+For example:
 ```json
 {
    "type": "Rectangle",
@@ -447,8 +446,7 @@ blendingEnabled | true | Specifies if the rectangle should be alpha blended with
 Renders an image at the specified screen coordinates, such that the image is scaled to fit within the element's 
 specified size.
 
-#### Example
-
+For example:
 ```json
 {
    "type": "Image",
@@ -474,8 +472,7 @@ forceHighResolution | false | Use the image's native / high resolution on memory
 
 Renders a video at the specified screen coordinates.
 
-#### Example
-
+For example:
 ```json
 {
    "type"      : "Video",
@@ -524,8 +521,6 @@ On Roku, only a single Media node may be actively playing or buffering media at 
 
 Starts or resumes playback (for a paused video) for the target video.
 
-###### Parameters
-
 Parameter | Description
 --- | ---
 target | Name of the video to play.
@@ -533,8 +528,6 @@ target | Name of the video to play.
 ##### (2) - `pauseVideo`
 
 Pauses playback for the target video.
-
-###### Parameters
 
 Parameter | Description
 --- | ---
@@ -544,8 +537,6 @@ target | Name of the video to pause.
 
 Resets playback for the target video by setting the play head to the beginning.
 
-###### Parameters
-
 Parameter | Description
 --- | ---
 target | Name of the video to reset.
@@ -553,8 +544,6 @@ target | Name of the video to reset.
 ##### (4) - `stopVideo`
 
 Stops playback for the target video.
-
-###### Parameters
 
 Parameter | Description
 --- | ---
@@ -566,8 +555,7 @@ target | Name of the video to stop.
 
 Renders a text label at the specified screen coordinates.
 
-#### Example
-
+For example:
 ```json
 {
    "type"      : "Text",
@@ -650,8 +638,7 @@ Note: manipulating properties of the button such as `checked` can be achieved us
 
 Plays background audio.
 
-#### Example
-
+For example:
 ```json
 {
    "type"      : "Audio",
@@ -703,8 +690,7 @@ Stops playback for the active audio element.
 
 Renders a QR Code as image using the [qr-code-generator](https://github.com/socialvibe/ui_misc/tree/master/lambda_functions/qr-code-generator).
 
-#### Example
-
+For example:
 ```json
 {
    "type"     : "QRCode",
@@ -743,7 +729,7 @@ tagLabel | (empty) | Specifies if this QR Code should take its url from the tag 
 
 The following are the top-level events that behaviors can be triggered from:
 
-Behavior Event | Description
+Event | Description
 --- | ---
 appear | Triggered when the element's parent card is displayed. Note that appear does not tie to visibility.
 disappear | Triggered when the element's parent card is dismissed, such as on a card transition or when ending the ad flow.
@@ -775,16 +761,13 @@ Triggers the "Return to Content" button, exiting the ad flow for a completed ad.
 
 Navigates to a different BlueScript step, pushing the new step onto the navigational stack. A viewer is able to get back to the previous step using the BACK key or equivalent.
 
-Parameters:
-
-|   |   |
-| cardName | Name of the step to transition to, as defined in the top level list of BlueScript steps.
+Parameter | Description
+--- | ---
+cardName | Name of the step to transition to, as defined in the top level list of BlueScript steps.
 
 ##### (3) - `replaceStep`
 
 Navigates to a different BlueScript step, replacing the current step being displayed.
-
-###### Parameters
 
 Parameter | Description
 --- | ---
@@ -799,17 +782,13 @@ This can be set programmatically in an "appear" event handler via the `focusElem
 
 Assigns a new value to given property for the script element, typically controlling a visual aspect of the underlying component.
 
-###### Parameters
-
 Parameter | Description
 --- | ---
 name | Name of the BlueScript element that will have one of its underlying properties changed.
 key | Name of the underlying property to update.
 value | New value for the underlying property.
 
-###### Notes
-
-On Roku, `setAttribute` manipulates the SceneGraph component underlying the BlueScript element. In effect, it allows access to underlying implementation for the element. This could have adverse effects.
+NOTE: On Roku, `setAttribute` manipulates the SceneGraph component underlying the BlueScript element. In effect, it allows access to underlying implementation for the element. This could have adverse effects.
 
 ##### (6) - `flagActivityForAttention`
 
@@ -819,15 +798,11 @@ Flags the engagement as having been interacted with, fulfilling the interaction 
 
 Triggers a sound effect for playback.
 
-###### Parameters
-
 Parameter | Description
 --- | ---
 uri | Uri of the sound file to trigger playback for.
 
-###### Notes
-
-On Roku, `playSoundEffect` is a wrapper on top of the [`<SoundEffect/>`](https://sdkdocs.roku.com/display/sdkdoc/SoundEffect) SceneGraph component. It is notably limited to WAV files as a format for the sound effects.
+NOTES: On Roku, `playSoundEffect` is a wrapper on top of the [`<SoundEffect/>`](https://sdkdocs.roku.com/display/sdkdoc/SoundEffect) SceneGraph component. It is notably limited to WAV files as a format for the sound effects.
 
 On HTML5, the standard .mp3, .wav, etc. file types work.
 
@@ -837,28 +812,24 @@ On Roku, prints a log message to BrightScript terminal. Attach ` | grep "debugLo
 
 On HTML5, prints a log message to the browser's console log. Examine the console log of the browser the ad is running in.
 
-###### Example
+For example:
 ```json
 { "host" : "debugLog", "value" : "This is a String." }, // Prints: This is a String.
 { "host" : "debugLog", "value" : {"key": "keyOfValue"}  }, // Prints: what ever is in keyOfValue.
 { "host" : "debugLog", "value" : {"+": ["Plus ", "operation."]}  }, // Prints: Plus operation.
 ```
 
-###### Parameters
-
 Parameter | Description
 --- | ---
 value | The (string) value to print out. This can be a [Value or Expression](#values-and-expressions).
 
-###### Notes
-
-We would always try to cast any types into string.
+NOTES: We would always try to cast any types into string.
 
 ##### (9) - `if/else`
 
 The `if/else` Behavior Action is a conditional statement, which perform different actions depending on whether the `expression` boolean condition evaluates to true or false.
 
-###### Example
+For example:
 ```json
  { "host" : "if",
    "expression" : true,
@@ -891,23 +862,19 @@ The `if/else` Behavior Action is a conditional statement, which perform differen
                 "value" : "4) txLogLevel is not 3" }] }
 ```
 
-###### Parameters
-
 Parameter | Description
 --- | ---
 expression | Expression is a [Value or Expression](#values-and-expressions), which determines the flow of the Behavior Actions
 then | An array of Behavior Actions that should be executed if expression is true
 else | (optional) An array of Behavior Actions that should be executed if expression is NOT true
 
-###### Notes
-
-There is no `else if` as of now.
+NOTE: There is no `else if` as of now.
 
 ##### (10) - `for`
 
 Behavior Action `for` is a control flow statement for specifying iteration, which allows Behavior Actions to be executed repeatedly. Requires a control variable with `from` and `to` values, and a `do` Behavior Actions Array. An optional `value` can be used to specified a "key" or "local" variable to assign the loop value to.
 
-###### Example
+For example:
 ```json
  { "host" : "for",
    "from": 0,
@@ -925,8 +892,6 @@ Behavior Action `for` is a control flow statement for specifying iteration, whic
    ] },
 ```
 
-###### Parameters
-
 Parameter | DescriptionG
 --- | ---
 value | (optional) Local or key variable that the counter should save to. Default `{ "key": "forI" }`
@@ -934,15 +899,13 @@ from | An integer value that the loop counter would start from (could be [Value 
 to | An integer value that the loop counter would count to (inclusive) (could be [Value or Expression](#values-and-expressions))
 do | An array of Behavior Actions that should be executed
 
-###### Notes
-
-One can break out of the loop via a `break` action, or even a `return` action to exist the current event handler or function entirely.
+NOTE: One can break out of the loop via a `break` action, or even a `return` action to exist the current event handler or function entirely.
 
 ##### (11) - `assign`
 
 Behavior Action `assign` is an assignment statement that sets and/or re-sets the value stored in the storage denoted by a variable name (named by key); in other words, it copies a value into the variable.
 
-###### Example
+For example:
 ```json
  { "host" : "assign",
    "key" : "i",
@@ -959,8 +922,6 @@ Behavior Action `assign` is an assignment statement that sets and/or re-sets the
  }
 ```
 
-###### Parameters
-
 Parameter | Description
 --- | ---
 key | Name of global variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be [value or expression](#values-and-expressions))
@@ -973,14 +934,12 @@ All globals values are maintained across step displays. Local variables are main
 
 Behavior Action `setTimeout` allows execution of a set of Behavior Actions at specified time intervals. (One time, or repeat)
 
-###### Example
+For example:
 ```json
  { "host" : "setTimeout",
    "duration" : 3,
    "do": [ { "host" : "debugLog", "value" : "timeout fired after 3 seconds" } ] }
 ```
-
-###### Parameters
 
 Parameter | Description
 --- | ---
@@ -1001,7 +960,7 @@ The `stopAllTimers` stops the execution of all the timers specified in setTimeou
 
 Enables Behavior Actions to read the HTTP values sent by a client during a Web request.
 
-###### Example
+For example:
 ```json
  { "host" : "makeWebRequest",
    "url" : "https://api.weather.gov/gridpoints/SEW/124,67/forecast/hourly",
@@ -1011,8 +970,6 @@ Enables Behavior Actions to read the HTTP values sent by a client during a Web r
              { "host" : "debugLog",
                "value" : { "key": "weatherJson.properties.periods.0" } } ] }
 ```
-
-###### Parameters
 
 Parameter | Description
 --- | ---
@@ -1026,8 +983,6 @@ onerror | An array of Behavior Actions to be executed on call failed.
 
 Changes child order of a TXElement so that it draws on top of all other views.
 
-###### Parameters
-
 Parameter | Description
 --- | ---
 name | Name of the node to bring to the front of the view
@@ -1035,8 +990,6 @@ name | Name of the node to bring to the front of the view
 ##### (16) - `focusElement`
 
 Sets the focus to a specified button or video. onFocusGained and onFocusLost are triggered when switching focus.
-
-###### Parameters
 
 Parameter | Description
 --- | ---
@@ -1068,8 +1021,6 @@ Removes the current BlueScript step from the stack, replacing it with the next s
 
 Animates Bluescript element attributes. This action is only supported on rendered elements (not Audio), and only with certain fields (see below).
 
-###### Parameters
-
 Parameter | Default | Description
 --- | --- | ---
 attributes | (required) | and object defining which attributes are to be animated; (x, y, width, height and opacity. position and size are supported legacy attributes)
@@ -1100,8 +1051,7 @@ More than one attribute can be animated with one call to `animateElement`.
 
 Tracks an event back to the true[X] server. This can be used to report back custom events and activity done by a viewer in the unit, such that it can be used for client-facing reports later on.
 
-###### Example
-
+For example:
 ```json
  { "host" : "trackCustomEvent",
    "name" : "button_clicked",
@@ -1117,8 +1067,6 @@ Tracks an event back to the true[X] server. This can be used to report back cust
  }
 ```
 
-###### Parameters
-
 Parameter | Default | Description
 --- | --- | ---
 category | `fep_roku_layout` | The tracking taxonomy category to use for the tracking call. Typically omitted so default value is used.
@@ -1128,8 +1076,6 @@ value | | A value to use for the event, if appropriate.
 ##### (24) - `setBounds`
 
 Instantly sets the bounds / position of an element.  An alternative to animateElement when duration = 0
-
-###### Parameters
 
 Parameter | Default | Description
 --- | --- | ---
