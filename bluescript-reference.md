@@ -939,22 +939,31 @@ Enables Behavior Actions to read the HTTP values sent by a client during a Web r
 
 For example:
 ```json
- { "host" : "makeWebRequest",
+{
+   "host" : "makeWebRequest",
    "url" : "https://api.weather.gov/gridpoints/SEW/124,67/forecast/hourly",
+   "method": "GET",
+   "headers": {"Accept": "application/json"},
    "responseAsJson": true,
    "assignResponseTo": { "key": "weatherJson" },
    "onload": [
-             { "host" : "debugLog",
-               "value" : { "key": "weatherJson.properties.periods.0" } } ] }
+      { "host" : "debugLog", "value" : { "key": "weatherJson.properties.periods.0" } } 
+   ]
+}
 ```
 
-Parameter | Description
+Parameter | Default | Description
 --- | ---
-url | The server/file location.
-assignResponseTo | takes a variable reference with a `key` or `local` entry, which points to variable that the returned string/json will be assigned to.
-responseAsJson | (optional, default: false) will try to parse the return as JSON before save.
-onload | An array of Behavior Actions to be executed on call successed.
-onerror | An array of Behavior Actions to be executed on call failed.
+url | (required) | The server/file location.
+method | "GET" | one of "GET", "PUT", "POST", "DELETE", "HEAD"
+headers | { "Accept": "application/json",
+ "Content-Type": "application/json" } | object map of header names to values, defaults
+body | null | if present, sent as the body of the request for PUT and POST requests. Strings are sent as is, objects
+ converted to form encoding for "application/x-www-form-urlencoded" content type requests, JSON otherwise.
+assignResponseTo | optional | takes a `key` or `local` variable reference, to be assigned the returned string/json response.
+responseAsJson | false | will try to parse the return as JSON before applying the response
+onload | optional | An array of Behavior Actions to be executed on call successed.
+onerror | optional | An array of Behavior Actions to be executed on call failed.
 
 ---
 
