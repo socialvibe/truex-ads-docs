@@ -838,20 +838,22 @@ Behavior Action `for` is a control flow statement for specifying iteration, whic
 
 For example:
 ```json
- { "host" : "for",
-   "from": 0,
-   "to": 3,
-   "do" : [
+{
+  "host" : "for", "from": 0, "to": 3,
+  "do" : [
        { "host" : "debugLog", "value" : "test" }
-   ] },
-
- { "host" : "for",
-   "value": { "key": "i" },
-   "from": 0,
-   "to": { "key": "ta" },
-   "do" : [
-       { "host" : "debugLog", "value" : { "key": "i" } }
-   ] },
+  ]
+},
+{
+  "host" : "for", "value": { "key": "i" }, "from": 0, "to": { "key": "ta" },
+  "do" : [
+    { "host" : "debugLog", "value" : { "key": "i" } },
+    {
+      "host": "if", "expression": {">=": [{"key": "i"}, 10]},
+      "then": [{"host": "break"}]
+    }
+  ]
+},
 ```
 
 Parameter | DescriptionG
