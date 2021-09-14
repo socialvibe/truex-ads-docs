@@ -741,7 +741,7 @@ For example:
 
 Parameter | Description
 --- | ---
-key | Name of global variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be [value or expression](#values-and-expressions))
+key | Name of global variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be [value or expression](#bluescript-values-and-expressions))
 local | Name of a local variable. Either `key` or `local` must be specified.
 value | Value of the variable (could be an expression).
 
@@ -781,7 +781,7 @@ For example:
 
 Parameter | Description
 --- | ---
-value | The (string) value to print out. This can be a [Value or Expression](#values-and-expressions).
+value | The (string) value to print out. This can be a [Value or Expression](#bluescript-values-and-expressions).
 
 NOTES: We would always try to cast any types into string.
 
@@ -861,8 +861,8 @@ For example:
 Parameter | DescriptionG
 --- | ---
 value | (optional) Local or key variable that the counter should save to. Default `{ "key": "forI" }`
-from | An integer value that the loop counter would start from (could be [Value or Expression](#values-and-expressions))
-to | An integer value that the loop counter would count to (inclusive) (could be [Value or Expression](#values-and-expressions))
+from | An integer value that the loop counter would start from (could be [Value or Expression](#bluescript-values-and-expressions))
+to | An integer value that the loop counter would count to (inclusive) (could be [Value or Expression](#bluescript-values-and-expressions))
 do | An array of Behavior Actions that should be executed
 
 NOTE: One can break out of the loop via a `break` action, or even a `return` action to exist the current event handler or function entirely.
@@ -908,7 +908,7 @@ For example:
 
 Parameter | Description
 --- | ---
-expression | Expression is a [Value or Expression](#values-and-expressions), which determines the flow of the Behavior Actions
+expression | Expression is a [Value or Expression](#bluescript-values-and-expressions), which determines the flow of the Behavior Actions
 then | An array of Behavior Actions that should be executed if expression is true
 else | (optional) An array of Behavior Actions that should be executed if expression is NOT true
 
