@@ -953,7 +953,7 @@ For example:
 ```
 
 Parameter | Default | Description
---- | ---
+--- | --- | ---
 url | (required) | The server/file location.
 method | "GET" | one of "GET", "PUT", "POST", "DELETE", "HEAD"
 headers | { "Accept": "application/json", "Content-Type": "application/json" } | object map of header names to values, defaults
