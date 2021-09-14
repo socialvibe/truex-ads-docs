@@ -720,23 +720,23 @@ NOTES:
 
 ##### `assign`
 
-Behavior Action `assign` is an assignment statement that sets and/or re-sets the value stored in the storage denoted by a variable name (named by key); in other words, it copies a value into the variable.
+Behavior Action `assign` is an assignment statement that sets and/or re-sets the value stored in the storage denoted
+by a global key variable or local variable, as named by using `key` vs `local`; in other words, it sets the variable 
+to have the specified value.
+
+All globals values are maintained across step displays. 
+Local variables are maintained during the current event handler or function invocation.
+
+As discussed in [Stored Values](#stored-values), one can assign to object value fields with the `obj.field` notation,
+including numeric fields that serve as array indices.
 
 For example:
 ```json
- { "host" : "assign",
-   "key" : "i",
-   "value" : 0 },
- { "host" : "assign",
-   "key" : "i",
-   "value" : { "+": [{ "key": "i" }, 1] } },
- { "host" : "assign",
-   "key" : "object.array.0",
-   "value" : "Hello World" },
- { "host" : "assign",
-   "key" : { "+": ["object.array.", { "key": "i" } ] ,
-   "value" : { "key": "i" }},
- }
+{ "host" : "assign", "key" : "i", "value" : 0 },
+{ "host" : "assign", "key" : "i", "value" : { "+": [{ "key": "i" }, 1] } },
+{ "host" : "assign", "local" : "localVar", "value" : "a local value" },
+{ "host" : "assign", "key" : "object.array.0", "value" : "Hello World" },
+{ "host" : "assign", "key" : { "+": ["object.array.", { "key": "i" } ] , "value" : { "key": "i" }}}
 ```
 
 Parameter | Description
@@ -744,8 +744,6 @@ Parameter | Description
 key | Name of global variable. It can be a dot seperated list to indicate variable inside objects, or array. (could be [value or expression](#values-and-expressions))
 local | Name of a local variable. Either `key` or `local` must be specified.
 value | Value of the variable (could be an expression).
-
-All globals values are maintained across step displays. Local variables are maintained during the current event handler or function invocation.
 
 ---
 
