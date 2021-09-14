@@ -752,6 +752,13 @@ All globals values are maintained across step displays. Local variables are main
 
 ---
 
+##### `break`
+
+Exits the current for loop, execution continues with any hosted actions that might follow the `for` action. 
+
+If not current executing a `for` loop, a script error is thrown.
+
+---
 
 ##### `bringToFront`
 
@@ -1023,6 +1030,14 @@ Resets playback for the target video by setting the play head to the beginning.
 Parameter | Description
 --- | ---
 target | Name of the video to reset.
+
+---
+
+##### `return`
+
+Exits the current event handler or function invocation.
+
+If in a function invocation, execution resumes with the action following the calling invoke action or expression.
 
 ---
 
