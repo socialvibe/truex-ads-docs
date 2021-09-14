@@ -939,7 +939,7 @@ For example:
 Parameter | Description
 --- | ---
 url | The server/file location.
-assignResponseTo | take a json with a `key` or `local` entry, which points to variable that the returned string/json will be assigned to.
+assignResponseTo | takes a variable reference with a `key` or `local` entry, which points to variable that the returned string/json will be assigned to.
 responseAsJson | (optional, default: false) will try to parse the return as JSON before save.
 onload | An array of Behavior Actions to be executed on call successed.
 onerror | An array of Behavior Actions to be executed on call failed.
