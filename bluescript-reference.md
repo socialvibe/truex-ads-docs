@@ -952,7 +952,7 @@ For example:
 }
 ```
 
-Parameter | Default | Description
+Parameter | Default | Description foo
 --- | --- | ---
 url | (required) | The server/file location.
 method | "GET" | one of "GET", "PUT", "POST", "DELETE", "HEAD"
