@@ -916,6 +916,23 @@ NOTE: There is no `else if` as of now.
 
 ---
 
+##### `invoke`
+
+Invokes the specified function, allowing for the reuse of common behavior actions. 
+See the [Functions section](#functions) for more details.
+
+For example:
+```json
+{"host": "invoke", "function": "testFunction", "args": {"x": 123}}
+```
+
+Parameter | Description
+--- | ---
+function | The name of the function to invoke. It will be defined in the "functions" object of the current step.
+args | The optional map of named arguments to pass to the function.
+
+---
+
 ##### `makeWebRequest`
 
 Enables Behavior Actions to read the HTTP values sent by a client during a Web request.
