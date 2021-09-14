@@ -514,7 +514,7 @@ For example:
    "y"         : "150",
    "width"     : "800",
    "height"    : "0",
-   "text"      : "This is the TXAudio Tester"
+   "text"      : "This is some sample text"
 }
 ```
 
@@ -757,11 +757,11 @@ If not current executing a `for` loop, a script error is thrown.
 
 ##### `bringToFront`
 
-Changes child order of a TXElement so that it draws on top of all other views.
+Changes child order of a script element so that it draws on top of all other displayed elements.
 
 Parameter | Description
 --- | ---
-name | Name of the node to bring to the front of the view
+name | Name of the element to bring to the front of the view
 
 ---
 
