@@ -663,7 +663,7 @@ The following are the top-level events that behaviors can be triggered from:
 
 Event | Description
 --- | ---
-appear | Triggered when the element's parent card is displayed. Note that appear does not tie to visibility.
+appear | Triggered when the element's parent card is displayed. Note that appear event does not tie to the element's actual visibility.
 disappear | Triggered when the element's parent card is dismissed, such as on a card transition or when ending the ad flow.
 onSelect | Triggered when a button with the focus is clicked on or the select/enter button is pressed on the remote.
 onFocusGained | Triggered when a button or video gains the remote/keyboard focus.
@@ -700,12 +700,9 @@ duration | 0.35 | the length of time (in seconds) it will take to play the anima
 easeFunction | `outCubic` | how the values will evolve throughout the animation duration
 optional | false | (Roku only) whether or not the animation can be ignored for low-end devices under stress
 
-###### Notes
-
-Elements attributes are animated to the specified value **from their current value**!
-
-More than one attribute can be animated with one call to `animateElement`.
-
+NOTES:
+* Elements attributes are animated to the specified value **from their current value**!
+* More than one attribute can be animated with one call to `animateElement`.
 ```json
  { "host": "animateElement",
    "name": "Video_Player",
