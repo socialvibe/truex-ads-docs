@@ -841,7 +841,7 @@ For example:
 {
   "host" : "for", "from": 0, "to": 3,
   "do" : [
-       { "host" : "debugLog", "value" : "test" }
+       { "host" : "debugLog", "value" : {"+": ["counter is: ", {"key": "forI"}]} }
   ]
 },
 {
