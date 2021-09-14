@@ -952,12 +952,12 @@ For example:
 }
 ```
 
-Parameter | Default | Description foo
+Parameter | Default | Description
 --- | --- | ---
 url | (required) | The server/file location.
 method | "GET" | one of "GET", "PUT", "POST", "DELETE", "HEAD"
-headers | { "Accept": "application/json", "Content-Type": "application/json" } | object map of header names to values, defaults
-body | null | if present, sent as the body of the request for PUT and POST requests. Strings are sent as is, objects converted to form encoding for "application/x-www-form-urlencoded" content type requests, JSON otherwise.
+headers | {<br/>"Accept": "application/json",<br/>>"Content-Type": "application/json" } | object map of header names to values, defaults
+body | null | if present, sent as the body of the request for PUT and POST requests.<br/>Strings are sent as is, objects converted to form encoding for "application/x-www-form-urlencoded" content type requests, JSON otherwise.
 assignResponseTo | optional | takes a `key` or `local` variable reference, to be assigned the returned string/json response.
 responseAsJson | false | will try to parse the return as JSON before applying the response
 onload | optional | An array of Behavior Actions to be executed on call successed.
