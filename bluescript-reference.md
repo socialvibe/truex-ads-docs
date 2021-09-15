@@ -488,7 +488,7 @@ loop | true | If set to true, the video will be restarted from the beginning aft
 autoplay | true | If set to true, the video will be automatically started on card display.
 replayable | false | If set to true, makes the video player focusable on playback completion, enabling replay of the video.
 mute | false | Set to true to mute the audio of the video currently playing. Set to false to restore audio.
-fullscreen | false | When toggled, the video will be animated to fullscreen, or back to window
+fullscreen | false | If set to true, the video will be animated to fullscreen size, otherwise it will return to its original size.
 zoomAnimationDuration | 0.35 | The time it takes to animated between window and fullscreen. The 0.35 is copie from tvOS TAR. (Note: must be > 0)
 easeFunction | "inOutCubic" | This string defines the animation curve. For full list of easeFunction, see: https://sdkdocs.roku.com/display/sdkdoc/Animation#Animation-Fields
 currentTime | 0 | This value is the floating point time of the current stream.  This has a margin of error of 500ms due to how position is handled.
@@ -618,7 +618,7 @@ global | false | If true, audio sticks/continues playing across step card transi
 NOTES:
 * Visual properties are not relevant for the Audio element, e.g. x, y, width, height, opacity.
 * On Roku, only a single Media node may be actively playing or buffering media at a given time. This means that it is not possible to have multiple inline videos playing concurrently or a background / ambient video with inline window windows on top. This also precludes the use of background audio playing together with a video. Any additional stream started after the first one will fail silently.
-* For the MP3 format. On the PlayStation 5 and some other platforms, MP3 is not supported. BlueScript engine will try to get the MP4 version (same location, same name) of the given audio instead. Asset Uploader in True Exchange is encoding that MP4 file automatically. Be sure to include a MP4 version of your audio file if you cannot use the Asset Uploader.
+* For the MP3 format, on the PlayStation 5 and some other platforms, MP3 is not supported. BlueScript engine will try to get the MP4 version (same location, same name) of the given audio instead. Asset Uploader in True Exchange is encoding that MP4 file automatically. Be sure to include a MP4 version of your audio file if you cannot use the Asset Uploader.
 
 Related audio actions: [playActiveAudio](#playActiveAudio), [pauseActiveAudio](#pauseActiveAudio), 
 [resetActiveAudio](#resetActiveAudio), [stopActiveAudio](#stopActiveAudio)
@@ -682,7 +682,7 @@ videoSecondQuartile | Triggered when 50% of the video has played.
 videoThirdQuartile | Triggered when 75% of the video has played.
 videoCompleted | Triggered when the video has completed playback.
 videoLooped | Triggered when the video has automatically restarted playback.
-videoDidEnterFullscreen | Triggered when the video is to fullscreen size.
+videoDidEnterFullscreen | Triggered when the video is set to fullscreen size.
 videoDidExitFullscreen | Triggered when video is set back to its original size.
 
 ### Behavior Actions
