@@ -140,27 +140,37 @@ For example:
 
 A step's "functions" property contains all reusable functions, keyed by function name, that can be called from other event action execution, expressions, and even other functions.
 
-One uses the `invoke` behavior action or expression to execute functions. Arguments are passed by name, and are referred to with the function via the `arg` expression.
+One uses the `invoke` behavior action or expression to execute functions. 
+
+Arguments are passed by name, and are referred to with the function via the `arg` expression.
+
+Argument values are passed using reference semantics, matching JavaScript rules, thus objects and arrays are shared allowing for modification of subfields or elements on the shared item.
+
+Within a function, referring to arguments not in the invocation causes a script error, unless a default value is provided in the `arg` expression.
 
 The `return` host action can be used to return from the function immediately.
 
 Local variable values can be assigned via the `local` assign action. Such variables exist only during the current invocation's execution.
 
-<summary>For example:</summary>
-
+For example:
 ```json
 {
   "elements": [...],
   "functions": {
     "testFunction": [
-      {"host": "assign", "local": "v", "value": {"arg": "x"}},
-      {"host": "return", "value": {"+": [{"local": "v"}, {"local": "v"}]}}
+       {"host": "assign", "local": "result", "value": {"+": [{"arg": "x"}, {"arg":  "x"}]}},
+       {"host": "assign", "local": "sharedObj", "value": {"arg": "sharedArg", "default": {}}},
+       {"host": "assign", "local": "sharedObj.result", "value": {"local": "result"}},
+       {"host": "return", "value": {"local": "result"}}
     ]
   },
   "behaviors": {
     "testButton": {
       "appear": [
-        {"host": "invoke", "function": "testFunction", "args": {"x": 123}},
+        {
+           "host": "invoke", "function": "testFunction", 
+           "args": {"x": 123, "sharedArg": {"result": "TBD"}}
+        },
         {"host": "debugLog", "value": {"invoke": "testFunction", "args": {"x": 123}}}
       ]
     }
