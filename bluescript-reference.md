@@ -146,7 +146,7 @@ Arguments are passed by name, and are referred to with the function via the `arg
 
 Argument values are passed using reference semantics, matching JavaScript rules, thus objects and arrays are shared allowing for modification of subfields or elements on the shared item.
 
-Within a function, referring to arguments not in the invocation causes a script error, unless a default value is provided in the `arg` expression.
+Within a function, referring to arguments not present in the invocation causes a script error, unless a default value is provided in the `arg` expression.
 
 The `return` host action can be used to return from the function immediately.
 
