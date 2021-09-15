@@ -188,17 +188,7 @@ For HTML5: See the [sample-bluescript.json](https://github.com/socialvibe/truex-
 
 ## BlueScript Values and Expressions
 
-Behavior actions take various values as input to their actions. There are 3 types:
-1 - Literal Values
-2 - Stored Values
-3 - Expressions
-
-NOTE: Boolean values are used as literals for attributes (e.g. a `Text` element's `wrap` attribute) and 
-in expressions like in the `if` host action. When non-boolean values are used where a boolean value is expected, they
-are evaluated in a "truthy" manner according to the following rules:
-* false values are: `false`, 0, `null`, `undefined`, "", and "false".
-* true values are `true`, 1, and in fact any value that is not a false value.
-* in particular, non-null object and array values are evaluated as `true` in boolean contexts.
+Behavior actions take various values as input to their actions. There are 3 types: Literal Values, Stored Values, and Expressions.
 
 ### Literal Values
 
@@ -209,8 +199,15 @@ Note that arrays are evaluated as expressions, objects may or may not be dependi
 is that all host action attributes are evaluated as expressions, all operation parameters are evaluated as expressions,
 object literals that do not match any expression format are used as is.
 
-If one is unclear whether or not an object is evaluated or not, they can used the "literal" expression to force the
+If one is unclear whether or not an object is evaluated or not, they can use the "literal" expression to force the
 unevaluated use of the value.
+
+NOTE: Boolean values are used as literals for attributes (e.g. a `Text` element's `wrap` attribute) and
+in expressions like in the `if` host action. When non-boolean values are used where a boolean value is expected, they
+are evaluated in a "truthy" manner according to the following rules:
+* false values are: `false`, 0, `null`, `undefined`, "", and "false".
+* true values are `true`, 1, and in fact any value that is not a false value.
+* in particular, non-null object and array values are evaluated as `true` in boolean contexts.
 
 For example:
 ```json
