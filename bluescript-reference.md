@@ -1150,6 +1150,8 @@ Parameter | Description
 --- | ---
 target | Name of the video to stop.
 
+---
+
 ##### `trackCustomEvent`
 
 Tracks an event back to the true[X] server. This can be used to report back custom events and activity done by a viewer in the unit, such that it can be used for client-facing reports later on.
