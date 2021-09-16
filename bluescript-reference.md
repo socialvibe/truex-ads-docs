@@ -98,7 +98,7 @@ the use of global "key variables" if they need to programmatically restore a pre
 Step Property | Default | Description
 --- | --- | ---
 name | (required) | Name (String) of the step and used to identify it for behaviors.
-elements | (required) | An array that contains [elements](#bluescript-element-reference) of this step. Z-indexed by the order, the first element is on the top, the last element is at the bottom.
+elements | (required) | An array that contains [elements](#bluescript-element-reference) of this step. Z-indexed by the order, the first element is on the top visually, the last element is at the bottom.
 behaviors | {} (Optional)| An object containing [named event handlers](#behavior-events), which define the behavior of elements, by their element names.
 functions | {} (Optional) | An object containing named functions, which can be invoked from behavior events and other functions.
 
