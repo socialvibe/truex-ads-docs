@@ -35,7 +35,7 @@ _rev. 2021-09-10
 1. [Roku Authoring Considerations](#roku-authoring-considerations)
    1. [Roku Memory Management](#roku-memory-management)
 
-## 1 Overview
+## Overview
 
 We've created BlueScript as the true[X] creative format on the Roku platform since the built-in Roku SceneGraph XML cannot be dynamically served down, compiled, and instantiated. BlueScript provides us with the dynamic creative language we need to drive interactive ad experiences on behalf of our advertisers on the Roku platform.
 
@@ -47,9 +47,9 @@ For HTML5, the RTB server also serves up the ads, but the window_url in the vast
 
 BlueScript carries forward the "step" paradigm introduced in TVML with the top level structure being a list of "steps" (or _cards_) one can navigate between. For Roku, the entry-point (first step) for true[X] ads is always `main_card`. For HTML5, this is just a convention, the first step is initially shown regardless of its name.
 
-Each step card contains a flat list of BlueScript elements. There is implied hierarchy in the elements being instantiated and added to the scene in order they are declared. Thus, earlier-declared elements will be drawn _underneath_ later-declared elements, if they occupy the same drawing region.
+Each step card contains a flat list of BlueScript elements. There is implied hierarchy in the elements being instantiated and added to the scene in order they are declared. Thus, earlier-declared elements will be drawn _above_ later-declared elements, if they occupy the same drawing region.
 
-BlueScript elements support event handlers, enabling dynamic behavior. These can be used to trigger a variety of supported actions, such as controlling a video or playing sound effects. This is expressed as lists of behavior actions keyed on events. See below and `southback` repo (for Roku) and `Skyline` repo (for HTML5) for examples of this.
+BlueScript elements support event handlers, enabling dynamic behavior. These can be used to trigger a variety of supported actions, such as controlling a video or playing sound effects. This is expressed as lists of behavior actions keyed on events. See below and [southback repo](https://github.com/socialvibe) (for Roku) and [Skyline repo](https://github.com/socialvibe/Skyline) (for HTML5) for examples of this.
 
 ## Overall Structure
 
