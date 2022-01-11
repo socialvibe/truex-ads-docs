@@ -532,8 +532,8 @@ Property | Default | Description
 text |  | Specifies the text string to render in the Text element.
 color | 0xddddddff | Specifies the color of text rendered in the text element.  Supports HTML code formats.  RGB formats such as rgb(r,g,b) rgba(r,g,b,a) rgba(r%,g%,b%,a%) with commas or whitespace.  And Hex formats such as  #RGB #RGBA #RRGGBB #RRGGBBAA.
 backgroundColor | 0x00000000 | Specifies the background color for the text element, covers the final calculated width and height of the element.  Supports HTML code formats (see color above)
-fontName | (system default) | (Roku only) Specifies the font name for the text rendered in the text element. That is either a [built-in](https://sdkdocs.roku.com/display/sdkdoc/Typography) system font, or a TTF/OTF font we ship with the library. For portability with HTML5 ads, a font_url asset is recommended to use instead. 
-font_size | 24 | Size of the font, in points. Note that this is only supported for OTF/TTF files, as the default system fonts imply a given font size.
+fontName | (system default) | (Roku only) Specifies the font name for the text rendered in the text element. That is either a [built-in](https://sdkdocs.roku.com/display/sdkdoc/Typography) system font, or a TTF/OTF font we ship with the library. For portability with HTML5 ads, a font_url asset is recommended to use instead. The 2 fonts in Roku are `GothamBook.otf` and `GothamBold.otf`.
+font_size | 24 | Size of the font, in points. Note that this is only supported for OTF/TTF files, as the default system fonts imply a given font size. *Requires a `fontName` set.*
 font_url |   | Fully qualified URL of an OTF/TTF font asset to be dynamically loaded.  Externally hosted unlike fontName and must end with extension .otf/.ttf.
 alignment | center | Horizontal alignment, one of `left`, `center` or `right`.
 vertical_alignment | top | Vertical alignment, one of `top`, `center` or `bottom`.
