@@ -30,7 +30,6 @@ https://qa-get.truex.com/v2
 | `dimension_4` |  | string | Slot 4 for targetable metadata. |
 | `dimension_5` |  | string | Slot 5 for targetable metadata. |
 | `coppa` |  | boolean | '1' or '0'.  Pass '1' if the user is under 13.  Prevents data storing. |
-| `mraid` |  | boolean | (mobile only) '1' or '0'. When true, adds mraid.js to the ad markup. |
 
 #### Sample Request
 ```
@@ -65,6 +64,3 @@ A `activity` JSON object.  Or `{"error": "No bid found"}` if no ads are availabl
 	"session_id": "i_wktnzfS1G6yqdp57lSIw"
 }
 ```
-
-
-
