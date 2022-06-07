@@ -10,3 +10,4 @@ Repository for TrueX ad production documentation
 - [TrueX Ad SDK - JavaScript](https://github.com/socialvibe/truex-ads-api-js)
 - [TrueX Ad SDK - ActionScript](https://github.com/socialvibe/truex-ads-api-as3)
 - [Roku TruexAdRenderer (TAR) Choice Card Parameters](https://github.com/socialvibe/truex-ads-docs/blob/master/roku_tar_choice_card_config_params.md)
+- [C2->C3 Conversion Notes](https://github.com/socialvibe/truex-ads-docs/blob/master/c2_c3_conversion.md)
