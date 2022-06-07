@@ -22,10 +22,10 @@ However, for those ads that make use the LayoutJSON elements, the following note
   * This kind of ad code that tries to combine steps via JS should no longer be needed, steps for mobile and desktop ads will do the right thing be default. On the other hand, executing it will have no effect either, since the `offstage` css class will already not be present, as all steps will already be visible for mobile and desktop ads.
     ```javascript
     setTimeout(function() {
-    $('#ad_stage .offstage').removeClass('offstage');
-    for (var i = 0; i < 10; i++) {
-    $('#ad_stage .step_'+ i).removeClass('step_'+ i);
-    }
+        $('#ad_stage .offstage').removeClass('offstage');
+        for (var i = 0; i < 10; i++) {
+            $('#ad_stage .step_'+ i).removeClass('step_'+ i);
+        }
     }, 0);
     ```
 * Bluescript ads are now (incidentally!) supported for mobile and desktop C3 ads, so that is an option if one wants to create ads similar to CTV ads.
