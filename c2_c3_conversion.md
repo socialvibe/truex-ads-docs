@@ -15,7 +15,7 @@ However, for those ads that make use the LayoutJSON elements, the following note
     * Muted videos typically are allowed to auto play even on pages that have had no user interaction.
   * To support the scenario of muted background videos, simply set both `allowClickToPlay` and `allowClickForSound` to false for the video in question.
 * Videos should be either declared in the LayoutJSON or else created via JS code via `TXM.layout.createVideoElement(id, srcOrConfig)`
-  * The use of raw HTML5 \<video> DOM instances is discouraged as this avoids autoplay and tracking support.
+  * The use of raw HTML5 `<video>` DOM instances is discouraged as this avoids autoplay and tracking support.
   * The `config` parameter should have the same fields as that of the "Video" elements in the LayoutJSON.
 * Steps in the LayoutJSON are distinct in C3, to improve runtime loading and memory performance. However, for C2 ads steps are used more for grouping purposes, in particular for tracking, and are their DOM elements are assumed to all be loaded when the ad is first loaded. This will continue to be supported, but with some improvements.
   * Note in particular the implicit `alwaysLoaded` and `alwaysVisible` properties for steps in the LayoutJSON to control this. These will default to `true` for mobile and desktop ads.
