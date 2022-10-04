@@ -9,3 +9,4 @@ This page lists and describes all the used in the Hulu integration.
 | exitAutoWatch  | When the choice card auto advance timer has expired.  |
 | exitSelectWatch  | When the user selects to watch normal ads.  |
 | exitAfterOptIn  | When the user exits the interactive ad _before_ completing the requires (i.e. 30 seconds and 1 interaction).  |
+| exitBeforeOptIn  | When the user exits the choice_card by pressing _back_  |
