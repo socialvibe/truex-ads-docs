@@ -39,8 +39,8 @@ These engagement interactions are automatically tracked by the ad container or C
 | Category | Name | Value | Notes |
 | ------------- | ------------- | ------------- | ------------- |
 | `timing` | `initial` | n/a | blurb |
-| `timing` | `total_time_spent` | milliseconds since initial | Fired when the user gets to the end of the engagement. |
-| `timing` | `total time spent` | milliseconds since initial | Fired when the user gets to the end of the engagement.  Or anytime the user leaves the engagement experience. |
+| `timing` | `total_time_spent` | milliseconds since initial | Fired when the user ends engagement with credit for any reason (eg. exit error after credit).
+| `timing` | `total time spent` | milliseconds since initial | Fired when the user ends engagement without credit for any reason.
 | `timing` | `true_attention_time_met` | interacted or not_interacted | Fired once 30 seconds has passed.  The ‘value’ field specifies whether or not the user has interacted with the engagement yet. |
 | `timing` | `true_attention_interaction_met` | milliseconds since initial | Fired upon first interaction with the engagement. |
 | `timing` | `continue_to_end` | milliseconds since initial | Fired when the user clicks "I'm Done" to end the engagement. |
