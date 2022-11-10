@@ -680,6 +680,7 @@ videoStarted | Triggered when a video starts playback.
 videoFirstQuartile | Triggered when 25% of the video has played.
 videoSecondQuartile | Triggered when 50% of the video has played.
 videoThirdQuartile | Triggered when 75% of the video has played.
+videoNearCompleted | Triggered when X% of the video has played.  Where X is set as a creative ad parameter video_near_completed_percent (0-100).
 videoCompleted | Triggered when the video has completed playback.
 videoLooped | Triggered when the video has automatically restarted playback.
 videoDidEnterFullscreen | Triggered when the video is set to fullscreen size.
