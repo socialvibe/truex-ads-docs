@@ -830,6 +830,11 @@ Flags the engagement as having been interacted with, fulfilling the interaction 
 
 ---
 
+##### `flagActivityForCredit`
+
+Flags the engagement to send credit events.  Will only fire credit once, inclusive of all cases.
+
+---
 
 ##### `focusElement`
 
@@ -840,7 +845,6 @@ Parameter | Description
 name | Name of the node that will capture focus
 
 ---
-
 
 ##### `for`
 
