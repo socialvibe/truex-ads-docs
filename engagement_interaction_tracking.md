@@ -30,6 +30,7 @@ Engagement interations are used to track how users interact and progress through
 | `share` | This category is for social media shares (i.e. Facebook, Twitter, and Pinterest).  This category has become less important today. |
 | `data_entry` | This category is for tracking data entry such as user submitted their email, name, or phone number.  This category is also seldom used today in the age of privacy. |
 | `aggregate` | This category is used for aggregating multiple interactions into one tracking event.  The `value` field is used to provide a count of the interaction.  This is seldom used. |
+| `debug` | This category is currently only used for heartbeat tracking. |
 
 ---
 
@@ -46,6 +47,8 @@ These engagement interactions are automatically tracked by the ad container or C
 | `timing` | `continue_to_end` | milliseconds since initial | Fired when the user clicks "I'm Done" to end the engagement. |
 | `timing` | `creative_completion` | milliseconds since initial | Fired upon getting to the last step of an engagement before `true_attention_time_met`.  We do not want users to be 'stuck' so we automatically award the completion to the user. |
 | `click` | `interaction` | x,y or button name | Fire on any user input action.  Record x,y coords when possible or remote control button name for CTV. |
+| `debug` | `heart_beat` | total time in seconds, including paused time | Fires periodically every 2 seconds by default.  Can override with ad parameter `override_heartbeat_interval_in_sec`.  At this time, only enabled for xtended view ads.
+
 
 ---
 
