@@ -46,8 +46,9 @@ These engagement interactions are automatically tracked by the ad container or C
 | `timing` | `true_attention_interaction_met` | milliseconds since initial | Fired upon first interaction with the engagement. |
 | `timing` | `continue_to_end` | milliseconds since initial | Fired when the user clicks "I'm Done" to end the engagement. |
 | `timing` | `creative_completion` | milliseconds since initial | Fired upon getting to the last step of an engagement before `true_attention_time_met`.  We do not want users to be 'stuck' so we automatically award the completion to the user. |
-| `click` | `interaction` | x,y or button name | Fire on any user input action.  Record x,y coords when possible or remote control button name for CTV. |
-| `debug` | `heart_beat` | total time in seconds, including paused time | Fires periodically every 2 seconds by default.  Can override with ad parameter `override_heartbeat_interval_in_sec`.  At this time, only enabled for xtended view ads.
+  | `click` | `interaction` | x,y or button name | Fire on any user input action.  Record x,y coords when possible or remote control button name for CTV. |
+| `debug` | `heart_beat` | total time in seconds, including paused time | Fires periodically every 2 seconds by default.  Can override with ad parameter `override_heartbeat_interval_in_sec`.  At this time, only enabled for xtended view ads.|
+  | `container_tracking` | `orientation` | creative_portrait, creative_landscape, device_portrait, device_landscape | Indicates the creative or the device orientation. Both are sent when the ad is initialized. The device orientation is sent again after the device is physically rotated. |
 
 
 ---
