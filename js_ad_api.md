@@ -1,6 +1,6 @@
 # true[X] Javascript API
 
-The true[X] JS API provides a simple method for publishers to integrate true[X] engagement ads on their website.  For server-side implementations there is also a [Web Service API](https://github.com/socialvibe/truex-js-integrations/blob/master/WebServiceAPI.md).
+The true[X] JS API provides a simple method for publishers to integrate true[X] engagement ads on their website.  For server-side implementations there is also a [Web Service API](https://github.com/socialvibe/truex-ads-docs/blob/master/web_service_ad_api.md).
 
 ## Terminology
 | Term | Definition |
@@ -88,9 +88,9 @@ truex.client(options, function(client) {
 | `trackOptOut(ad)` | This optional method should be called when a user ad decides not to engage with an ad.  For example, if you have a 'no thanks' or 'close' option in your trigger points.  This is used purely for tracking purposes. |
 | `prepareAd(ad)` | Used in the special case of querying available ads on the server side [Web Service API](https://github.com/socialvibe/truex-js-integrations/blob/master/WebServiceAPI.md) while wanting to use the javascript client for client-side callbacks.  Takes the `ad` object returned from the Web Service API (JSON) and attaches appropriate event handlers for client-side callbacks. |
 
-## Depreciated Config Parameters and Methods
-The following config parameters and methods have been depreciated as of 6/2020.  We will continue to support the depreciated params and methods so there is no need to update existing implementations.
-| Depreciated | Replaced By |
+## Deprecated Config Parameters and Methods
+The following config parameters and methods have been deprecated as of 6/2020.  We will continue to support the deprecated params and methods so there is no need to update existing implementations.
+| Deprecated | Replaced By |
 | ------------- | ------------- |
 | `network_user_id` | `user_id` |
 | `partner_config_hash` | `placement_hash` |
