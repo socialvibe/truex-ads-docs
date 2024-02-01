@@ -10,6 +10,7 @@
 Your native player must support VAST and VPAID. The IAB specs are available here:
 
 VAST: http://www.iab.net/guidelines/508676/digitalvideo/vsuite/vast
+
 VPAID: http://www.iab.net/guidelines/508676/digitalvideo/vsuite/vpaid
 
 true[X] ads will work with VAST 1.0+ and VPAID 2.0+. They are javascript based and follow the specifications outlined in Section 8 of the VPAID 2.0 spec.
