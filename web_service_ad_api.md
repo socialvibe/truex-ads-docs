@@ -37,7 +37,7 @@ https://get.truex.com/v2?placement.key=c0b37fa4bd62dd79046e392aa4f6f005aae4f2e5&
 ```
 
 ## Response
-A `activity` JSON object.  Or `{"error": "No bid found"}` if no ads are available.
+An `ad` JSON object.  Or `{"error": "No bid found"}` if no ads are available.
 #### Format: `JSON`
 | Field | Description |
 | ------------- | ------------- |
