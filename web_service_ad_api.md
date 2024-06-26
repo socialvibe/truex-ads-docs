@@ -37,7 +37,7 @@ https://get.truex.com/v2?placement.key=c0b37fa4bd62dd79046e392aa4f6f005aae4f2e5&
 ```
 
 ## Response
-A `activity` JSON object.  Or `{"error": "No bid found"}` if no ads are available.
+An `ad` JSON object.  Or `{"error": "No bid found"}` if no ads are available.
 #### Format: `JSON`
 | Field | Description |
 | ------------- | ------------- |
@@ -66,9 +66,9 @@ A `activity` JSON object.  Or `{"error": "No bid found"}` if no ads are availabl
 ```
 
 ## Using a WSAPI response with the Javascript Client
-Should you want to get the benefits of client-side callbacks and event handling while checking for available activities using the Web Service API, you can do so.
+Should you want to get the benefits of client-side callbacks and event handling while checking for available ads using the Web Service API, you can do so.
 
-Include the javascript client on your page, and use the `truex.client.prepareActivity` like so:
+Include the javascript client on your page, and use the `truex.client.prepareAd` like so:
 
 ```html
 <div id='tx_container'></div>
@@ -76,32 +76,32 @@ Include the javascript client on your page, and use the `truex.client.prepareAct
 <script type='text/javascript' src='https://static.truex.com/js/client.js'></script>
 
 <script>
-	// activity is JSON returned from WSAPI
-	var openActivityFromWSAPI = function(activity) { 
+	// ad is JSON returned from WSAPI
+	var openAdFromWSAPI = function(ad) { 
 		truex.client(options, function(client) {
 
-			// prepareActivity adds the event handler hooks
-			client.prepareActivity(activity);
+			// prepareAd adds the event handler hooks
+			client.prepareAd(ad);
 
 			// you can now listen for these events
-			activity.onStart(function(activity){
-				alert(activity.id + ' started!')
+			ad.onStart(function(ad){
+				alert(ad.id + ' started!')
 			});
 			
-			activity.onClose(function(activity){
-				alert(activity.id + ' closed!')
+			ad.onClose(function(ad){
+				alert(ad.id + ' closed!')
 			});
 
-			activity.onCredit(function(engagement){
+			ad.onCredit(function(ad){
 				alert(engagement.signature + ' credit!')
 			});
 
-			activity.onFinish(function(activity){
-				alert(activity.id + ' onFinish!')
+			ad.onFinish(function(ad){
+				alert(ad.id + ' onFinish!')
 			});
 
-			// use the loadActivityIntoContainer to load the ad unit in a div on your page
-			client.loadActivityIntoContainer(activity, document.getElementById(‘tx_container’));
+			// use the loadAdIntoContainer to load the ad unit in a div on your page
+			client.loadAdIntoContainer(ad, document.getElementById(‘tx_container’));
 		});
 	};
 </script>
