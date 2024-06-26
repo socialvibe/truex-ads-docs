@@ -64,3 +64,104 @@ A `activity` JSON object.  Or `{"error": "No bid found"}` if no ads are availabl
 	"session_id": "i_wktnzfS1G6yqdp57lSIw"
 }
 ```
+
+## Using a WSAPI response with the Javascript Client
+Should you want to get the benefits of client-side callbacks and event handling while checking for available activities using the Web Service API, you can do so.
+
+Include the javascript client on your page, and use the `truex.client.prepareActivity` like so:
+
+```html
+<div id='tx_container'></div>
+
+<script type='text/javascript' src='https://static.truex.com/js/client.js'></script>
+
+<script>
+	// activity is JSON returned from WSAPI
+	var openActivityFromWSAPI = function(activity) { 
+		truex.client(options, function(client) {
+
+			// prepareActivity adds the event handler hooks
+			client.prepareActivity(activity);
+
+			// you can now listen for these events
+			activity.onStart(function(activity){
+				alert(activity.id + ' started!')
+			});
+			
+			activity.onClose(function(activity){
+				alert(activity.id + ' closed!')
+			});
+
+			activity.onCredit(function(engagement){
+				alert(engagement.signature + ' credit!')
+			});
+
+			activity.onFinish(function(activity){
+				alert(activity.id + ' onFinish!')
+			});
+
+			// use the loadActivityIntoContainer to load the ad unit in a div on your page
+			client.loadActivityIntoContainer(activity, document.getElementById(‘tx_container’));
+		});
+	};
+</script>
+```
+
+## Server-side Callback Specification (optional)
+Most partners use client-side callbacks to know when a user has completed an engagement.  This is the recommended callback strategy, and should be sufficient for most use cases.  However, in some configurations, a client-side callback is not possible.  In such configurations, a server-side callback is useful.
+
+In order to leverage server-side callbacks, the partner supplies a callback URL to true[X] during the integration phase.  Upon a user successfully completing an engagement, true[X] will make a request to the partner's callback URL with information about the engagement.  This callback generally happens in real time, but may be delayed depending on current load.  The callback will include the following parameters:
+| Parameter | Type | Description |
+| ------------- | ------------- | ------------- |
+| `application_key` | string | The partner-specific application key provided by true[X]. |
+| `network_user_id` | string | The unique, partner-provided user identifier for the user who completed the ad. |
+| `currency_amount` | int | The amount of currency earned by completing the ad. |
+| `currency_label` | string | The label of the currency used (e.g. "coins"). |
+| `revenue` | decimal | The amount of revenue earned by the partner for this engagement. Values can have up to 8 decimal places. |
+| `placement_hash` | string | The identifier hash of the placement from which this engagement originated. |
+| `campaign_name` | string | The name of the campaign completed in this engagement. |
+| `campaign_id` | string | The unique identifier of the campaign completed in this engagement. |
+| `creative_name` | string | The name of the creative completed in this engagement. |
+| `creative_id` | string | The unique identifier of the creative completed in this engagement. |
+| `engagement_id` | string | The unique, true[X]-generated identifier for this engagement.  If a non-unique engagement_id is passed to the partner, the request should be ignored and return a failure code (see below) to avoid over-crediting a user. |
+| `sig` | string | The signature of the signed request.  See the [Callback Signing](#callback-signing) section below for details. |
+
+The partner should ensure that the callback URL provides the following response codes:
+- 0 – Recoverable failure (request will be retried)
+- 1 – Callback successfully processed
+- 2 – Invalid signature (this will notify true[X] for investigation)
+- 3 – Invalid user or duplicate engagement_id (request will not be retried)
+
+### Callback Signing
+In order to protect both true[X] and its publishers from request forgery, all engagement callbacks will be signed using the following algorithm:
+1. Put parameters in an array of `key=value` pairs.
+2. Order array of parameter pairs in alphabetical order by parameter key.
+3. Concatenate parameter pairs into a string.
+4. Append the partner-specific `application_secret` provided by true[X] to the string.
+5. Calculate a keyed-hash message authentication code (HMAC-SHA1) signature using the partner-specific `application_secret`.
+6. URL escape the signature before using it as a query argument.
+
+Sample signature generation using PHP:
+```php
+<?php
+$application_secret = 'XXXXXXXXXXXX';
+$args = array(
+  'application_key' => 'XXXXXXXXXXXXXXXX',
+  'network_user_id' => 'XXXXXXXXXX',
+  'currency_amount' => 'XXX',
+  'currency_label' => 'XXXX',
+  'revenue' => 'XXX.XXXXXXXX',
+  'placement_hash' => 'XXXXXXXXXX',
+  'creative_name' => 'XXXXXXXXX',
+  'creative_id' => 'XXXXXXXXX',
+  'engagement_id' => 'XXX'); // Arguments used in the request
+ksort($args); // Sort arguments alphabetically
+
+$base_str = '';
+foreach ($args as $key => $value) {
+  $base_str .= $key . '=' . $value; // Note: there is no separator
+}
+$base_str .= $secret;
+$sig = base64_encode(hash_hmac('sha1', $base_str, $secret, true));
+?>
+```
