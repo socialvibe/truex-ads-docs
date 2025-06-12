@@ -39,6 +39,7 @@ The following lists and describes each supported parameter for TruexAdRenderer (
 | ctvh | 0 | height of the visual countdown timer bar. |
 | ctvc | 0x555555ff | color for visual countdown timer bar. |
 | survey_override | n/a | object that represent a survey card. When TAR receive a survey, it will try to override the current choice card with this object. The format of this card is same as a normal choice card. |
+| xtended_view | n/a | object that represent xtended_view choice card overrides, The format of this card is same as a normal choice card. |
 
 ---
 
