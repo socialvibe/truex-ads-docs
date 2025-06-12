@@ -17,6 +17,7 @@ This page lists and describes all the possible parameters for configuring a choi
 | timer_text  | `text`  | Object to configure the countdown timer.  See below for `text` properties.  |
 | timer_seconds  | `integer`  | Number of seconds to count down from for the auto advance timer.  |
 | preroll_override  | `object`  | Special Object that allows the Survey Card to override parameters in the pre-roll position.  See below for syntax.  |
+| xtended_view | `button` | Object to configure the xtended_view watch button. See below for `button` properties. |
 
 ##### `image` object
 ```javascript
@@ -129,6 +130,14 @@ This page lists and describes all the possible parameters for configuring a choi
         "timer_text": {
             "text": ""
         }
+    },
+    "xtended_view": {
+        "width": 1236,
+        "height": 159,
+        "x": 599,
+        "y": 752,
+        "image_url": "https://media.truex.com/image_assets/optimized/2022-10-20/4d406c87f2afeda3de86a205bc62d970.png",
+        "hover_image_url": "https://media.truex.com/image_assets/optimized/2022-10-20/a35b3f631828b721a5026e4a3f444498.png"
     }
 }
 ```
