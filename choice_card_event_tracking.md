@@ -20,6 +20,7 @@ These are required by all implementations of our choice card.  They are critical
 |`player_ad_free` | n/a | Fired when the choice card is first loaded and the user is in an ad-free state (i.e. sponsored stream flow) so a Skip Card is shown. |
 |`choice_card_select_unit` | n/a | Fired the first time a user chooses to interact for 30 seconds.  This event indicates the engagement ad is about to load. |
 |`choice_card_select_watch` | n/a | Fired when a user chooses to watch the normal commercial break. |
+|`choice_card_select_watch_by_back` | n/a | Fired when a user presses back during engagement when supportsExitOnUserCancel is enabled. |
 |`choice_card_auto_advance` | n/a | Fired when the auto-advance timer expires.  This means the user did not make a choice. |
 |`choice_card_re-select_unit` | n/a | Fired on subsequent clicks to interact with the ad.  This scenario happens if the user first views the engagement but closes it before True Attention, then tries to interact again. |
 
