@@ -25,6 +25,7 @@ The following lists and describes each supported parameter for TruexAdRenderer (
 | aa | 5 (skip cards), 30 (choice cards) | Number of seconds for auto advance timer. Typically, 30 seconds for Choice Cards, 5 seconds for Skip Cards. |
 | pos | n/a | Value will be `preroll` or `midroll`--indicates sponsored stream or sponsored ad break. |
 | product | n/a | Value will be `sponsored_stream`, `sponsored_ad_break`, `continue`, or `stream_pass`--indicates the product type.  If not specified, please default to `sponsored_stream` when pos=`preroll` and default to `sponsored_ad_break` when pos=`midroll`. |
+| sec | 30 | The number of seconds that the native interactive ad header starts at. Typically, 30 seconds. |
 | ct | [countdown] | format of string used to display remaining countdown time, [countdown] will be replaced with number of seconds remaining. |
 | ctx | 0 | x-coordinate of the countdown timer label. |
 | cty | 0 | y-coordinate of the countdown timer label. |
